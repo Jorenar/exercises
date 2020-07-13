@@ -1,0 +1,436 @@
+% LaTeX
+% vim: fen
+
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, vmargin=10pt, hmargin=50pt, head=16pt, includehead]{geometry}
+\usepackage{amsmath}     % math
+\usepackage{amssymb}     % math symbols
+\usepackage{boldline}
+\usepackage{changepage}  % for the adjustwidth environment
+\usepackage{enumitem}    % enumerate/list items
+\usepackage{fancyhdr}    % header
+\usepackage{graphics}
+\usepackage{mathtools}   % math tools
+\usepackage{multicol}    % multiple columns
+\usepackage{pgfplots}    % graphs
+\usepackage{polynom}
+\usepackage{stackengine} % stacking objects vertically
+\usepackage{titlesec}    % alternative section titles
+\usepackage{wrapfig}
+\usepackage{xcolor}      % color text
+
+\usepgfplotslibrary{fillbetween}
+
+\newcommand{\case}[1]{\textrm{#1$^\circ$}}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\degree}{^{\circ}}
+\newcommand{\diff}{\mathop{}\!\mathrm{d}}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\for}{\ \leftrightarrow\ }
+\newcommand{\Integral}[4]{\int_{#1}^{#2} \! #3 \, \mathop{}\!\mathrm{d}#4}
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\qed}{\textbf{\textit{QED}}}
+\newcommand{\qef}{\textbf{\textit{QEF}}}
+\newcommand{\VRule}[1][\arrayrulewidth]{\vrule width #1}
+\newcommand{\xrowht}[2][0]{\addstackgap[.5\dimexpr#2\relax]{\vphantom{#1}}}
+
+\newcommand\encircle[1]{ \tikz[baseline=(X.base)] \node (X) [draw, shape=circle, inner sep=0] {\strut #1};}
+
+\renewcommand{\gcd}{\mathrm{NWD}}
+
+\let\oldref\ref \renewcommand{\ref}[1]{\mathrm{(\oldref{#1})}}
+
+\DeclareMathOperator{\?}{?}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lin}{lin}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+
+\let\oldepsilon\epsilon \renewcommand{\epsilon}{\varepsilon}
+
+\counterwithin*{equation}{section}  % reset equation counter after each section
+\titleformat{\section}{\normalfont\Large\bfseries}{}{0pt}{} % remove section numbering
+
+\newcommand{\sectionbreak}{\clearpage} % start each section on new page
+
+\setlength{\parskip}{0.7em}
+\setlength{\parindent}{0em}
+
+\pagestyle{fancy}
+\lhead{Jakub Łukasiewicz}
+\chead{Zestaw 13}
+\let\Sectionmark\sectionmark
+\def\sectionmark#1{\def\Sectionname{#1}\Sectionmark{#1}}
+\rhead{\Sectionname}
+
+\begin{document}
+\section{Zadanie 1}
+\subsection*{Dane}
+\vspace{-3em} \begin{gather*}
+    d = \gcd(60, 21) \\
+    d = 60k + 21m \for k,m \in \Z \\
+    k,m = \?
+\end{gather*}
+\subsection*{Rozwiązanie}
+Korzystając z \textit{rozszerzonego algorytmu Euklidesa}:
+
+\quad Reguły algorytmu:
+\begin{itemize}
+    \item[] \encircle{A} : $a_0 = 60$; \ $a_{n+1} = b_n$
+    \item[] \encircle{B} : $b_0 = 21$; \ $b_{n+1} = a_n \bmod b_n$
+    \item[] \encircle{C} : $\displaystyle c_n = \floor{\frac{a_n}{b_n}}$
+    \item[] $N = n \for b_n = 0$ \qquad
+    \item[] \encircle{X} : $x_{N-1} = 0$; \ $x_{n-1} = y_n$
+    \item[] \encircle{Y} : $y_{N-1} = 1$; \ $y_{n-1} = x_n - y_n c_{n-1}$
+    \item[] $k = x_0$, $m = y_0$ \qquad
+    \item[] \textit{Najpierw uzupełniane są kolumny \textnormal{I} od góry w dół, a następnie \textnormal{II} od dołu w górę}
+\end{itemize}
+
+\quad Tabela:
+\begin{table}[h!]
+    \centering
+    \resizebox{0.7\textwidth}{!}{%
+        \begin{tabular}{|c|c|c|c!{\VRule[1pt]}c|c|}
+            \hline
+            \multicolumn{4}{|c!{\VRule[1pt]}}{I} & \multicolumn{2}{c|}{II}  \\
+            \hline\xrowht{1.5em}
+            $n$ &
+            \encircle{A} &
+            \encircle{B} &
+            \encircle{C} &
+            \encircle{X} &
+            \encircle{Y} \\ \hlineB{3}
+            %
+            $0$   & $\mathbf{60}$ & $\mathbf{21}$ & $2$          & $\mathbf{-1}$ & $1 - (-1)\cdot 2 = \mathbf{3}$ \\ \hline
+            $1$   & $21$          & $18$ & $1$    & $1$          & $0 - 1 \cdot 1 = -1 $ \\ \hline
+            $2$   & $18$          &  $3$ & $6$    & $\mathbf{0}$ & $\mathbf{1}$          \\ \hline
+            $N=3$ &  $3$          &  $\mathbf{0}$                                        \\ \cline{0-2}
+        \end{tabular}%
+        }
+\end{table}
+
+\subsection*{Odpowiedź}
+\vspace{-1em} \[ k = -1,\ m = 3 \]
+
+a) $ x \in \left\{ 1260k + 302 : k \in \Z \right\} $ -- policzone jak w zad. 2
+
+b) $ x \in \varnothing $ -- występuje kontradykcja w postaci $ \left\{ \begin{array}{l}
+    x \equiv 2 \pmod{3} \\
+    x \equiv 0 \pmod{3}
+\end{array} \right. $
+
+\section{Zadanie 2}
+\subsection*{Dane}
+\begin{equation*}
+    \left\{ \begin{array}{ll}
+        x \equiv  4 & \pmod{26} \\
+        x \equiv 10 & \pmod{33}
+    \end{array} \right.
+\end{equation*}
+\begin{equation*}
+    x \in \? \subset \Z
+\end{equation*}
+\subsection*{Rozwiązanie}
+
+Liczby $26$ oraz $33$ są względnie pierwsze i dla wygody obliczeń można je rozłożyć następująco:
+\begin{gather*}
+    26 = 2 * 13 \\
+    33 = 3 * 11
+\end{gather*}
+
+Pamiętając o \textit{chińskim twierdzeniu o resztach}, układ kongruencji można
+przekształcić na:
+\begin{equation*}
+    \left\{ \begin{array}{ll}
+        x \equiv  4 & \pmod{2}  \\
+        x \equiv  4 & \pmod{13} \\
+        x \equiv 10 & \pmod{3}  \\
+        x \equiv 10 & \pmod{11}
+    \end{array} \right. \\
+\end{equation*}
+A dalej do:
+\begin{equation*}
+    \left\{ \begin{array}{ll}
+        x \equiv  0 & \pmod{2}  \\
+        x \equiv  1 & \pmod{3}  \\
+        x \equiv 10 & \pmod{11} \\
+        x \equiv  4 & \pmod{13}
+    \end{array} \right. \\
+\end{equation*}
+
+Uzupełniwszy tabelkę:
+\begin{table}[h!]
+    \centering
+    \resizebox{0.5\textwidth}{!}{%
+        \begin{tabular}{c|c|c|c}
+            \xrowht{20pt}
+            $n_k$ & $a_k$ & $m_k=\frac{n_1 n_2...n_i}{n_k}$ & $  m_k^{-1} \mod{n_k}   $ \\ \hline\xrowht{10pt}
+            $2$   & $0$   & $3 \cdot 11 \cdot 13 = 429$     & $ 429^{-1} \mod{2}  = 1 $ \\ \hline\xrowht{10pt}
+            $3$   & $1$   & $2 \cdot 11 \cdot 13 = 286$     & $ 286^{-1} \mod{3}  = 1 $ \\ \hline\xrowht{10pt}
+            $11$  & $10$  & $ 2 \cdot 3 \cdot 13 = 78$      & $ 78^{-1}  \mod{11} = 1 $ \\ \hline\xrowht{10pt}
+            $13$  & $4$   & $2 \cdot 3 \cdot 11 = 66$       & $ 66^{-1}  \mod{13} = 1 $
+        \end{tabular}%
+        }
+\end{table}
+\begin{equation*}
+    x =  \sum a_i m_i (m_i^{-1} \bmod{n_i}) \pmod{\prod n_i}
+\end{equation*}
+\begin{gather*}
+    x \equiv {0 \cdot 429 \cdot 1} + {1 \cdot 286 \cdot 1} + {10 \cdot 78 \cdot 1} + {4 \cdot 66 \cdot 1} \pmod{2 \cdot 3 \cdot 11 \cdot 13} \\
+    x \equiv 1330 \pmod{858} \\
+    x \equiv 472 \pmod{858}
+\end{gather*}
+
+\subsection*{Odpowiedź}
+\begin{equation*}
+    x \in \left\{ 858k + 472 : k \in \Z \right\}
+\end{equation*}
+
+\section{Zadanie 3}
+\subsection*{Dane}
+\begin{equation*}
+    \left\{ \begin{array}{ll}
+        x \equiv  4 & \pmod{3} \\
+        x \equiv 10 & \pmod{4} \\
+        x \equiv  8 & \pmod{7}
+    \end{array} \right.
+\end{equation*}
+\begin{equation*}
+    x \in \? \subset \Z
+\end{equation*}
+\subsection*{Rozwiązanie}
+Liczby $3$, $4$ i $7$ są względnie pierwsze.
+
+Układ kongruencji można uprościć:
+\begin{equation*}
+    \left\{ \begin{array}{ll}
+        x \equiv 1 & \pmod{3} \\
+        x \equiv 2 & \pmod{4} \\
+        x \equiv 1 & \pmod{7}
+    \end{array} \right.
+\end{equation*}
+
+Dalej, z \textit{chińskiego twierdzenia o resztach} można wywnioskować:
+\begin{equation*}
+    \left\{ \begin{array}{ll}
+        x \equiv 2 & \pmod{4} \\
+        x \equiv 1 & \pmod{21}
+    \end{array} \right.
+\end{equation*}
+
+Używając \textit{metody generowania kolejnych wielokrotności}:
+
+\begin{adjustwidth}{1em}{}
+    Ogólne rozwiązanie drugiego równania ma postać: $ x = 21k + 1 $ \newline
+    Należy znaleźć takie $k$, aby powyższe spełniało również pierwszą kongruencję:
+    \[ 1(0),\ 22(2) \]
+    Najmniejsze takie $k$ to $2$.
+\end{adjustwidth}
+
+Zatem:
+\begin{equation*}
+    x \equiv 22 \pmod{84}
+\end{equation*}
+
+\subsection*{Odpowiedź}
+
+\begin{equation*}
+    x \in \left\{ 84k + 22 : k \in \Z \right\}
+\end{equation*}
+
+\section{Zadanie 4}
+\subsection*{Dane}
+\vspace{-1em}\begin{gather*}
+    f,g \in \Z_4[X] \\
+    \big(\exists\, q,r \in \Z_4[X] : f = qg + r \land \deg{r} < \deg{g} \big) \?
+\end{gather*}
+\subsection*{Rekwizyty}
+
+Tabele działań w zbiorze $\Z_4$:
+\begin{multicols}{2}
+    \begin{center}
+        \resizebox{0.41\textwidth}{!}{%
+            \begin{tabular}{c|c|c|c|c|}
+                $+$ & 0 & 1 & 2 & 3 \\ \hline
+                0   & 0 & 1 & 2 & 3   \\ \hline
+                1   & 1 & 2 & 3 & 0   \\ \hline
+                2   & 2 & 3 & 0 & 1   \\ \hline
+                3   & 3 & 0 & 1 & 2   \\ \hline
+            \end{tabular} }
+    \end{center}
+    \begin{center}
+        \resizebox{0.4\textwidth}{!}{%
+            \begin{tabular}{c|c|c|c|c|}
+                $\cdot$ & 0 & 1 & 2 & 3 \\ \hline
+                0       & 0 & 0 & 0 & 0 \\ \hline
+                1       & 0 & 1 & 2 & 3 \\ \hline
+                2       & 0 & 2 & 0 & 2 \\ \hline
+                3       & 0 & 3 & 2 & 1 \\ \hline
+            \end{tabular} }
+    \end{center}
+\end{multicols}
+
+\section{Zadanie 4a}
+\subsection*{Dane}
+\vspace{-1em}\begin{gather*}
+    f(x) = 2x^3 + 3x^2 + 3x + 3 \\
+    g(x) = 3x^2 + x + 1 \\
+\end{gather*}
+
+\subsection*{Rozwiązanie}
+
+Dzieląc pisemnie:
+\begin{equation*}
+    \begin{array}{lll}
+        \ \ \ 2x \ + 3 & &  \\
+        \overline{\ (2x^3 + 3x^2 + 3x + 3)} \ \div (3x^2 + x + 1)  & & \\
+        \underline{-2x^3 - 2x^2 - 2x} & &  \\
+        \quad \qquad \ x^2 \ +\ x + 3 & & \\
+        \quad \quad \ \ \underline{-x^2 - 3x - 3}  & & \\
+        \quad \quad \qquad \quad \ \ 2x + 0 & &
+    \end{array}
+\end{equation*}
+
+Otrzymujemy:
+\begin{gather*}
+    q(x) = 2x + 3 \\
+    r(x) = 2x \\
+    \deg{r} = 1 < \deg{g} = 2
+\end{gather*}
+
+\subsection*{Odpowiedź}
+\vspace{-1em} \begin{gather*}
+    q(x) = 2x + 3 \\
+    r(x) = 2x \\
+\end{gather*}
+
+
+\section{Zadanie 4b}
+\subsection*{Dane}
+\vspace{-1em}\begin{gather*}
+    f(x) = 3x^3 + 3x^2 + 3x + 3 \\
+    g(x) = 2x^2 + x + 1 \\
+\end{gather*}
+
+\subsection*{Odpowiedź}
+Nie da się dokonać rozkładu, ponieważ (jak można odczytać z tabelki mnożenia):
+\[ \nexists\, a\in \Z_4 : 2a = 3 \]
+
+\section{Zadanie 4c}
+\subsection*{Dane}
+\vspace{-1em}\begin{gather*}
+    f(x) = 2x^3 + 3x^2 + 3x + 3 \\
+    g(x) = 2x^2 + x + 1 \\
+\end{gather*}
+
+\subsection*{Rozwiązanie}
+
+Dzieląc pisemnie:
+\begin{equation*}
+    \begin{array}{lll}
+        \ \ \ \ x \ + 1 & &  \\
+        \overline{\ (2x^3 + 3x^2 + 3x + 3)} \ \div (2x^2 + x + 1)  & & \\
+        \underline{-2x^3 - \ x^2 - \ x} & &  \\
+        \quad \qquad \ 2x^2 + 2x + 3 & & \\
+        \quad \quad \ \ \underline{-2x^2 - \ x - 1}  & & \\
+        \quad \qquad \qquad \quad \ \ x + 2 & &
+    \end{array}
+\end{equation*}
+
+Otrzymujemy:
+\begin{gather*}
+    q(x) = x + 1 \\
+    r(x) = x + 2 \\
+    \deg{r} = 1 < \deg{g} = 2
+\end{gather*}
+
+\subsection*{Odpowiedź}
+\vspace{-1em} \begin{gather*}
+    q(x) = x + 1 \\
+    r(x) = x + 2 \\
+\end{gather*}
+
+
+\section{Zadanie 5}
+\subsection*{Dane}
+\vspace{-1em} \begin{gather*}
+    f,g \in \Z_8[X] \\
+    f(x) = 6x^3 + 3x^2 + 4x + 1 \\
+    g(x) = x^2 + 5x + 1 \\
+    \gcd(f,g) = \?
+\end{gather*}
+\subsection*{Rozwiązanie}
+
+Rozpoczynamy od poszukiwania $\gcd(f,g)$:
+\begin{equation*}
+    \begin{array}{lll}
+        \ \ \ 6x \ + 3 & &  \\
+        \overline{\ (6x^3 + 3x^2 + 4x + 1)} \ \div (x^2 + 5x + 1)  & & \\
+        \underline{-6x^3 - 6x^2 - 6x} & &  \\
+        \quad \qquad \ 3x^2 + 6x + 1 & & \\
+        \quad \quad \ \ \underline{-3x^2 - 7x - 3}  & & \\
+        \quad \qquad \qquad \quad \ 7x + 6 = r_1(x)& &
+    \end{array}
+\end{equation*}
+
+Reszta była różna od zera, szukamy $\gcd(g,r_1)$:
+\begin{equation*}
+    \begin{array}{lll}
+        \ \ \ 7x \ + 5 & &  \\
+        \overline{\ (3x^2 + 5x + 1)} \ \div (7x + 6)  & & \\
+        \underline{\ -x^2 - 2x} & &  \\
+        \quad \qquad \ 3x + 1 & & \\
+        \quad \quad \ \ \underline{-3x - 6}  & & \\
+        \qquad \qquad \quad \ \ 3 = r_2(x)& &
+    \end{array}
+\end{equation*}
+
+Reszta ponownie była różna od zera, więc rozpatrujemy jak dla $\gcd(r_1, r_2)$:
+\begin{equation*}
+    \begin{array}{lll}
+        \ \ 5x + 2 & &  \\
+        \overline{\ \ 7x + 6\ } \ \div 3 & & \\
+        \underline{-7x} & &  \\
+        \quad \ 0 + 6 & & \\
+        \qquad \ \underline{-6}  & & \\
+        \qquad \quad \mathbf{0} & &
+    \end{array}
+\end{equation*}
+
+Ostatnia resta jest zerem, zatem $\gcd(f,g) = r_2(x)$
+
+\subsection*{Odpowiedź}
+\[ \gcd(f,g) = 3 \]
+
+\section{Zadanie 5 (poprawione dane)}
+\subsection*{Dane}
+\vspace{-1em} \begin{gather*}
+    f,g \in \Z_7[X] \\
+    f(x) = 6x^3 + 3x^2 + 4x + 1 \\
+    g(x) = x^2 + 5x + 1 \\
+    \gcd(f,g) = \?
+\end{gather*}
+\subsection*{Rozwiązanie}
+
+Rozpoczynamy od poszukiwania $\gcd(f,g)$:
+\begin{equation*}
+    \begin{array}{lll}
+        \ \ \ 6x \ + 1 & &  \\
+        \overline{\ (6x^3 + 3x^2 + 4x + 1)} \ \div (x^2 + 5x + 1)  & & \\
+        \underline{-6x^3 - 2x^2 - 6x} & &  \\
+        \quad \qquad \ \ x^2 + 5x + 1 & & \\
+        \quad \quad \ \ \ \underline{-x^2 - 5x - 1}  & & \\
+        \qquad \qquad \qquad \qquad \mathbf{0} & &
+    \end{array}
+\end{equation*}
+
+Reszta jest równa 0, zatem: $ \gcd(f,g) = g = x^2 + 5x + 1 $
+
+\subsection*{Odpowiedź}
+\[ \gcd(f,g) = x^2 + 5x + 1 \]
+
+\end{document}

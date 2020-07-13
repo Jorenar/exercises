@@ -1,0 +1,142 @@
+% LaTeX
+% vim: fen
+
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, vmargin=10pt, hmargin=50pt, head=16pt, includehead]{geometry}
+\usepackage{amsmath}     % math
+\usepackage{amssymb}     % math symbols
+\usepackage{changepage}  % for the adjustwidth environment
+\usepackage{enumitem}    % enumerate/list items
+\usepackage{fancyhdr}    % header
+\usepackage{mathtools}   % math tools
+\usepackage{multicol}    % multiple columns
+\usepackage{pgfplots}    % graphs
+\usepackage{stackengine} % stacking objects vertically
+\usepackage{titlesec}    % alternative section titles
+\usepackage{xcolor}      % color text
+
+\usepgfplotslibrary{fillbetween}
+
+\newcommand{\case}[1]{\textrm{#1$^\circ$}}
+\newcommand{\degree}{^{\circ}}
+\newcommand{\diff}{\mathop{}\!\mathrm{d}}
+\newcommand{\for}{\ \leftrightarrow\ }
+\newcommand{\Integral}[4]{\int_{#1}^{#2} \! #3 \, \mathop{}\!\mathrm{d}#4}
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\qed}{\textbf{\textit{QED}}}
+\newcommand{\qef}{\textbf{\textit{QEF}}}
+\newcommand{\task}[1]{\textbf{#1}}
+\newcommand{\xrowht}[2][0]{\addstackgap[.5\dimexpr#2\relax]{\vphantom{#1}}}
+
+\let\oldref\ref \renewcommand{\ref}[1]{\mathrm{(\oldref{#1})}}
+
+\DeclareMathOperator{\?}{?}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lin}{lin}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+
+\let\oldepsilon\epsilon \renewcommand{\epsilon}{\varepsilon}
+
+\counterwithin*{equation}{section}  % reset equation counter after each section
+\titleformat{\section}{\normalfont\Large\bfseries}{}{0pt}{} % remove section numbering
+
+\newcommand{\sectionbreak}{\clearpage} % start each section on new page
+
+\setlength{\parskip}{0.7em}
+\setlength{\parindent}{0em}
+
+\pagestyle{fancy}
+\lhead{Jakub Łukasiewicz}
+\chead{Zestaw 10}
+\let\Sectionmark\sectionmark
+\def\sectionmark#1{\def\Sectionname{#1}\Sectionmark{#1}}
+\rhead{\Sectionname}
+
+\begin{document}
+\section{Zadanie 3}
+W zbiorze liczb całkowitych $\Z$ definiujemy działanie $*$ określone następująco:
+$$ \forall{x,y \in \Z} : x * y = x + y - xy $$
+Udowodnij, że $(\Z, *)$ jest monoidem.
+
+\subsection*{Rozwiązanie}
+Aby $(\Z, *)$ był monoidem, musi spełniać następujące warunki:
+\begin{enumerate}
+    \item{ $ \forall{a,b \in \Z } : a * b \in \Z $ }
+    \item{ $ \forall{a,b,c \in \Z} : (a * b) * c = a * (b * c) $ }
+    \item{ $ \exists{e \in \Z} : \forall{a \in \Z} : a * e = e * a = a $ }
+\end{enumerate}
+
+\textbf{\textit{Ad 1}}
+$$ a * b = a + b - ab = a + b + (-ab) \for \forall{a,b \in \Z} $$
+
+Iloczyn liczb całkowitych jest liczbą całkowitą, zatem $ab$ jest liczbą całkowitą.\\
+Liczba przeciwna do liczby całkowitej jest liczbą całkowitą, zatem $-ab$ jest liczbą całkowitą.\\
+Suma dowolnej ilości liczb całkowitych jest liczbą całkowitą, zatem $a + b + (-ab)$ jest liczbą całkowitą.\\
+Wynik działania $*$ jest liczbą całkowitą, zatem warunek pierwszy jest spełniony.
+
+\textbf{\textit{Ad 2}}
+
+\noindent $\forall{a,b \in \Z}:$
+\begin{equation} \label{w1_1}
+    (a * b) * c = (a + b - ab) * c = (a + b - ab) + c - (a + b - ab)c = a + b - ab + c - ac - bc + abc
+\end{equation}
+\begin{equation} \label{w1_2}
+     a * (b * c) = a * (b + c - bc) = a + (b + c - bc) - a(b + c - bc) = a + b + c - bc - ab - ac + abc
+\end{equation}
+
+$$ \ref{w1_1} = \ref{w1_2} = a + b + c - ab - ac - bc + abc \implies \textrm{działanie jest łączne} \implies \textrm{warunek drugi spełniony}$$
+
+\textbf{\textit{Ad 3}}\\
+Warunek trzeci spełnia liczba $e = 0$, ponieważ:
+$$ a * 0 = a + 0 - 0a = a + 0 - 0 = a $$
+$$ 0 * a = 0 + a - 0a = 0 + a - 0 = a $$
+
+\textbf{\textit{Podsumowując}}\\
+Wszystkie warunki są spełnione, zatem $(\Z, *)$ jest monoidem. \qed
+
+\section{Zadanie 10c}
+Wyznacz najmniejszą możliwą podgrupę grupy $(\Z,+)$ zawierającą liczyby 6 i 15.
+
+\subsection*{Rozwiązanie:}
+
+Ponieważ wyznaczamy podgrupę grupy $(\Z, +)$, wiemy iż działanie $+$ jest łączne.
+
+Na początek zauważmy, że obie liczy są wielokrotnościami liczby $3$:
+\begin{gather*}
+    \ 6 = 2 \cdot 3 \\
+    15 = 5 \cdot 3
+\end{gather*}
+
+Elementem neutralnym pozostaje liczba $0$.
+
+Do szukanego zbioru $\mathbf{G}$ należy dołożyć elementy przeciwne.
+
+Elementem przeciwnym liczby $6$, będzie liczba $-6$, a liczby $15$ będzie $-15$.
+
+Stosując notację wielkokrotności trójki, można wstępnie zapisać:
+\begin{equation*}
+    \{ -5 \cdot 3,\ -2 \cdot 3,\ 0 \cdot 3,\ 2 \cdot 3,\ 5 \cdot 3 \} \subset \mathbf{G}
+\end{equation*}
+
+Łatwo można zauważyć, że $( ( 5\cdot 3 + (-2 \cdot 3) ) + (-2 \cdot 3) = 1 \cdot 3 $
+
+Mając w zbiorze $\mathbf{G}$ element $1\cdot 3$, oznacza iż można w nim znaleźć dowolny
+element postaci $k\cdot 3$, gdzie $k \in \Z$.
+
+Stąd można wypisać już ostateczną postać zbioru $\mathbf{G}$:
+\begin{equation*}
+    \mathbf{G} = \{ 3k : k \in \Z \}
+\end{equation*}
+
+\subsection*{Odpowiedź:}
+
+\begin{equation*}
+    \big( \{ 3k : k \in \Z \}, + \big)
+\end{equation*}
+
+\end{document}

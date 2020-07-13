@@ -1,0 +1,87 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, vmargin=10pt, hmargin=50pt]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{polski}
+
+\setlength{\parskip}{1em}
+
+\newcommand{\task}[1]{\section*{Zadanie #1}}
+\newcommand{\ex}[1]{\textbf{ #1)}}
+\newcommand{\qef}{\textbf{\textit{QEF}}}
+
+\let\oldref\ref
+\renewcommand{\ref}[1]{(\oldref{#1})}
+
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\sh}{sh}
+\DeclareMathOperator{\mm}{\textrm{mm}}
+
+\title{Zestaw 6}
+\author{Jakub Łukasiewicz}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\task{4}\ex{a}
+Średnica kuli zmierzona z dokładnością 0.1 mm wynosi 21.7 mm.
+Z jaką w przybliżeniu dokładnością można obliczyć objętość tej kuli?
+
+$$ d_0 = 21.7 \mm
+\qquad\qquad
+\Delta d = 0.1 \mm $$
+
+$$ V(d) = \frac{4}{3}\pi(\frac{d}{2})^3 = \frac{\pi}{6}d^3
+\qquad\qquad
+V'(d) = \frac{\pi}{2}d^2
+\qquad\qquad
+\Delta V = |V'(d_0)| \cdot \Delta d $$
+
+\begin{equation*}
+    \begin{split}
+        \Delta V &= |V'(21.7\mm)| \cdot 0.1\mm = \frac{\pi}{2}(21.7\mm)^2 \cdot 0.1\mm = \\
+        &= \frac{470.89\pi}{2} \mm^2 \cdot \ 0.1\mm = 23.5445\pi \mm^3
+    \end{split}
+\end{equation*}
+$$ \qef $$
+
+\task{5}\ex{d}
+Obliczyć pochodne $f'$, $f''$, $f'''$ funkcji $f(x) = \ch^2{x} + \sh{2x}$
+
+$$ f(x) = (\ch{x})^2 + \sh{2x} $$
+
+$$ f'(x) = (\sh{x})(2\ch{x}) + 2 \ch{2x} = \sh{2x} + 2\ch{2x} $$
+$$ f''(x) = 2\ch{2x} + 4\sh{2x} $$
+$$ f'''(x) = 4\sh{2x} + 8\ch{2x} $$
+$$ \qef $$
+
+\newpage
+
+\task{7}\ex{b}
+Funkcja $f$ ma pochodne do drugiego rzędu włącznie. Obliczyć $y'$, $y''$ dla funkcji $y = f(3^x)$
+
+$$ y' = (3^x)' \cdot f'(3^x) = (3^x \ln{3})\big(f'(3^x)\big) $$
+
+$$ \big(f'(3^x)\big)' = (3^x \ln{3})\big(f''(3^x)\big) $$
+$$ (3^x \ln{3})' =  \ln{3} \cdot (3^x \ln{3}) = 3^x \ln^2{3} $$
+
+\begin{equation*}
+    \begin{split}
+        y'' &= (3^x \ln^2{3})\big(f'(3^x)\big) + (3^x \ln{3})(3^x \ln{3})\big(f''(3^x)\big) = \\
+        &= (3^x \ln^2{3})\big(f'(3^x)\big) + (3^x \ln^2{3})(3^x)\big(f''(3^x)\big) = \\
+        &= (3^x \ln^2{x})\big(f'(3^x) + 3^x \cdot f''(3^x)\big)
+    \end{split}
+\end{equation*}
+
+
+$$ y' = (3^x \ln{3})\big(f'(3^x)\big) $$
+$$ y'' = (3^x \ln^2{x})\big(f'(3^x) + 3^x \cdot f''(3^x)\big) $$
+
+$$ \qef $$
+
+\end{document}
+
+% vim: ft=tex

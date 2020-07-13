@@ -1,0 +1,73 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, vmargin=10pt, hmargin=50pt]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{polski}
+
+\setlength{\parskip}{1em}
+
+\newcommand{\task}[1]{\section*{Zadanie #1}}
+\newcommand{\ex}[1]{\textbf{ #1)}}
+\newcommand{\qef}{\textbf{\textit{QEF}}}
+
+\let\oldref\ref
+\renewcommand{\ref}[1]{(\oldref{#1})}
+
+\title{Zestaw 5}
+\author{Jakub Łukasiewicz}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\task{4}\ex{a}
+Znaleźć parametr $a$ dla którego funkcja $
+f(x) = \left\{ \begin{array}{ll}
+    ae^x & \leftrightarrow x \le 0\\
+    2 - x & \leftrightarrow x > 0
+\end{array} \right.
+$ ma pochodną na $\mathbb{R}$.
+
+Zarówno $ae^x$ oraz $2-x$ są funkcjami różniczkowalnymi, zatem należy dobrać
+taki parametr $a$, aby funkcja $f$ była ciągła na całym zbiorze $\mathbb{R}$,
+ergo musi zachodzić równość:
+
+\begin{equation} \label{f1}
+    lim_{x \to 0^+}{f(x)} = lim_{x \to 0^-}{f(x)} = f(0)
+\end{equation}
+
+\begin{equation} \label{f2}
+    \left. \begin{array}{l}
+        f(0) = ae^0 = a \cdot 1 = a\\
+        \lim_{x \to 0^+}{f(x)} = ae^0 = a \cdot 1 = a\\
+        \lim_{x \to 0^-}{f(x)} = 2 + 0 = 2
+    \end{array} \right\}
+\end{equation}
+
+$$ \ref{f1} \land \ref{f2} \implies a = 2 \quad\qef $$
+
+\task{6}\ex{b}
+Korzystając z reguł obliczania pochodnych oblicz pochodną funkcji
+$ y = (1 + \sqrt[4]{x})\tan{\sqrt{x}} $
+
+$$ y = (1 + x^{\frac{1}{4}})(\tan{\sqrt{x}})$$
+\begin{equation*}
+    \begin{split}
+        y' &= (0 + \frac{1}{4}x^{\frac{1}{4} - 1})(\tan{\sqrt{x}}) + (1 + x^{\frac{1}{4}})\big((\sec^2{\sqrt{x}})(\frac{1}{2}x^{\frac{1}{2} - 1})\big) =\\
+        &=(\frac{1}{4}x^{-\frac{3}{4}})(\tan{\sqrt{x}}) + (1 + \sqrt[4]{x})(\sec^2{\sqrt{x}})(\frac{1}{2}x^{-\frac{1}{2}}) =\\
+        &= \frac{\tan{\sqrt{x}}}{4\sqrt[4]{x^3}} + \frac{(1 + \sqrt[4]{x})(\sec^2{\sqrt{x}})}{2\sqrt{x}}
+    \end{split}
+\end{equation*}
+$$ \qef $$
+
+\task{8}\ex{a}
+Zakładając, że funkcje $f$ i $g$ mają pochodne właściwe, oblicz pochodną
+funkcji $ y = \sin{f(x)g(x)} $
+
+$$
+y' = \big(\cos{f(x)g(x)}\big)\big((fg)'(x)\big) = \big(\cos{f(x)g(x)}\big)\big(f'(x)g(x) + f(x)g'(x)\big) \quad\qef
+$$
+
+\end{document}

@@ -1,0 +1,142 @@
+% LaTeX
+
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, vmargin=10pt, hmargin=50pt]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{multicol}
+\usepackage{polski}
+\usepackage{xcolor}
+
+\setlength{\parskip}{1em}
+
+\newcommand{\degree}{^{\circ}}
+\newcommand{\ex}[1]{\textbf{ #1)}}
+\newcommand{\for}{\ \leftrightarrow\ }
+\newcommand{\Integral}[2]{\int \! #1 \, \mathrm{d}#2}
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\qed}{\textbf{\textit{QED}}}
+\newcommand{\qef}{\textbf{\textit{QEF}}}
+\newcommand{\task}[1]{\section*{Zadanie #1}}
+
+\let\oldref\ref
+\renewcommand{\ref}[1]{(\oldref{#1})}
+
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\R}{\mathbb{R}}
+
+\renewcommand{\epsilon}{\varepsilon}
+
+\title{Zestaw 11}
+\author{Jakub Łukasiewicz}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\task{1}\ex{g}
+\textbf{Obliczyć całkę z funkcji wymiernej: }
+$ \displaystyle \Integral{\frac{x}{(x-1)(x+2)(x+3)}}{x} $
+
+$$ \frac{x}{(x-1)(x+2)(x+3)} = \frac{A}{x-1} + \frac{B}{x+2} + \frac{C}{x+3} $$
+
+\begin{equation*}
+    \begin{aligned}
+        \frac{A}{x-1} + \frac{B}{x+2} + \frac{C}{x+3} &=\\
+        &= \frac{A(x+2)(x+3) + B(x-1)(x+3) + C(x-1)(x+2)}{(x-1)(x+2)(x+3)} =\\
+        &= \frac{(A+B+C)x^2 + (5A+2B+C)x + (6A-3B-2C)}{(x-1)(x+2)(x+3)}
+    \end{aligned}
+\end{equation*}
+
+\begin{equation*}
+    \frac{x}{(x-1)(x+2)(x+3)} = \frac{(A+B+C)x^2 + (5A+2B+C)x + (6A-3B-2C)}{(x-1)(x+2)(x+3)} \implies
+\end{equation*}
+
+\begin{equation*}
+    \implies \left\{ \begin{array}{l}
+        A+B+C = 0        \\
+        5A + 2B + C = 1  \\
+        6A - 3B - 2C = 0
+    \end{array} \right. \implies
+    \def\arraystretch{1.2}
+    \left\{ \begin{array}{l}
+        A = \frac{1}{12} \\
+        B = \frac{2}{3}  \\
+        C = -\frac{3}{4}
+    \end{array} \right. \implies
+\end{equation*}
+
+\begin{equation*}
+    \implies \Integral{\frac{x}{(x-1)(x+2)(x+3)}}{x} =
+    \Integral{\left(\frac{\frac{1}{12}}{x-1} + \frac{\frac{2}{3}}{x+2} + \frac{-\frac{3}{4}}{x+3}\right)}{x} =
+\end{equation*}
+
+\begin{equation*}
+    = \frac{1}{12}\Integral{\frac{1}{x-1}}{x}
+    + \frac{2}{3}\Integral{\frac{1}{x+2}}{x}
+    - \frac{3}{4}\Integral{\frac{1}{x+3}}{x}
+    \implies
+\end{equation*}
+
+\begin{equation*}
+    \implies \Integral{\frac{x}{(x-1)(x+2)(x+3)}}{x} =
+    \frac{\ln{|x-1|} + 8 \ln{|x+2|} - 9 \ln{|x+3|}}{12}
+\end{equation*}
+
+$$\qef$$
+
+
+\newpage
+
+\setcounter{equation}{0}
+\task{2}\ex{d}
+\textbf{Obliczyć całkę z funkcji trygonometrycznej: }
+$ \displaystyle \Integral{\cos^4{x}}{x} $
+
+$$ \cos{2x} = 2 \cos^2{x} - 1 \implies cos^2{x} = \frac{1 + \cos{2x}}{2} $$
+
+\begin{equation*}
+    \begin{aligned}
+        \Integral{\cos^4{x}}{x} &
+        = \Integral{(\cos^2{x})^2}{x}
+        = \Integral{\left(\frac{1 + \cos{2x}}{2}\right)^2}{x}
+        = \Integral{\frac{(1 + \cos{2x})^2}{4}}{x} =\\
+        &= \frac{1}{4} \Integral{(1 + 2\cos{2x} + \cos^2{2x})}{x}
+        = \frac{1}{4} \left( \Integral{1}{x} + 2\Integral{\cos{2x}}{x} + \Integral{\cos^2{2x}}{x} \right) =\\
+        &= \frac{x}{4} + \frac{\frac{1}{2} \sin{2x}}{2} + \frac{1}{4}\Integral{\cos^2{2x}}{x}
+        = \frac{x + \sin{2}}{4} + \frac{1}{4}\Integral{\cos^2{2x}}{x} =\\
+        &= \frac{x + \sin{2}}{4} + \frac{1}{4}\Integral{\frac{1 + \cos{4x}}{2}}{x} =
+        = \frac{x + \sin{2x}}{4} + \frac{x}{8} + \frac{1}{8}\Integral{\cos{4x}}{x} =\\
+        &= \frac{3x + 2\sin{2x}}{8} + \frac{1}{8}\Integral{\cos{4x}}{x} =
+        = \frac{3x + 2\sin{2x}}{8} + \frac{1}{8} \cdot \frac{1}{4} \sin{4x} =\\
+        &= \frac{12x + 8\sin{2x} + \sin{4x}}{32}
+        \\ \\
+        \Integral{\cos^4{x}}{x} &= \frac{12x + 8\sin{2x} + \sin{4x}}{32} + C \for C \in \R \qquad \qef
+    \end{aligned}
+\end{equation*}
+
+
+\setcounter{equation}{0}
+\task{3}\ex{d}
+\textbf{Obliczyć całkę z funkcji niewymiernej: }
+$ \displaystyle \Integral{\sqrt{3+x^2}}{x} $
+
+\begin{equation*}
+    \begin{aligned}
+        \Integral{\sqrt{3+x^2}}{x} &= \Integral{\sqrt{(\pm\sqrt{3})^2+x^2}}{x} =\\
+        &= \frac{x}{2}\sqrt{x^2 + (\pm\sqrt{3})^2} + \frac{(\pm\sqrt{3})^2}{2} \ln{\left| x + \sqrt{x^2 + (\pm\sqrt{3})^2}\right|} =\\
+        &= \frac{x}{2}\sqrt{x^2 + 3} + \frac{3}{2} \ln{\left| x + \sqrt{x^2 + 3}\right|}
+    \end{aligned}
+\end{equation*}
+
+\begin{equation*}
+        \Integral{\sqrt{3+x^2}}{x} = \frac{x}{2}\sqrt{x^2 + 3} + \frac{3}{2} \ln{\left| x + \sqrt{x^2 + 3}\right|} + C \for C \in \R
+\end{equation*}
+
+$$ \qef $$
+
+\end{document}

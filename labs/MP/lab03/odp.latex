@@ -1,0 +1,71 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, vmargin=10pt, hmargin=50pt]{geometry}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{polski}
+
+\setlength{\parskip}{1em}
+
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\title{Zajęcia 3 - odpowiedzi}
+\author{Jakub Łukasiewicz}
+
+
+\begin{document}
+\textbf{Jakub Łukasiewicz}
+\section*{Algorytm Kadane}
+
+Algorytm ten służy do znajdywania maksymalnej podtablicy ze złożonością $O(n)$,
+gdzie jako maksymalną podtablcę definiujemy fragment ciągły tablicy o maksymalnej
+nieujemnej sumie elementów.
+
+Niech tablca $\pmb{A}$ ma długość $\pmb{n}$.
+
+Algorytm zapisany w postaci pseudokodu ma postać:
+
+\begin{verbatim}
+S = 0    # suma maksymalna
+X = 1    # początek maksymalnej podtablicy
+Y = 1    # koniec maksymalnej podtablicy
+s = A[1] # obecna suma
+for i in 2..n:
+    if s <= 0:
+        x = i
+        s = A[i]
+    else:
+        s += A[i]
+    if s > S:
+        S = s
+        X = x
+        Y = i
+\end{verbatim}
+
+\section*{Wyszukiwanie binarne}
+Algorytm opierający się na metodzie dziel i zwyciężaj, który w czasie
+logarytmicznym stwierdza, czy szukany element znajduje się w uporządkowanej
+tablicy i jeśli się znajduje, to podaje jego indeks.
+
+Niech, że uporządkowana tablca $\pmb{A}$ ma długość $\pmb{n}$:
+
+\begin{enumerate}
+    \item Niech $ p = 1 $ oraz $k = n$.
+    \item Wyznacz index $ m = \floor{\frac{p+k}{2}}$.
+    \item Jeśli $ A[m] = x $, skończ działanie algorytmu i zwróć $m$.
+    \item Jeśli $ A[m] < x $, ustaw $ p = m + 1 $.
+    \item Jeśli $ A[m] > x $, ustaw $ k = m - 1 $.
+    \item Wróć do kroku numer 2.
+\end{enumerate}
+
+Dla tablicy $ [ 1, 2, 3, 4, 5, 6, 7 ] $, przykład przypadku:
+\begin{enumerate}
+    \item optymistycznego: $x = 4$
+    \item pesymistycznego: $x = 1$
+\end{enumerate}
+
+\end{document}
+
+% vim: fen

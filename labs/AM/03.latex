@@ -1,0 +1,93 @@
+% I litterally rewitten half of my Compile&Run implementation for this "document"
+% But well, I've been planning on doing so for a long time already
+
+\documentclass{article}
+\setlength\parindent{24pt}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[compact]{titlesec}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+
+\titlespacing{\section}{0pt}{10pt}{0pt}
+
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\newcommand{\task}[1]{\section*{Zadanie #1}}
+\newcommand{\ex}[1]{\subsection*{ #1)}}
+
+\let\oldref\ref
+\renewcommand{\ref}[1]{(\oldref{#1})}
+
+\title{}
+\author{Jakub Łukasiewicz}
+
+\begin{document}
+
+\maketitle
+
+\large
+
+\task{2} % -----------------------------
+\ex{h}
+
+$ $ % Helps with "Thesis:" intendation, good enough for me
+
+\textbf{\textit{\large Thesis: }}
+
+\begin{equation} \label{thesis1}
+    \lim_{x \to 5} x - \floor{x} \in \varnothing
+\end{equation}
+
+\textbf{\textit{\large Demonstratio: }}
+
+\begin{equation} \label{leftsided}
+    \lim_{x \to 5^-} x - \floor{x} = 1
+\end{equation}
+
+\begin{equation} \label{rightsided}
+    \lim_{x \to 5^+} x - \floor{x} = 0
+\end{equation}
+
+$$ \ref{leftsided} \land \ref{rightsided} \implies \ref{thesis1} \quad {\textbf{\textit{\large QED}}}$$
+
+\task{4} % -----------------------------
+\ex{d}
+$$
+\lim_{x \to \infty} \frac{x^2 - 5x + 4}{x(x-5)} =
+\lim_{x \to \infty} \frac{x^2 - 5x + 4}{x^2 - 5x} =
+\lim_{x \to \infty} \frac{\frac{x^2}{x^2} - \frac{5x}{x^2} + \frac{4}{x^2}}{\frac{x^2}{x^2} - \frac{5x}{x^2}} =
+\lim_{x \to \infty} \frac{1 - \frac{5}{x} + \frac{4}{x^2}}{1 - \frac{5}{x}} = 1
+$$
+
+\task{6} % -----------------------------
+\ex{b}
+
+$ $ % Helps with "Thesis:" intendation, good enough for me
+
+\setcounter{equation}{0}
+
+\textbf{\textit{\large Thesis: }}
+\begin{equation} \label{thesis2}
+    \lim_{x \to 0^+} \frac{1}{2x - \sin{x}} = \infty
+\end{equation}
+
+\textbf{\textit{\large Demonstratio: }}
+
+\begin{equation} \label{inequality}
+    \frac{1}{3x} < \frac{1}{2x - \sin{x}} \leftrightarrow x > 0
+\end{equation}
+
+$$ \ref{inequality} \because x > -\sin{x} \leftrightarrow x > 0 $$
+
+\begin{equation} \label{tw}
+    \lim_{x \to 0^+} \frac{1}{3x} = \lim_{x \to 0^+} \frac{1}{0^+} = +\infty
+\end{equation}
+
+\vskip 1em
+
+\center Z twierdzenia o dwóch funkcjach: $ [\ref{inequality} \land \ref{tw}]\vDash\ref{thesis2} $
+$$ {\textbf{\textit{\large QED}}} $$
+
+\end{document}

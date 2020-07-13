@@ -1,0 +1,120 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper, vmargin=10pt, hmargin=50pt]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{polski}
+
+\begin{document}
+
+\section*{Zadanie 2a, zestaw 6}
+
+Znaleźć wartości i wektory własne podanego przekształcenia liniowego liczb
+rzeczywistych przestrzeni wektorowych
+
+$ $
+
+\textbf{Dane:}
+
+$ L: R^2 \rightarrow R^2\ ; \ L(x,y) = (4x+2y,y-x) $
+
+Baza standardowa: $ \{ (1,0), (0,1) \} $
+
+$ $
+
+\textbf{Rozwiazanie:}
+
+$ $
+
+Wyliczam macierz odwzorowania:
+
+$$ L(1,0) = (4,-1) = 4(1,0) - 1(0,1) $$
+$$ L(0,1) = (2,1) = 2(1,0) + 1(0,1)  $$
+
+\[
+    A_L =
+    \begin{bmatrix}
+        4 & 2\\
+        -1 & 1
+    \end{bmatrix}
+\]
+
+Znajduję wartość własną $\lambda$ przekształcenia:
+
+$$ \det{(A_L - \lambda I)} = 0 $$
+$$ \det{\begin{bmatrix}
+    4-\lambda & 2\\
+    -1 & 1-\lambda
+\end{bmatrix} } = 0
+$$
+$$ (4-\lambda)(1-\lambda) + 2 = 0 $$
+$$ (4 - 4\lambda - \lambda + \lambda^2) + 2 = 0 $$
+$$ \lambda^2 - 5\lambda + 6 = 0 $$
+
+$$ \Delta = 25 - 24 = 1 $$
+
+$$ \lambda_1 = \frac{5 - 1}{2} = 2 ,\quad \lambda_2 = \frac{5 + 1}{2} = 3 $$
+
+Znajduję wektory własne $w_1$ i $w_2$:
+
+$$ B_1 = A_L - \lambda_1 I =
+\begin{bmatrix}
+    2 & 2\\
+    -1 & -1
+\end{bmatrix}, \quad
+B_2 = A_L - \lambda_2 I =
+\begin{bmatrix}
+    1 & 2\\
+    -1 & -2
+\end{bmatrix}
+$$
+
+$$ B_1 \cdot w_1 =
+\begin{bmatrix}
+    2 & 2\\
+    -1 & -1
+\end{bmatrix}
+\begin{bmatrix}
+     x\\
+     y
+\end{bmatrix} =
+\begin{bmatrix}
+     0\\
+     0
+\end{bmatrix}
+\implies
+\left\{ \begin{array}{ll}
+    2x + 2y = 0\\
+    -x -  y = 0\\
+\end{array} \right.
+\implies x+y=0 \implies y=-x \implies w_1 = (x, -x)
+$$
+
+$$ B_2 \cdot w_2
+\begin{bmatrix}
+    1 & 2\\
+    -1 & -2
+\end{bmatrix}
+\begin{bmatrix}
+     x\\
+     y
+\end{bmatrix} =
+\begin{bmatrix}
+     0\\
+     0
+\end{bmatrix}
+\implies
+\left\{ \begin{array}{ll}
+    x + 2y = 0\\
+    -x - 2y = 0\\
+\end{array} \right.
+\implies x+2y=0 \implies y=-\frac{x}{2} \implies w_2 = (x, -\frac{x}{2})
+$$
+
+\textbf{Odpowiedź:}
+
+$$ \lambda_1 = 2, \quad w_1 = (x, -x) $$
+
+$$ \lambda_1 = 3, \quad w_2 = (x, -\frac{x}{2}) $$
+
+\end{document}

@@ -1,0 +1,80 @@
+% LaTeX
+
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, vmargin=10pt, hmargin=50pt]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{polski}
+
+\setlength{\parskip}{1em}
+
+\newcommand{\degree}{^{\circ}}
+\newcommand{\ex}[1]{\textbf{ #1)}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\qed}{\textbf{\textit{QED}}}
+\newcommand{\qef}{\textbf{\textit{QEF}}}
+\newcommand{\task}[1]{\section*{Zadanie #1}}
+
+\let\oldref\ref
+\renewcommand{\ref}[1]{(\oldref{#1})}
+
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\R}{\mathbb{R}}
+
+\renewcommand{\epsilon}{\varepsilon}
+
+\title{Zestaw 9}
+\author{Jakub Łukasiewicz}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\task{1}
+W przestrzeni euklidesowej $\R^4$:
+
+\ex{a}
+obliczyć normę wektora $(-1,1,2,-3)$;
+$$ \norm{(-1,1,2,-3)}_E = \sqrt{ (-1)^2 + 1^2 + 2^2 + (-3)^2 } = \sqrt{1+1+4+9}
+= \sqrt{15} $$
+
+\ex{b}
+zbadać ortogonalność wektorów $(1,4,-1,2)$, $(3,-1,2,-1)$;
+$$ \textrm{Oznaczmy: } v = (1,4,-1,2); w = (3,-1,2,-1) $$
+$$ (v,w) = 1 \cdot 3 + 4 \cdot (-1) + (-1) \cdot 2 + 2 \cdot (-1) = 3 - 4 - 2 -2 = -5 \ne 0 \implies $$
+$$ \implies \textrm{ wektory $v$, $w$ nie są ortogonalne} $$
+
+\ex{c}
+obliczyć kąt między wektorami $(1,3,0,-1)$, $(3,1,1,0)$;
+$$ \textrm{Oznaczmy: } v = (1,3,0,-1); w = (3,1,1,0) $$
+$$ (v,w) = 3 + 3 = 6 $$
+$$ \norm{v} = \sqrt{1 + 9 + 0 + 1} = \sqrt{11} $$
+$$ \norm{w} = \sqrt{9 + 1 + 1 + 0} = \sqrt{11} $$
+$$ \norm{v}\norm{w} = \sqrt{11} \cdot \sqrt{11} = 11 $$
+$$ cos{\alpha} = \frac{(v,w)}{\norm{v}\norm{w}} = \frac{6}{11} $$
+$$ \alpha = \arccos{\frac{6}{11}} \approx 56.94\degree $$
+
+\newpage
+
+\ex{e}
+podać przykład wektora unormowanego tworzącego z wektorem $(1,2,0,-2)$ kąt $\frac{2\pi}{3}$.
+$$ \textrm{Oznaczmy: } w = (1,2,0,-2) $$
+$$ \textrm{Szukany wektor $v$, taki że } \norm{v} = 1 $$
+\begin{equation} \label{foo}
+\alpha = \frac{2\pi}{3} \implies \cos{\alpha} = -\frac{1}{2} \implies \frac{(w,v)}{\norm{w}\norm{v}} = -\frac{1}{2}
+\end{equation}
+$$ \norm{w} = \sqrt{1 + 4 + 4} = \sqrt{9} = 3 $$
+$$ (w,v) = v_1 + 2v_2 - 2v_4 $$
+$$ \textrm{Ad \ref{foo}: \quad} \frac{v_1 + 2v_2 - 2v_4}{3 \cdot 1} = -\frac{1}{2} \implies
+v_1 + 2v_2 - 2v_4 = -\frac{3}{2} $$
+
+$$ \textrm{Niech } v_1 = v_2 = -\frac{1}{2},\ v_3 = \frac{\sqrt{2}}{2},\ v_4 = 0 $$
+
+$$ \textrm{Sprawdzenie: \quad} \sqrt{(-\frac{1}{2})^2 + (-\frac{1}{2})^2 + (\frac{\sqrt{2}}{2})^2 + 0^2} = \sqrt{\frac{1}{4} + \frac{1}{4} + \frac{2}{4}} = \sqrt{1} = 1 $$
+
+$$ \textrm{Odp.: } v = (-\frac{1}{2}, -\frac{1}{2}, -\frac{\sqrt{2}}{2}, 0)$$
+
+\end{document}

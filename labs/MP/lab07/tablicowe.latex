@@ -1,0 +1,91 @@
+% LaTeX
+
+% Zaledwie zaczątek matody Lomuto... i to z błędami.
+% Po prostu nie mam sił do tego typu zadań.
+% Rozpisywanie algorymów na przykładach nie jest moją mocną stroną.
+% Zbyt dużo trzeba zapisać w jednym miejscu. Brak formalizacji w takich
+% przypadkach nie pomaga...
+
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, vmargin=10pt, hmargin=50pt]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{polski}
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+\setlength{\parskip}{1em}
+
+\title{Zadania tablicowe}
+\author{Jakub Łukasiewicz}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Quicksort - przykład}
+
+Tablica: $A = $ \texttt{[ 9, 4, 8, 1, 2, 7, 3, 4, 5, 0 ]}
+\newline
+Pivot: element skrajnie lewy
+\newline
+Macro $D(x): x \leftarrow x - 1$
+
+\subsection*{Metoda Partition w wersji Hoare'a}
+
+\subsection*{Metoda Partition w wersji Lomuto}
+
+\begin{table}[h!]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{clll}
+            Lp. & Tablica $ A $& Opis & \\
+             1  & \texttt{9 4 8 1 2 7 3 4 5 0} & $L \leftarrow 0, R \leftarrow 9, p \leftarrow A[L],\ i \leftarrow R, j \leftarrow R $ & $p = 9$\\
+             2  & \texttt{9 4 8 1 2 7 3 4 5 0} & $ A[j] < p;\ D(j)$ & j = 9 \\
+             3  & \texttt{9 4 8 1 2 7 3 4 5 0} & $ A[j] < p;\ D(j)$ & j = 8 \\
+                & \multicolumn{3}{c}{\vdots} \\
+             9  & \texttt{9 4 8 1 2 7 3 4 5 0} & $ A[j] < p;\ D(j)$ & j = 1 \\
+            10  & \texttt{9 4 8 1 2 7 3 4 5 0} & $ j < L+1 \implies swap(A[i], A[L])$ & $j = 0, A[L] = 0, i = 8, A[i] = 5 $ \\
+            11  & \texttt{0 4 8 1 2 7 3 4 5 9} & $ return\ i $ & $i = 8$
+        \end{tabular}%
+        }
+\end{table}
+
+$A_1 = $ \texttt{[ 0, 4, 8, 1, 2, 7, 3, 4, 5 ]}, \quad $A_2 = $ \texttt{[ 9 ]}
+
+\begin{table}[h!]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{clll}
+            Lp. & Tablica $ A_1 $& Opis & \\
+             1  & \texttt{0 4 8 1 2 7 3 4 5} & $L \leftarrow 0, R \leftarrow 8, p \leftarrow A[L],\ i \leftarrow R, j \leftarrow R $ & $p = 0$\\
+             2  & \texttt{0 4 8 1 2 7 3 4 5} & $A[j] > p \implies swap(A[i], A[j]) \land D(i);\ D(j)$ & $ j = 8, A[j] = 5, i = 8, A[i] = 5$ \\
+             3  & \texttt{0 4 8 1 2 7 3 4 5} & $A[j] > p \implies swap(A[i], A[j]) \land D(i);\ D(j)$ & $ j = 7, A[j] = 4, i = 7, A[i] = 4$ \\
+                & \multicolumn{3}{c}{\vdots} \\
+             9  & \texttt{0 4 8 1 2 7 3 4 5} & $ j < L+1 \implies swap(A[i], A[L])$ & $j = 0, A[L] = 0, i = 0, A[i] = 0 $ \\
+            10  & \texttt{0 4 8 1 2 7 3 4 5} & $return\ i$ & $ i = 0 $
+        \end{tabular}%
+        }
+\end{table}
+
+$A_{1.1} = \texttt{[ 0 ]}$, \quad $ A_{1.2} = \texttt{[ 4, 8, 1, 2, 7, 3, 4, 5 ]}$, \quad $A_2 = $ \texttt{[ 9 ]}
+
+\begin{table}[h!]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{clll}
+            Lp. & Tablica $ A_{1.2} $& Opis & \\
+             1  & \texttt{\_ 4 8 1 2 7 3 4 5} & $L \leftarrow 1, R \leftarrow 8, p \leftarrow A[L],\ i \leftarrow R, j \leftarrow R $ & $p = 4$\\
+             2  & \texttt{\_ 4 8 1 2 7 3 4 5} & $A[j] > p \implies swap(A[i], A[j]) \land D(i);\ D(j)$ & $ j = 8, A[j] = 5, i = 8, A[i] = 5$ \\
+             3  & \texttt{\_ 4 8 1 2 7 3 4 5} & $A[j] = p \implies swap(A[i], A[j]) \land D(i);\ D(j)$ & $ j = 7, A[j] = 4, i = 7, A[i] = 4$ \\
+             3  & \texttt{\_ 4 8 1 2 7 3 4 5} & $A[j] < p \implies swap(A[i], A[j]) \land D(i);\ D(j)$ & $ j = 6, A[j] = 3, i = 6, A[i] = 3$ \\
+                & \multicolumn{3}{c}{\vdots} \\
+             8  & \texttt{\_ 4 8 1 2 7 3 4 5} & $ j < L+1 \implies swap(A[i], A[L])$ & $j = 1, A[L] = 0, i = 0, A[i] = 0 $ \\
+             9  & \texttt{\_ 4 8 1 2 7 3 4 5} & $return\ i$ & $ i = 0 $
+        \end{tabular}%
+        }
+\end{table}
+
+\end{document}

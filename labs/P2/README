@@ -1,0 +1,1 @@
+I've deleted `delete[] mat->values;` from tests.cpp. Destructor handles it.

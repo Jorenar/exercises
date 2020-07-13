@@ -1,0 +1,22 @@
+Założenia:
+    Tablica A[N], gdzie N jest jej rozmiarem, jest tablicą dynamiczną
+    Indeksowanie zaczyna się od liczby 0
+
+Oznaczenia:
+    x <- 4    | do zmiennej x wstaw wartość 4
+    del(A, x) | z tablicy A usuń element o indeksie x
+
+Pseudokod:
+
+    i <- 0
+    while (i < N - 1)
+        j <- i + 1
+        while (j < N)
+            if (A[i] = A[j])
+                del(A, j)
+                N <- N - 1
+            else
+                j <- j + 1
+        done
+        i <- i + 1
+    done

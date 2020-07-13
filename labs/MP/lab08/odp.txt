@@ -1,0 +1,49 @@
+Znak 'A' na pozycji n nie różni się niczym od znaku 'A' na pozycji k, zatem
+stabilność algorytmu nie jest potrzebna.
+Wystarczy zastosować fragment algorytmu CountSort, gdzie zamiast sortować tablicę,
+wypiszemy wartości dodatnie z pomocniczej tablicy `count` wraz z ich indeksami.
+
+Ponieważ w danych są cyfry, konieczne będzie użycie separatora.
+
+Na systemach z rodziny *nix, znak nowej linii zajmuje tyle samo miejsca co każdy inny,
+dlatego dla czytelności posłużę się nim jako separatorem.
+Na innych systemach można użyć spacji, przecinka, '|', bądź jeszcze innego znaku
+niewystępującego w zestawie danych.
+
+    public static void sortCompress(int[] data, int N) {
+        int M = 256;
+
+        int[] count = new int[M]; // guaranteed to be initialized to 0 by language specification (§4.12.5)
+        int[] out   = new int[N];
+
+        for (int i = 0; i < N; ++i) {
+            ++count[arr[i]];
+        }
+
+        for (int i = 0; i < M; ++i) {
+            if (arr[i] > 0) {
+                System.out.println((char)i + "" + count[i]);
+            }
+        }
+
+        return out;
+    }
+
+Dla przykładowego pliku: a2bacza12
+Wynikiem będzie:
+    11
+    22
+    a3
+    b1
+    c1
+    z1
+
+Jak widać, dla tak małego zestawu danych metoda ta jest bardzo nieefektywna.
+Ale dla gigabajta, wręcz przeciwnie.
+
+Warto zwrócić uwagę na dwie pierwsze linie wyjścia.
+Znajduje się tam "11" oraz "12". Gdyby nie było separatora, to otrzymalibyśmy
+wynik "1122", co należałoby zinterpretować jako 122 znaki '1'.
+
+Gdyby w danych nie było cyfr, to wyjście można skompresować bardziej:
+    a3b1c1z1

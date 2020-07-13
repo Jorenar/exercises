@@ -1,0 +1,188 @@
+% LaTeX
+% vim: fen
+
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, vmargin=10pt, hmargin=50pt, head=16pt, includehead]{geometry}
+\usepackage{amsmath}     % math
+\usepackage{amssymb}     % math symbols
+\usepackage{enumitem}    % enumerate/list items
+\usepackage{fancyhdr}    % header
+\usepackage{mathtools}   % math tools
+\usepackage{multicol}    % multiple columns
+\usepackage{pgfplots}    % graphs
+\usepackage{titlesec}    % alternative section titles
+\usepackage{xcolor}      % color text
+
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+\newcommand{\case}[1]{\textrm{#1$^\circ$}}
+\newcommand{\degree}{^{\circ}}
+\newcommand{\for}{\ \leftrightarrow\ }
+\newcommand{\Integral}[4]{\int_{#1}^{#2} \! #3 \, \mathop{}\!\mathrm{d}#4}
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\qed}{\textbf{\textit{QED}}}
+\newcommand{\qef}{\textbf{\textit{QEF}}}
+\newcommand{\task}[1]{\textbf{#1}}
+
+\let\oldref\ref \renewcommand{\ref}[1]{\mathrm{(\oldref{#1})}}
+
+\DeclareMathOperator{\?}{?}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lin}{lin}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\sgn}{sgn}
+
+\let\oldepsilon\epsilon \renewcommand{\epsilon}{\varepsilon}
+
+\counterwithin*{equation}{section}  % reset equation counter after each section
+\titleformat{\section}{\normalfont\Large\bfseries}{}{0pt}{} % remove section numbering
+
+% \newcommand{\sectionbreak}{\clearpage} % start each section on new page
+
+\setlength{\parskip}{0.7em}
+\setlength{\parindent}{0em}
+
+\pgfplotsset{samples=20}
+
+\pagestyle{fancy}
+\lhead{Jakub Łukasiewicz}
+\chead{Zestaw 13}
+\let\Sectionmark\sectionmark
+\def\sectionmark#1{\def\Sectionname{#1}\Sectionmark{#1}}
+%\rhead{\Sectionname}
+\rhead{}
+
+\begin{document}
+\section{Zadanie 1d}
+\textit{Obliczyć wartości średnie funkcji $p(x) = x\sqrt{1-x^2}$ na przedziale $\left[0, \frac{1}{2} \right]$.}
+
+\subsection*{Rozwiązanie}
+
+\begin{equation*}
+    \Integral{}{}{p(x)}{x} = \Integral{}{}{x\sqrt{1-x^2}}{x} =
+    \begin{vmatrix}
+        \displaystyle t = \sqrt{1-x^2} \\[6pt]
+        \displaystyle \diff t = -\frac{x}{\sqrt{1-x^2}}\diff x \\[16pt]
+        \displaystyle x \diff x = -\diff t \ \sqrt{1-x^2}
+    \end{vmatrix}
+    =
+    -\Integral{}{}{t^2}{t} =
+    -\frac{t^3}{3} + C = \frac{(1-x^2)^{\frac{3}{2}}}{3} + C
+\end{equation*}
+
+\begin{equation*}
+    \left< p \right>_{[0,\frac{1}{2}]} =
+    \frac{1}{\frac{1}{2} - 0} \Integral{0}{\frac{1}{2}}{p(x)}{x} =
+    2\left( -\frac{(1- \frac{1}{2^2})^{\frac{3}{2}}}{3} + \frac{(1-0^2)^{\frac{3}{2}}}{3} \right) =
+    \frac{2}{3} \left(1 - \left(\frac{3}{4}\right)^{\frac{3}{2}} \right) =
+    \frac{2}{3} \left(1 - \frac{3}{8}\sqrt{3} \right)
+\end{equation*}
+
+\begin{equation*}
+    \left< p \right>_{[0,\frac{1}{2}]} =
+    \frac{2}{3} - \frac{\sqrt{3}}{4}
+\end{equation*}
+
+\section{Zadanie 2a}
+\textit{Uzasadnić równość $ \displaystyle \Integral{-\pi}{\pi}{e^{x^2} \sin{x}}{x} = 0 $
+wykorzystując własności całek z funkcji parzystych lub nieparzystych.}
+
+\subsection*{Rozwiązanie}
+\begin{equation*}
+    f(x) = e^{x^2}\ ;\ \ f(-x) = e^{(-x)^2} = e^{x^2} = f(x)
+\end{equation*}
+
+Z powyższego równania wynika, że $e^{x^2}$ jest funkcją parzystą. $\sin{x}$
+jest funkcją nieparzystą. Iloczyn funkcji parzystej i nieparzystej jest funkcją nieparzystą,
+zatem funkcja $e^{x^2} \sin{x}$ jest nieparzysta.
+
+Przedział $[-\pi, \pi]$ jest symetryczny względem $0$.
+
+Całka oznaczona funkcji nieparzystej na przedziale symetrycznym względem $0$
+jest równa $0$, zatem:
+\begin{equation*}
+    \Integral{-\pi}{\pi}{e^{x^2} \sin{x}}{x} = 0
+\end{equation*}
+\[\qed\]
+
+\clearpage
+
+\section{Zadanie 3b}
+\textit{Dla funkcji $f$ całkowalnej na przedziale $[a,b]$, znaleźć funkcje górnej
+granicy całkowania i naszkicować wykresy funkcji $f$ i $F$.}
+
+\begin{equation*}
+    F(x) = \Integral{c}{x}{f(t)}{t} \for c \in [a,b]
+\end{equation*}
+\begin{equation*}
+    f(x) =
+    \left\{ \begin{aligned}
+        x - 2  & \for 0 \le x \le 2 \\
+        2x - 4 & \for 2  <  x \le 3
+    \end{aligned} \right.
+\end{equation*}
+\begin{equation*}
+    [a,b] = [0,3]\ , \quad c = 0
+\end{equation*}
+
+\subsection*{Rozwiązanie}
+
+\begin{equation*}
+    F(x) = \Integral{c}{x}{f(t)}{t} = \Integral{0}{x}{f(t)}{t}
+\end{equation*}
+\[ (2) - 2 = 2(2) - 4 = f(2) = 0 \]
+
+\case{1}: $x \le 2$
+\begin{equation*}
+    F(x) = \Integral{0}{x}{(t-2)}{t} = \left[ \frac{t^2}{2} - 2t \right]_0^x = \frac{x^2}{2} - 2x
+\end{equation*}
+
+\case{2}: $x > 2$
+\begin{align*}
+    F(x) &= \Integral{0}{2}{(t-2)}{t} + \Integral{2}{x}{2t-4}{t} =
+    \left( \frac{2^2}{2} - 2\cdot 2 \right) + \left[ t^2 - 4t \right]_2^x =\\
+    &= -2 + \left( ( x^2 - 4x ) - (2^2 - 4\cdot 2) \right) =
+    -2 + x^2 - 4x + 4 = x^2 - 4x + 2
+\end{align*}
+
+Zatem:
+
+\begin{equation*}
+    F(x) =
+    \left\{ \begin{aligned}
+        & \frac{x^2}{2} - 2x  & \for 0 \le x \le 2 \\
+        & x^2 - 4x + 2        & \for 2  <  x \le 3
+    \end{aligned} \right.
+\end{equation*}
+
+Wykres:
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}[>=stealth]
+        \begin{axis}[
+                xmin=-0.5,xmax=3.5,
+                ymin=-3,ymax=3,
+                axis x line=middle,
+                axis y line=middle,
+                xlabel={$x$},
+                ylabel={$y$},
+                legend style={at={(0.3,1)}, anchor=north west}]
+            ]
+
+            \node[blue,circle,fill,inner sep=1pt] at (axis cs:0,-2) {};
+            \addplot[smooth,blue] expression[domain=0:3]{x <= 2 ? x-2 : 2*x - 4};
+            \node[blue,circle,fill,inner sep=1pt] at (axis cs:3,2) {};
+
+            \node[red,circle,fill,inner sep=1pt] at (axis cs:0,0) {};
+            \addplot[smooth,red]  expression[domain=0:3]{x <= 2 ? (x^2)/2 - 2*x : x^2 - 4*x + 2};
+            \node[red,circle,fill,inner sep=1pt] at (axis cs:3,-1) {};
+
+            \legend{$f(x)$, $F(x)$}
+        \end{axis}
+    \end{tikzpicture}
+\end{figure}
+
+\end{document}

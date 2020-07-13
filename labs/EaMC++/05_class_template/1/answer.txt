@@ -1,0 +1,3 @@
+Question: Is it possible to implement move semantics?
+
+No, because there is nothing what could be moved.

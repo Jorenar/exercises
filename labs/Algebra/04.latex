@@ -1,0 +1,49 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{polski}
+
+\begin{document}
+
+\section*{Zadanie 4e, zestaw 4}
+
+Znaleźć z definicji macierz podanego przekształcenia liniowego we wskazanych bazach przestrzeni wektorowych
+
+$ $
+
+\large
+
+$ Dane: $
+
+$ L: R^3 \rightarrow R^3\ ; \ L(x,y,z) \rightarrow (x,y,z) $
+
+$ U = \{ (0,1,1), (1,0,1), (1,1,0) \} $
+
+$ V = \{ (1,0,0), (1,1,0), (1,1,1) \} $
+
+$ $
+
+$ Rozwiazanie: $
+
+$ L(0,1,1) = (0,1,1) =   -1(1,0,0) + 0(1,1,0) + 1(1,1,1) $
+
+$ L(1,0,1) = (1,0,1) =\ \ 1(1,0,0) -1(1,1,0) + 1(1,1,1) $
+
+$ L(1,1,0) = (1,1,0) =\ \ 0(1,0,1) + 1(1,1,0) + 0(1,1,1) $
+
+$ $
+
+Zatem macierz odwzorowania ma postać:
+
+\[
+    M_L =
+    \begin{bmatrix}
+        -1 &  1 & 0 \\
+        0 & -1 & 1 \\
+        1 &  1 & 0
+    \end{bmatrix}
+\]
+
+\end{document}

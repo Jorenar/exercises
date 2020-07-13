@@ -1,0 +1,3 @@
+Question: Is it possible to implement move semantics here?
+
+Yes, as there is pointer to `data`, which can be moved between instances

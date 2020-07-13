@@ -1,0 +1,117 @@
+% LaTeX
+% vim: fen
+
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, vmargin=10pt, hmargin=50pt, head=16pt, includehead]{geometry}
+\usepackage{amsmath}     % math
+\usepackage{amssymb}     % math symbols
+\usepackage{enumitem}    % enumerate/list items
+\usepackage{fancyhdr}    % header
+\usepackage{mathtools}   % math tools
+\usepackage{multicol}    % multiple columns
+\usepackage{titlesec}    % alternative section titles
+\usepackage{xcolor}      % color text
+
+\newcommand{\degree}{^{\circ}}
+\newcommand{\for}{\ \leftrightarrow\ }
+\newcommand{\Integral}[4]{\int_{#1}^{#2} \! #3 \, \mathrm{d}#4}
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\qed}{\textbf{\textit{QED}}}
+\newcommand{\qef}{\textbf{\textit{QEF}}}
+\newcommand{\task}[1]{\textbf{#1}}
+
+\let\oldref\ref \renewcommand{\ref}[1]{\mathrm{(\oldref{#1})}}
+
+\DeclareMathOperator{\?}{?}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lin}{lin}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\sgn}{sgn}
+
+\let\oldepsilon\epsilon \renewcommand{\epsilon}{\varepsilon}
+
+\counterwithin*{equation}{section}  % reset equation counter after each section
+\titleformat{\section}{\normalfont\Large\bfseries}{}{0pt}{} % remove section numbering
+
+%\newcommand{\sectionbreak}{\clearpage} % start each section on new page
+
+\setlength{\parskip}{0.7em}
+\setlength{\parindent}{0em}
+
+\pagestyle{fancy}
+\lhead{Jakub Łukasiewicz}
+\chead{Zestaw 12}
+\let\Sectionmark\sectionmark
+\def\sectionmark#1{\def\Sectionname{#1}\Sectionmark{#1}}
+%\rhead{\Sectionname}
+\rhead{}
+
+\begin{document}
+\section{Zadanie 1a}
+\subsection*{Thesis: $ \forall_{x \in R} \quad 0 \cdot x = 0 \ \land \ x \cdot 0 = 0 $}
+\subsection*{Demonstratio:}
+
+Korzystając z faktu, iż algebra $(R, +)$ jest grupą abelową, więc
+$\forall_{a\in R}\ a + 0 = a$, zapiszemy że:
+\[ \forall_{a,x \in R} \quad (a + 0) \cdot x = a \cdot x \]
+
+Jednym z warunków bycia pierścieniem jest rozdzielność działania $\cdot$
+względem działania $+$, zatem:
+\[ \forall_{a,x \in R} \quad (a + 0) \cdot x = a \cdot x + 0 \cdot x = a \cdot x \]
+
+Z powyższego równania wynika, że
+\[ \forall_{a,x \in R} \quad a \cdot x + 0 \cdot x = a \cdot x \]
+
+Zatem odejmując stronami $a \cdot x$ otrzymujemy:
+\[ \forall_{a,x \in R} \quad 0 \cdot x = 0 \]
+
+Postępując analogicznie dla $ \forall_{a,x \in R} \quad x \cdot (a + 0) = x \cdot a $
+otrzymamy $ \forall_{a,x \in R} \quad x \cdot 0 = 0 $, zatem:
+
+\[ \forall_{x \in R} \quad 0 \cdot x = 0 \ \land \ x \cdot 0 = 0 \]
+
+\[ \qed \]
+
+\clearpage
+
+\section{Zadanie 1b}
+\subsection*{Thesis: $ \forall_{x,y \in R} \quad (-x) \cdot y = -(x \cdot y) \ \land \ x \cdot (-y) = -(x \cdot y) $}
+\subsection*{Demonstratio:}
+Algebra $(R, +)$ jest grupą abelową, więc zapis $-x$ oznacza, że $\forall_{x\in R}\ x + (-x) = 0$
+
+Wiemy też, że $\forall_{a\in R}\ 0\cdot a = 0 $, zatem:
+\[ \forall_{x,y\in R}\quad (x+(-x))\cdot y = 0 \cdot y = 0 \]
+
+Pamiętając o rozdzielności działania $\cdot$ względem działania $+$:
+\[ \forall_{x,y\in R}\quad x\cdot y + (-x)\cdot y = 0 \]
+
+Z czego wynika, że $(-x)\cdot y$ jest elementem przeciwnym do $x\cdot y$, stąd:
+\[ \forall_{x,y\in R}\quad (-x)\cdot y = -(x\cdot y) \]
+
+Postępując analogicznie dla $x\cdot (-y)$, możemy stwierdzić, że:
+
+\[ \forall_{x,y \in R} \quad (-x) \cdot y = -(x \cdot y) \ \land \ x \cdot (-y) = -(x \cdot y) \]
+
+\[ \qed \]
+
+\section{Zadanie 1c}
+\subsection*{Thesis: $ \forall_{x,y \in R} \quad (-x) \cdot (-y) = (x \cdot y) $}
+\subsection*{Demonstratio:}
+
+Posiłkując się faktem udowodnionym w zadaniu 1b, wiemy, że:
+\[ \forall_{x,y \in R} \quad (-x) \cdot (-y) = -\big(x\cdot (-y)\big) = -\big(-(x\cdot y)\big) \]
+
+Widzimy, że $-\big(-(x\cdot y)\big)$ jest elementem przeciwnym do $-(x\cdot y)$,
+a elementem przeciwnym do $-(x\cdot y)$ jest przecież $x \cdot y$, zatem:
+
+\[ \forall_{x,y \in R} \quad (-x) \cdot (-y) = (x \cdot y) \]
+
+\[ \qed \]
+
+\clearpage
+
+\section{Zadanie 2}
+\end{document}
