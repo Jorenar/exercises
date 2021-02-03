@@ -1,0 +1,260 @@
+\documentclass{article}
+\usepackage[a4paper, margin={1in, 1in}]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage{paralist}
+\usepackage{tabto}
+\usepackage{graphicx}
+\usepackage{etoolbox}
+\usepackage{changepage}
+\usepackage{tasks}
+\usepackage{pgfplots}
+\usepackage{fancyhdr}
+
+\DeclareMathOperator{\arctg}{arctg}
+\DeclareMathOperator{\sh}{sh}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\sgn}{sgn}
+
+\let\arctan\relax
+\DeclareMathOperator{\arctan}{arctg}
+\let\tan\relax
+\DeclareMathOperator{\tan}{tg}
+
+% Dodatkowe deklaracje:
+
+\newcommand{\Because}{\quad\because\quad}
+\newcommand{\case}[1]{\textrm{#1$^\circ$}}
+\newcommand{\degree}{^{\circ}}
+\newcommand{\diff}{\mathop{}\!\mathrm{d}}
+\newcommand{\for}{\ \leftrightarrow\ }
+\newcommand{\Integral}[4]{\int_{#1}^{#2} \! #3 \, \mathop{}\!\mathrm{d}#4}
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\qed}{\textbf{\textit{QED}}}
+\newcommand{\qef}{\textbf{\textit{QEF}}}
+\newcommand{\task}[1]{\textit{#1}}
+\newcommand{\xrowht}[2][0]{\addstackgap[.5\dimexpr#2\relax]{\vphantom{#1}}}
+\newcommand{\partderiv}[2]{\frac{\partial #1}{\partial #2}}
+
+\DeclareMathOperator{\?}{?}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\e}{e}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lin}{lin}
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+
+\let\oldepsilon\epsilon \renewcommand{\epsilon}{\varepsilon}
+
+% Koniec dodatkowych deklaracji
+
+\pagestyle{fancy}
+
+\lhead{Analiza Matematyczna 2; 2020/2021}
+% Tutaj proszę uzupełnić imię i nazwisko
+\rhead{Jakub Łukasiewicz}
+
+\begin{document}
+\section*{Zadanie 3e}
+
+Napisać wzór Taylora z resztą $R_3$ dla funkcji $f(x,y) = \e^{x+2y}$
+w otoczeniu punktu ${(x_0, y_0) = (0,0)}$
+
+\subsection*{Rozwiązanie}
+
+Wzór Taylora w punkcie $(x_0,y_0)$ dla funkcji $f(x,y)$ i $n=3$ ma postać:
+
+\begin{equation*}
+   \begin{aligned}
+      f(x,y) &= f(x_0, y_0) + \frac{1}{1!}\left[ \partderiv{f(x_0,y_0)}{x} \cdot (x-x_0) +\partderiv{f(x_0,y_0)}{y} \cdot (y-y_0) \right] \\
+      &\qquad + \frac{1}{2!}\left[
+         \frac{\partial^2 f(x_0,y_0)}{\partial x^2} \cdot (x-x_0)^2
+         + \frac{\partial^2 f(x_0,y_0)}{\partial x \partial y} \cdot (x-x_0)(y-y_0)
+         + \frac{\partial^2 f(x_0,y_0)}{\partial y^2} \cdot (y-y_0)^2
+         \right] \\[0.5em]
+      &\qquad + R_3(x,y)
+   \end{aligned}
+\end{equation*}
+
+Gdzie reszta:
+
+\begin{equation*}
+   \begin{aligned}
+      R_3(x,y) =
+      \frac{1}{3!} & \left[
+         \frac{\partial^3 f(a,b)}{\partial x^3} \cdot (x-x_0)^3 \right.
+         + \frac{\partial^3 f(a,b)}{\partial^2 x \partial y} \cdot (x-x_0)^2(y-y_0) \\
+         &\qquad + \frac{\partial^3 f(a,b)}{\partial x \partial^2 y} \cdot (x-x_0)(y-y_0)^2
+         + \left. \frac{\partial^3 f(a,b)}{\partial y^3} \cdot (y-y_0)^3
+         \right]
+   \end{aligned}
+\end{equation*}
+
+Gdzie ${(a,b) = (x_0 + c(x-x_0), y_0 + c(y-y_0)) \for 0 < c < 1}$.
+
+\vspace{2em}
+
+Można wykazać, że
+$ \displaystyle
+\frac{\partial^{k+m}}{\partial x^k \partial y^m}(\e^{ax + by}) := a^k b^m \e^{ax + by}
+$, zatem pochodne:
+
+\begin{equation*}
+   f(x,y) = \partderiv{f(x,y)}{x} =
+   \frac{\partial^2 f(x,y)}{\partial x^2} =
+   \frac{\partial^3 f(x,y)}{\partial x^3} = \e^{x+2y}
+\end{equation*}
+
+\begin{equation*}
+   \frac{\partial^k f(x,y)}{\partial y^k} = 2^k \e^{x+2y}
+\end{equation*}
+
+\begin{equation*}
+   \frac{\partial^2 f(x,y)}{\partial x \partial y} =
+   \frac{\partial^3 f(x,y)}{\partial x^2 \partial y} = 2 \e^{x+2y}
+\end{equation*}
+
+\begin{equation*}
+   \frac{\partial^3 f(x,y)}{\partial x \partial y^2} = 4 \e^{x+2y}
+\end{equation*}
+
+Podstawiając za współrzędne:
+\begin{equation*}
+   \e^{x_0 + 2y_0} = \e^{0 + 0\cdot 0} = \e^0 = 1
+\end{equation*}
+
+Zatem:
+\begin{equation*}
+   \begin{aligned}
+      f(x,y)
+      &= 1 + \frac{1}{1!}\big[1(x-0) + 2(y-0)\big] + \frac{1}{2!}\big[1(x-0)^2 + 2(x-0)(y-0) + 4(y-0)^2\big] + R_3(x,y) = \\
+      &= 1 + x + 2y + \frac{1}{2}(x^2 + 2xy + 4y^2) + R_3(x,y)
+   \end{aligned}
+\end{equation*}
+
+Gdzie
+\begin{equation*}
+   \begin{aligned}
+      R_3(x,y)
+      &= \frac{1}{3!}\big[1(x-0)^3 + 2(x-0)^2(y-0) + 4(x-0)(y-0)^2 + 8(y-0)^3\big] = \\
+      &= \frac{1}{6}(x^3 + 2x^2 y + 4xy^2 + 8y^3)
+   \end{aligned}
+\end{equation*}
+
+\subsection*{Odpowiedź}
+\begin{equation*}
+   f(x,y) = 1 + x + 2y + \frac{1}{2}(x^2 + 2xy + 4y^2)
+   + \frac{1}{6}(x^3 + 2x^2 y + 4xy^2 + 8y^3)
+\end{equation*}
+
+\section*{Zadanie 4a}
+
+Zbadać, czy funkcja $f(x,y) = 2|x| + 3|y|$ ma ekstrema lokalne
+
+\subsection*{Rozwiązanie}
+
+\begin{equation*}
+   f(x,y) = 2|x| + 3|y| = 2\sqrt{x^2} + 3\sqrt{y^2}
+\end{equation*}
+
+\begin{equation*}
+   \partderiv{f}{x} = \left(2\sqrt{x^2}\right)' + 0 = 2\frac{x}{\sqrt{x^2}} = \frac{2x}{|x|}
+\end{equation*}
+
+\begin{equation*}
+   \textrm{Analogicznie: } \partderiv{f}{y} = \frac{3y}{|y|}
+\end{equation*}
+
+Zatem z postaci pierwszych pochodnych cząstkowych i z warunku koniecznego
+istnienia ekstremum, wnioskujemy, że może ono występować jedynie w punkcie $(0,0)$.
+
+\begin{equation*}
+   f(0,0) = 2|0| + 3|0| = 0 + 0 = 0
+\end{equation*}
+
+Z definicji:
+\begin{equation*}
+   \exists_{\delta > 0} \forall_{(x,y)} \Bigg[
+      \Big( (x,y) \in S\big((0,0), \delta \big) \Big) \implies \Big( f(x,y) \ge f(0,0) = 0 \Big)
+      \Bigg]
+\end{equation*}
+
+Ponieważ brane są wartości bezwzględne zmiennych $x$ i $y$, powyższa implikacja
+jest prawdziwa.
+
+\subsection*{Odpowiedź}
+
+Funkcja $f$ ma ekstremum \big(minimum w punkcie $(0,0)$\big)
+
+\section*{Zadanie 5b}
+
+Znaleźć ekstrema funkcji $f(x,y) = x^3 + y^3 - 3xy$
+
+\subsection*{Rozwiązanie}
+
+\begin{equation*}
+   \partderiv{f(x,y)}{x} = 3x^2 + 0 - 3y = 3x^2 - 3y
+\end{equation*}
+\begin{equation*}
+   \partderiv{f(x,y)}{x} = 0 + 3y^2 - 3x = 3y^2 - 3x
+\end{equation*}
+
+Wobec warunku koniecznego $\left(\displaystyle \partderiv{f}{x} = 0 \ \land \ \partderiv{f}{y} = 0 \right)$
+funkcja ta może mieć ekstrema tylko w punktach, w których:
+\begin{equation*}
+   \partderiv{f(x,y)}{x} = 3x^2 - 3y = 0
+   \quad\land\quad
+   \partderiv{f(x,y)}{x} = 3y^2 - 3x = 0
+\end{equation*}
+czyli w $(0,0)$ lub $(1,1)$.
+
+\begin{multicols}{2}
+   \noindent
+   \begin{equation*}
+      \frac{\partial^2 f(x,y)}{\partial x^2} = 6x
+   \end{equation*}
+
+   \begin{equation*}
+      \frac{\partial^2 f(x,y)}{\partial x \partial y} = \partderiv{}{y}(3x^2 - 3y) = -3
+   \end{equation*}
+
+   \begin{equation*}
+      \frac{\partial^2 f(x,y)}{\partial y^2} = 6y
+   \end{equation*}
+
+   \begin{equation*}
+      \frac{\partial^2 f(x,y)}{\partial x \partial y} = \partderiv{}{x}(3y^2 - 3x) = -3
+   \end{equation*}
+\end{multicols}
+
+\vspace{1em}
+Dla punktu $(0,0)$:
+$
+\displaystyle
+   \begin{vmatrix}
+      0  & -3 \\
+      -3  & 0 \\
+   \end{vmatrix} = -9 < 0 \implies \textrm{brak ekstremum}
+$
+
+Dla punktu $(1,1)$:
+$
+\displaystyle
+   \begin{vmatrix}
+      6  & -3 \\
+      -3  & 6 \\
+   \end{vmatrix} = 27 > 0 \quad\land\quad \frac{\partial^2 f(1,1)}{\partial x^2} = 6 > 0 \implies \textrm{minimum}
+$
+
+\subsection*{Odpowiedź}
+
+Funkcja ma minimum lokalne w punkcie $(1,1)$
+
+\end{document}

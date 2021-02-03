@@ -1,0 +1,202 @@
+\documentclass{article}
+\usepackage[a4paper, margin={20pt, 50pt}]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage{paralist}
+\usepackage{tabto}
+\usepackage{graphicx}
+\usepackage{etoolbox}
+\usepackage{changepage}
+\usepackage{tasks}
+\usepackage{pgfplots}
+\usepackage{fancyhdr}
+
+\usetikzlibrary{patterns}
+\usetikzlibrary{intersections}
+\usepgfplotslibrary{fillbetween}
+\pagenumbering{gobble}
+
+\DeclareMathOperator{\arctg}{arctg}
+\DeclareMathOperator{\sh}{sh}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\sgn}{sgn}
+
+\let\arctan\relax
+\DeclareMathOperator{\arctan}{arctg}
+\let\tan\relax
+\DeclareMathOperator{\tan}{tg}
+
+%See https://tex.stackexchange.com/a/29367/1952
+\makeatletter
+\tikzset{% customization of pattern
+        hatch distance/.store in=\hatchdistance,
+        hatch distance=5pt,
+        hatch thickness/.store in=\hatchthickness,
+        hatch thickness=5pt
+        }
+\pgfdeclarepatternformonly[\hatchdistance,\hatchthickness]{north east hatch}% name
+    {\pgfqpoint{-1pt}{-1pt}}% below left
+    {\pgfqpoint{\hatchdistance}{\hatchdistance}}% above right
+    {\pgfpoint{\hatchdistance-1pt}{\hatchdistance-1pt}}%
+    {
+        \pgfsetcolor{\tikz@pattern@color}
+        \pgfsetlinewidth{\hatchthickness}
+        \pgfpathmoveto{\pgfqpoint{0pt}{0pt}}
+        \pgfpathlineto{\pgfqpoint{\hatchdistance}{\hatchdistance}}
+        \pgfusepath{stroke}
+    }
+\makeatother
+
+\newcommand{\Because}{\quad\because\quad}
+\newcommand{\case}[1]{\textrm{#1$^\circ$}}
+\newcommand{\degree}{^{\circ}}
+\newcommand{\diff}{\mathop{}\!\mathrm{d}}
+\newcommand{\for}{\ \leftrightarrow\ }
+\newcommand{\Integral}[4]{\int_{#1}^{#2} \! #3 \, \mathop{}\!\mathrm{d}#4}
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\qed}{\textbf{\textit{QED}}}
+\newcommand{\qef}{\textbf{\textit{QEF}}}
+\newcommand{\task}[1]{\textit{#1}}
+\newcommand{\xrowht}[2][0]{\addstackgap[.5\dimexpr#2\relax]{\vphantom{#1}}}
+\newcommand{\partderiv}[2]{\frac{\partial #1}{\partial #2}}
+
+\DeclareMathOperator{\?}{?}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lin}{lin}
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+
+\let\oldepsilon\epsilon \renewcommand{\epsilon}{\varepsilon}
+
+% Koniec dodatkowych deklaracji
+
+\pagestyle{fancy}
+
+\lhead{Analiza Matematyczna 2; 2020/2021}
+% Tutaj proszę uzupełnić imię i nazwisko
+\rhead{Jakub Łukasiewicz}
+
+\begin{document}
+\section*{Zadanie 9.1}
+Obliczyć pole obszaru $D$ ograniczonego krzywymi: $xy=1$, $xy=3$, $y=2x$,
+$y=4x$, $x>0$ (bez stosowania zmiany zmiennych).
+
+\subsection*{Rozwiązanie}
+
+\begin{figure}[h!]
+   \centering
+   \begin{tikzpicture}[scale=1.5]
+
+      \begin{axis}[
+            xmin=0,xmax=3,
+            ymin=0,ymax=5,
+            axis x line=middle,
+            axis y line=middle,
+            axis line style=->,
+            enlargelimits,
+            domain=0:3,
+            samples=100,
+         ]
+         \addplot[name path=F,magenta] {1/x} node[above]{$xy=1$};;
+         \addplot[name path=G,orange]  {3/x} node[above]{$xy=3$};
+         \addplot[name path=H,cyan]    {2*x}; \node[red] at (280,50) {$y=2x$};
+         \addplot[name path=I,blue]    {4*x}; \node[blue] at (150,50) {$y=4x$};
+
+         \addplot[pattern=north east hatch, hatch distance=3mm, hatch thickness=.5pt, pattern color=green!90] fill between[of=H and I];
+         \addplot[pattern=north west lines, pattern color=pink!130] fill between[of=F and G];
+
+         \path [name intersections={of=F and I,by=a}];
+         \node [fill=red,inner sep=1pt,label=-90:$A$] at (a) {};
+
+         \path [name intersections={of=F and H,by=b}];
+         \node [fill=red,inner sep=1pt,label=-90:$B$] at (b) {};
+
+         \path [name intersections={of=G and I,by=c}];
+         \node [fill=red,inner sep=1pt,label=-90:$\Gamma$] at (c) {};
+
+         \path [name intersections={of=G and H,by=d}];
+         \node [fill=red,inner sep=1pt,label=-90:$\Delta$] at (d) {};
+
+         \addplot +[mark=none, gray] coordinates {(sqrt(0.5), 0) (sqrt(0.5), 6)};
+         \addplot +[mark=none, gray] coordinates {(sqrt(0.75), 0) (sqrt(0.75), 6)};
+      \end{axis}
+   \end{tikzpicture}
+\end{figure}
+
+\begin{equation*}
+   \left\{ \begin{array}{l}
+      xy = 1 \\
+      y = 4x
+   \end{array}\right. \implies 4x^2 = 1 \implies A = \left(\frac{1}{2},2\right) \Because x>0
+\end{equation*}
+
+\begin{equation*}
+   \left\{ \begin{array}{l}
+      xy = 1 \\
+      y = 2x
+   \end{array}\right. \implies 2x^2 = 1 \implies B = \left(\sqrt{\frac{1}{2}}, \sqrt{2}\right) \Because x>0
+\end{equation*}
+
+\begin{equation*}
+   \left\{ \begin{array}{l}
+      xy = 3 \\
+      y = 4x
+   \end{array}\right. \implies 4x^2 = 3 \implies \Gamma = \left(\frac{\sqrt{3}}{2}, 2\sqrt{3}\right) \Because x>0
+\end{equation*}
+
+\begin{equation*}
+   \left\{ \begin{array}{l}
+      xy = 3 \\
+      y = 2x
+   \end{array}\right. \implies 2x^2 = 3 \implies \Delta = \left(\sqrt{\frac{3}{2}}, \sqrt{6} \right) \Because x>0
+\end{equation*}
+
+Podzielimy obszar $D$ na trzy podobszary:
+\begin{itemize}
+   \item $D_1 \for \frac{1}{2}        \le x \le \frac{\sqrt{2}}{2}$
+   \item $D_2 \for \frac{\sqrt{2}}{2} \le x \le \frac{\sqrt{3}}{2}$
+   \item $D_3 \for \frac{\sqrt{3}}{2} \le x \le \frac{\sqrt{6}}{2}$
+\end{itemize}
+
+\begin{equation*}
+   S(D_1) = \Integral{\frac{1}{2}}{\frac{\sqrt{2}}{2}}{\left(4x - \frac{1}{x}\right)}{x} =
+   (2x^2 - \ln{|x|}) \Big|_\frac{1}{2}^\frac{\sqrt{2}}{2} =
+   1 - \ln{\frac{\sqrt{2}}{2}} - \frac{1}{2} + \ln{\frac{1}{2}}
+   = \frac{1}{2} - \ln{\frac{\sqrt{2}}{4}}
+\end{equation*}
+
+\begin{equation*}
+   S(D_2) = \Integral{\frac{\sqrt{2}}{2}}{\frac{\sqrt{3}}{2}}{(4x - 2x)}{x} =
+   (x^2) \Big|_\frac{\sqrt{2}}{2}^\frac{\sqrt{3}}{2} =
+   \frac{3}{4} - \frac{2}{4} = \frac{1}{4}
+\end{equation*}
+
+\begin{equation*}
+   S(D_3) = \Integral{\frac{\sqrt{3}}{2}}{\frac{\sqrt{6}}{2}}{\left(\frac{3}{x} - 2x\right)}{x} =
+   (3\ln{|x|} - x^2) \Big|_\frac{\sqrt{3}}{2}^\frac{\sqrt{6}}{2} =
+   3\ln{\frac{\sqrt{6}}{2}} - \frac{6}{4} - 3\ln{\frac{\sqrt{3}}{2}} + \frac{3}{4} =
+   3\ln{\sqrt{2}} - \frac{3}{4}
+\end{equation*}
+
+\begin{equation*}
+   S(D) = S(D_1) + S(D_2) + S(D_3) =
+   \frac{1}{2} - \ln{\frac{\sqrt{2}}{4}} +
+   \frac{1}{4} +
+   3\ln{\sqrt{2}} - \frac{3}{4} =
+   \frac{3}{2}\ln{2} + \frac{3}{2}\ln{2} = 3\ln{2}
+\end{equation*}
+
+\subsection*{Odpowiedź}
+\begin{equation*}
+   3 \ln{2}
+\end{equation*}
+
+\end{document}

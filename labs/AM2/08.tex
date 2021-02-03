@@ -1,0 +1,207 @@
+\documentclass{article}
+\usepackage[a4paper, margin={1in, 1in}]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage{paralist}
+\usepackage{tabto}
+\usepackage{graphicx}
+\usepackage{etoolbox}
+\usepackage{changepage}
+\usepackage{tasks}
+\usepackage{pgfplots}
+\usepackage{fancyhdr}
+
+\DeclareMathOperator{\arctg}{arctg}
+\DeclareMathOperator{\sh}{sh}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\sgn}{sgn}
+
+\let\arctan\relax
+\DeclareMathOperator{\arctan}{arctg}
+\let\tan\relax
+\DeclareMathOperator{\tan}{tg}
+
+% Dodatkowe deklaracje:
+
+\newcommand{\Because}{\quad\because\quad}
+\newcommand{\case}[1]{\textrm{#1$^\circ$}}
+\newcommand{\degree}{^{\circ}}
+\newcommand{\diff}{\mathop{}\!\mathrm{d}}
+\newcommand{\for}{\ \leftrightarrow\ }
+\newcommand{\Integral}[4]{\int_{#1}^{#2} \! #3 \, \mathop{}\!\mathrm{d}#4}
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\qed}{\textbf{\textit{QED}}}
+\newcommand{\qef}{\textbf{\textit{QEF}}}
+\newcommand{\task}[1]{\textit{#1}}
+\newcommand{\xrowht}[2][0]{\addstackgap[.5\dimexpr#2\relax]{\vphantom{#1}}}
+\newcommand{\partderiv}[2]{\frac{\partial #1}{\partial #2}}
+
+\DeclareMathOperator{\?}{?}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lin}{lin}
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+
+\let\oldepsilon\epsilon \renewcommand{\epsilon}{\varepsilon}
+
+% Koniec dodatkowych deklaracji
+
+\pagestyle{fancy}
+
+\lhead{Analiza Matematyczna 2; 2020/2021}
+% Tutaj proszę uzupełnić imię i nazwisko
+\rhead{Jakub Łukasiewicz}
+
+\begin{document}
+\section*{Zadanie 1b}
+Jakie powinny być długość $a$, szerokość $b$ i wysokość $h$ prostopadłościennej
+otwartej wanny o pojemności\,$V$, aby ilość blachy zużytej do jej zrobienia była
+najmniejsza?
+
+\subsection*{Rozwiązanie}
+
+\begin{equation*}
+   S(a,b,h) = ab + 2ah + 2bh =: \textrm{ilość potrzebnej blachy}
+\end{equation*}
+\begin{equation*}
+   V = abh \implies h = \frac{V}{ab} \implies S(a,b) = ab + \frac{2V}{b} + \frac{2V}{a} = ab + 2Va^{-1} + 2Vb^{-1}
+\end{equation*}
+
+Z warunku koniecznego wynika:
+
+\begin{equation} \label{a}
+   \partderiv{S(a,b)}{a} = b - \frac{2V}{a^2} = 0 \implies b = \frac{2V}{a^2} \quad\therefore\quad \left( a, \frac{2V}{a^2} \right)
+\end{equation}
+\begin{equation} \label{b}
+   \partderiv{S(a,b)}{b} = a - \frac{2V}{b^2} = 0 \implies a = \frac{2V}{b^2} \quad\therefore\quad \left( \frac{2V}{b^2}, b \right)
+\end{equation}
+
+\begin{equation*}
+   \begin{vmatrix}
+      \dfrac{\partial^2 S(a,b)}{\partial a^2} & \dfrac{\partial^2 S(a,b)}{\partial a \partial b} \\[1em]
+      \dfrac{\partial^2 S(a,b)}{\partial a \partial b} & \dfrac{\partial^2 S(a,b)}{\partial b^2} \\
+   \end{vmatrix}
+   =
+   \begin{vmatrix}
+      \dfrac{4V}{a^3} & 0 \\[1em]
+      0 & \dfrac{4V}{b^3} \\
+   \end{vmatrix}
+   = \frac{16V^2}{a^3 b^3} > 0
+\end{equation*}
+\begin{equation*}
+   \frac{\partial^2 S(a,b)}{\partial a^2} = 0 - 2V(-2)a^{-3} = \frac{4V}{a^3} > 0 \implies \textrm{znalezione będzie minimum}
+\end{equation*}
+
+Pochodne cząstkowe pierwszego stopnia muszą się zerować w tych samych punktach, stąd:
+\begin{equation*}
+   (\ref{a}) \land (\ref{b}) \implies a = b \implies a = \frac{2V}{a^2} \implies a = \sqrt[3]{2V}\ ;\quad b = \sqrt[3]{2V}
+\end{equation*}
+
+\begin{equation*}
+   h = \frac{V}{ab} = \frac{V}{a\frac{2V}{a^2}} = \frac{1}{\frac{2}{a}} = \frac{a}{2} = \frac{\sqrt[3]{2V}}{2}
+\end{equation*}
+
+\subsection*{Odpowiedź}
+
+\begin{equation*}
+   a = \sqrt[3]{2V}, \ b = \sqrt[3]{2V}, \ h = \frac{\sqrt[3]{2V}}{2}
+\end{equation*}
+
+\section*{Zadanie 1e}
+Obliczyć odległość początku układu współrzędnych od płaszczyzny $\pi: x - 2y + 3z - 6 = 0$
+\subsection*{Rozwiązanie}
+
+\begin{equation*}
+   d(P,p) = \frac{ | Ax_P + By_P + Cz_P + D | }{ \sqrt{A^2 + B^2 + C^2 }} \for P = (x_P,y_P,z_P), \ p = Ax + By + Cz + D = 0
+\end{equation*}
+
+\begin{equation*}
+   d(O,\pi) = \frac{ |0 + 0 + 0 - 6| }{\sqrt{1 + 4 + 9}} = \frac{6}{\sqrt{14}} = \frac{6\sqrt{14}}{7}
+\end{equation*}
+
+\subsection*{Odpowiedź}
+\begin{equation*}
+   d(O,\pi) = \frac{6\sqrt{14}}{7}
+\end{equation*}
+
+\clearpage
+
+\section*{Zadanie 2a}
+Napisać równanie stycznej do krzywej określonej równaniem $x^3 + x - y^3 - y = 0$
+w punkcie $(2,2)$.
+
+\subsection*{Rozwiązanie}
+Przekształćmy równanie krzywej:
+\begin{equation*}
+   x^3 + x - y^3 - y = (x^3 - y^3) + (x-y) = (x-y)(x^2 + xy + y^2) + (x-y) =
+   (x-y)(x^2 + xy + y^2 + 1)
+\end{equation*}
+
+\noindent
+Zatem:
+\begin{equation*}
+   x = y \quad\lor\quad x^2 + xy + y^2 + 1 = 0
+\end{equation*}
+
+\noindent
+Niech $f(x,y) = x^2 + xy + y^2 + 1$
+\begin{equation*}
+   \partderiv{f}{x} = 2x + y
+   \qquad
+   \partderiv{f}{y} = x + 2y
+\end{equation*}
+
+\noindent
+Jedyny punkt w którym obie pochodne się zerują to $(0,0)$, zatem z warunku
+koniecznego tam będziemy szukać ekstremum.
+
+\begin{equation*}
+   \frac{\partial^2 f}{\partial x^2}(0,0) = 2 > 0 \implies \textrm{punkt $(0,0)$ może być minimum}
+\end{equation*}
+
+\begin{equation*}
+   \begin{vmatrix}
+      \dfrac{\partial^2 f}{\partial x^2}(0,0) & \dfrac{\partial^2 f}{\partial x \partial y}(0,0) \\[1em]
+      \dfrac{\partial^2 f}{\partial x \partial y}(0,0) & \dfrac{\partial^2 f}{\partial y^2}(0,0)
+   \end{vmatrix}
+   =
+   \begin{vmatrix}
+      2 & 1 \\
+      1 & 2
+   \end{vmatrix}
+   = 4 - 1 = 3 > 0
+\end{equation*}
+
+\noindent
+Zatem punkt $(0,0)$ jest minimum funkcji $f(x,y)$.
+
+\begin{equation*}
+   f(0,0) = 0 + 0 + 0 + 1 = 1 > 0
+\end{equation*}
+
+\noindent
+Zatem $x^2 + xy + y^2 + 1$ jest zawsze większe od $0$, co oznacza, że:
+\begin{equation*}
+   x^3 + x - y^3 - y = 0 \Leftrightarrow y = x
+\end{equation*}
+
+W takim wypadku niech $y = g(x) = x$. Wtedy równanie stycznej w punkcie $(2,2)$
+przybierze postać:
+\begin{equation*}
+   y = g'(x)(x - 2) + g(2) = 1(x - 2) + 2 = x - 2 + 2 = x
+\end{equation*}
+
+\subsection*{Odpowiedź}
+\begin{equation*}
+   y = x
+\end{equation*}
+
+\end{document}

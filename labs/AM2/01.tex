@@ -1,0 +1,205 @@
+\documentclass{article}
+\usepackage[a4paper, margin={1in, 1in}]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage{paralist}
+\usepackage{tabto}
+\usepackage{graphicx}
+\usepackage{etoolbox}
+\usepackage{changepage}
+\usepackage{tasks}
+\usepackage{pgfplots}
+\usepackage{fancyhdr}
+
+\DeclareMathOperator{\arctg}{arctg}
+\DeclareMathOperator{\sh}{sh}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\sgn}{sgn}
+
+\let\arctan\relax
+\DeclareMathOperator{\arctan}{arctg}
+\let\tan\relax
+\DeclareMathOperator{\tan}{tg}
+
+% Dodatkowe deklaracje:
+
+\newcommand{\case}[1]{\textrm{#1$^\circ$}}
+\newcommand{\degree}{^{\circ}}
+\newcommand{\diff}{\mathop{}\!\mathrm{d}}
+\newcommand{\for}{\ \leftrightarrow\ }
+\newcommand{\Integral}[4]{\int_{#1}^{#2} \! #3 \, \mathop{}\!\mathrm{d}#4}
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\qed}{\textbf{\textit{QED}}}
+\newcommand{\qef}{\textbf{\textit{QEF}}}
+\newcommand{\task}[1]{\textbf{#1}}
+\newcommand{\xrowht}[2][0]{\addstackgap[.5\dimexpr#2\relax]{\vphantom{#1}}}
+
+\let\oldref\ref \renewcommand{\ref}[1]{\mathrm{(\oldref{#1})}}
+
+\DeclareMathOperator{\?}{?}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lin}{lin}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+
+\let\oldepsilon\epsilon \renewcommand{\epsilon}{\varepsilon}
+
+\counterwithin*{equation}{section}  % reset equation counter after each section
+
+\pagestyle{fancy}
+
+\lhead{Analiza Matematyczna 2; 2020/2021}
+% Tutaj proszę uzupełnić imię i nazwisko
+\rhead{Jakub Łukasiewicz}
+
+\begin{document}
+\section*{Zadanie 1b}
+
+\textit{Korzystając z definicji zbadać zbieżność całki niewłaściwej pierwszego rodzaju $\displaystyle \Integral{0}{\infty}{2^{-x}}{x}$}
+
+\subsection*{Rozwiązanie}
+
+\begin{equation} \label{1b1}
+   \Integral{0}{\infty}{2^{-x}}{x} = \lim_{T \to \infty}{\Integral{0}{T}{2^{-x}}{x}}
+\end{equation}
+
+\begin{equation} \label{1b2}
+   \Integral{}{}{2^{-x}}{x} =
+   \begin{vmatrix}
+      t = -x \\
+      \diff{t} = -1 \diff{x} \\
+      \diff{x} = -\diff{t}
+   \end{vmatrix}
+   = -\Integral{}{}{2^{t}}{t}
+   = -\frac{2^{t}}{\ln{2}}
+   = -\frac{2^{-x}}{\ln{2}} + C
+\end{equation}
+
+\begin{equation*}
+   \begin{aligned}
+      \ref{1b1} \land \ref{1b2} \implies \Integral{0}{\infty}{2^{-x}}{x} & = \lim_{T \to \infty} \left[ -\frac{2^{-x}}{\ln{2}} \right]_0^{T} =
+      \lim_{T \to \infty}{ \left( -\frac{2^{-T}}{\ln{2}} + \frac{2^{-0}}{\ln{2}} \right) } =
+      \lim_{T \to \infty}{ \left( \frac{-2^{-T} + 1}{\ln{2}} \right) } = \\
+      &= \frac{1}{\ln{2}} \ \lim_{T \to \infty}{ \left( \frac{-1}{2^T} + 1 \right) } =
+      \frac{0 + 1}{\ln{2}} = \frac{1}{\ln{2}}
+   \end{aligned}
+\end{equation*}
+
+\subsection*{Odpowiedź}
+
+\centerline{Całka $\displaystyle \Integral{0}{\infty}{2^{-x}}{x}$ jest
+\textbf{zbieżna} do $\displaystyle \frac{1}{\ln{2}}$}
+
+\clearpage
+
+\section*{Zadanie 3b}
+
+\textit{Zbadać zbieżność i zbieżność bezwzględną całki niewłaściwej $\displaystyle \Integral{\pi}{\infty}{x \cos{2x}}{x}$}
+
+\subsection*{Rozwiązanie}
+
+\setcounter{equation}{0}
+
+\begin{equation} \label{1}
+   \Integral{\pi}{\infty}{x \cos{2x}}{x} = \lim_{T \to \infty} \Integral{\pi}{T}{x \cos{2x}}{x}
+\end{equation}
+
+\begin{equation} \label{2}
+   \begin{aligned}
+      \Integral{}{}{x \cos{2x}}{x} &=
+      \Integral{}{}{\frac{2x}{2} \cos{2x}}{x} =
+      \begin{vmatrix}
+         t = 2x \\[6pt]
+         \diff{t} = 2 \diff{x} \\[6pt]
+         \displaystyle \diff{x} = \frac{\diff{t}}{2}
+      \end{vmatrix} =
+      \Integral{}{}{\frac{t}{4} \cos{t}}{t} = \frac{1}{4}\Integral{}{}{t \cos{t}}{t} = \\
+      &= \frac{1}{4}\Integral{}{}{t (\sin{t})'}{t} =
+      \frac{1}{4}\left( t\sin{t} - \Integral{}{}{\sin{t}}{t} \right) =
+      \frac{1}{4}\left( t\sin{t} - (-\cos{t}) \right) = \\
+      &= \frac{1}{4}\left( t\sin{t} - (-\cos{t}) \right) = \frac{1}{4}\left( t\sin{t} + \cos{t} \right) =
+      \frac{1}{4}\left( t\sin{t} + \cos{t} \right) =\\
+      &= \frac{1}{4}\left( 2x\sin{2x} + \cos{2x} \right) + C
+   \end{aligned}
+\end{equation}
+
+\begin{equation}
+   \ref{1} \land \ref{2} \implies \Integral{\pi}{\infty}{x \cos{2x}}{x} =
+   \lim_{T \to \infty} \left[ \frac{1}{4}\left( 2x\sin{2x} + \cos{2x} \right) \right]_\pi^{T}
+   \in \varnothing
+\end{equation}
+
+\begin{figure}[h!]
+   \centering
+   \begin{tikzpicture}[>=stealth]
+      \begin{axis}[
+            xmin=-10,xmax=10,
+            ymin=-30,ymax=30,
+            axis x line=middle,
+            axis y line=middle,
+            axis line style=->,
+            xlabel={$x$},
+            ylabel={$y$},legend pos=outer north east
+         ]
+         \legend{$2x\sin{2x} + \cos{2x}$}
+         \addplot[blue] expression[domain=-100:100,samples=1000]{2*x * sin(deg(2*x)) + cos(deg(2*x))};
+      \end{axis}
+   \end{tikzpicture}
+\end{figure}
+
+\subsection*{Odpowiedź}
+
+Granica nie istnieje, zatem całka niewłaściwa jest \textbf{rozbieżna},
+a z \textit{twierdzenia o zbieżności całek niewłaściwych zbieżnych bezwględnie} wynika, że
+\textbf{nie} jest zbieżna bezwględnie.
+
+\clearpage
+
+\section*{Zadanie 5b}
+
+\textit{Korzystając z kryterium porównawczego lub ilorazowego zbadać zbieżność całki
+niewłaściwej drugiego rodzaju $\displaystyle \Integral{\pi}{2}{\frac{e^x}{x^3}}{x}$}
+
+\textit{\tiny Źle przepisany przykład - powinno być: $\displaystyle \Integral{0}{2}{\frac{e^x}{x^3}}{x}$}
+
+\subsection*{Rozwiązanie}
+
+\setcounter{equation}{0}
+
+\begin{equation} \label{5b1}
+   \textrm{ Przyjmując w \textit{kryterium ilorazowym}:\quad}
+   f(x) = \frac{1}{x^3} \quad\land\quad g(x) = \frac{e^x}{x^3}
+\end{equation}
+
+\begin{equation}
+   \ref{5b1} \implies k = \lim_{x \to \pi^+}{\left( \frac{1}{x^3} \div \frac{e^x}{x^3} \right)}
+     = \lim_{x \to \pi^+}{\left( \frac{1}{x^3} \cdot \frac{x^3}{e^x} \right)}
+     = \lim_{x \to \pi^+}{\frac{1}{e^x}}
+     = \frac{1}{e^\pi}
+\end{equation}
+
+\vspace{1.5em}
+
+Sprawdzenie zbieżności całki $\Integral{\pi}{2}{f(x)}{x}$
+
+\begin{equation}
+   \Integral{\pi}{2}{\frac{1}{x^3}}{x} =
+   \lim_{T \to 2}{\Integral{\pi}{T}{\frac{1}{x^3}}{x}} =
+   \lim_{T \to 2}{\left[ -\frac{1}{2x^2} \right]_\pi^T} =
+   \lim_{T \to 2}{\left( -\frac{1}{2T^2} + \frac{1}{2\pi^2} \right)} =
+   -\frac{1}{8} + \frac{1}{2\pi^2} = \frac{4-\pi^2}{8\pi^2}
+\end{equation}
+
+\subsection*{Odpowiedź}
+
+Całka $\displaystyle \Integral{\pi}{2}{\frac{1}{x^3}}{x} $ jest zbieżna oraz
+$0 < k < \infty $, zatem badana całka jest również \textbf{zbieżna}
+
+\end{document}
