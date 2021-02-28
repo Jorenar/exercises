@@ -1,0 +1,1185 @@
+\documentclass[12pt]{book}
+
+\usepackage[a4paper, vmargin=20pt, hmargin=50pt, head=16pt, includehead]{geometry}
+\usepackage[inline]{enumitem}
+\usepackage{amsmath}     % math
+\usepackage{amssymb}     % math symbols
+\usepackage{caption}
+\usepackage{changepage}  % for the adjustwidth environment
+\usepackage{enumitem}    % enumerate/list items
+\usepackage{fancyhdr}    % header
+\usepackage{fancyvrb}
+\usepackage{mathtools}   % math tools
+\usepackage{multicol}    % multiple columns
+\usepackage{pgfplots}    % graphs
+\usepackage{soul}
+\usepackage{stackengine} % stacking objects vertically
+\usepackage{titlesec}    % alternative section titles
+\usepackage{varwidth}
+\usepackage{xcolor}      % color text
+
+\usepgfplotslibrary{fillbetween}
+
+\newcommand{\Because}{\quad\because\quad}
+\newcommand{\case}[1]{\textrm{#1$^\circ$}}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\degree}{^{\circ}}
+\newcommand{\diff}{\mathop{}\!\mathrm{d}}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\for}{\ \leftrightarrow\ }
+\newcommand{\Integral}[4]{\int_{#1}^{#2} \! #3 \, \mathop{}\!\mathrm{d}#4}
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\qed}{\textbf{\textit{QED}}}
+\newcommand{\qef}{\textbf{\textit{QEF}}}
+\newcommand{\xrowht}[2][0]{\addstackgap[.5\dimexpr#2\relax]{\vphantom{#1}}}
+\newcommand{\Land}{\quad\land\quad}
+\newcommand{\Lor}{\quad\lor\quad}
+
+\let\oldref\ref
+\renewcommand{\ref}[1]{\mathrm{(\oldref{#1})}}
+
+\DeclareMathOperator{\?}{?}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\lin}{lin}
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+
+\counterwithout{equation}{section} % reset equation counter after each section
+\counterwithout{equation}{chapter} % remove the chapter number
+
+\titleformat{\section}{\normalfont\Large\bfseries}{}{0pt}{} % remove section numbering
+
+\titleformat{\chapter}[display]{\normalfont\Huge\bfseries\centering}{}{0pt}{}
+
+\let\stdsection\section  \renewcommand\section{\clearpage\stdsection} % each section on new page
+
+\setlength{\parskip}{0.7em}
+\setlength{\parindent}{0em}
+
+\pagestyle{fancy}
+%
+\renewcommand{\chaptermark}[1]{ \markboth{#1}{} }
+\renewcommand{\sectionmark}[1]{ \markright{#1}{} }
+%
+\lhead{Matematyka dyskretna}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\chead{\leftmark}
+\rhead{\rightmark}
+
+\renewcommand*\contentsname{Zadania}
+
+\begin{document}
+\tableofcontents
+\chapter{Zestaw 1}
+\section{Zadanie 10a}
+
+Rozważamy punkty na płaszczyźnie o obu współrzędnych całkowitych.
+Załóżmy, że znajdując się w punkcie $(x,y)$ można wykonać ruch "w górę" do
+punktu $(x,y+ 1)$ lub "w prawo" do $(x+ 1,y)$.
+
+Na ile sposobów można sekwencją ruchów przejść z punktu $(0,0)$ do
+punktu $(m,n) \for m,n \ge 0$?
+
+\subsection*{Rozwiązanie}
+
+$m,n \ge 0 \implies$ da się dojść z $(0,0)$ do $(m,n)$ wykonując jedyne dane ruchy "w górę" i "w prawo"
+
+Ponieważ przemieszczenie następuje po siatce, to aby przejść z punktu $(0,0)$
+do punktu $(m,n)$ zawsze należy wykonać $m$ ruchów "w prawo" oraz $n$ ruchów
+"w górę". Łączna ilość potrzebnych do wykonania ruchów zatem wynosi $m+n$.
+
+Z racji iż następuje przemieszczenie, ma znaczenie kolejność sekwencji ruchów.
+
+Ponieważ jeden ruch "w górę" jest nierozróżnialny od reszty ruchów "w górę"
+(analogicznie dla ruchu "w prawo"), aby wyznaczyć liczbę możliwych sposobów
+dojścia do punktu $(m,n)$, wystarczy wybrać miejsca w sekwencji na których
+znajdują się ruchy "w górę"/"w prawo" a na pozostałych miejscach umieścić
+resztę ruchów.
+
+\subsection*{Odpowiedź}
+
+\centerline{ $\displaystyle \binom{m+n}{m}$ lub $\displaystyle \binom{m+n}{n}$ }
+
+\section{Zadanie 14}
+Przy okrągłym stole króla Artura zasiada 12 rycerzy i żadne miejsce nie
+jest wyróżnione. Na ile sposobów można posadzić rycerzy przy tym stole? Na ile
+sposobów można to zrobić, jeśli sir\,Lancelot nie może siedzieć obok sir Galahada?
+
+\subsection*{Rozwiązanie}
+
+Ilość miejsc: 12
+
+Zgodnie z etykietą, rozsadzać zacznijmy od króla (\texttt{K*}). Następnie rozsadzamy rycerzy.
+
+\begin{verbatim}
+     K*
+...  --  --  --  -- ...   =>  11!
+         11  10   9
+\end{verbatim}
+
+\vspace{1.5em}
+
+W przypadku gdy sir Lancelot nie może siedzieć obok sir Galahada, zaczniemy od
+sir Lancelota. Sadowimy wpierw Lancelota (\texttt{L*}), następnie po jego bokach
+kogokolwiek innego niż Galahad. Z pozostałych uczestników wykluczamy na razie
+Galahada. Po jednej stronie Lancelota możemy zatem wybierać spośród 10. Po
+dokonaniu tego wyboru, na drugą stronę pozostaje 9. Po obsadzeniu tych trzech,
+"odkładamy" Galahada do puli i na pozostałych dziewięciu miejscach obsadzamy resztę zgromadzenia.
+
+\begin{verbatim}
+                    L*
+... --  --  --  --  --  --  --  --  -- ...
+     3   2   1  10       9   9   8   7
+\end{verbatim}
+
+\[ 10 \cdot 9 \cdot 9! = 9 \cdot 10! \]
+
+\subsection*{Odpowiedź}
+
+W przypadku ogólnym: $11!$
+
+Jeżeli Lancelot nie może siedzieć obok Galahada: $\displaystyle 9 \cdot 10!$
+
+\section{Zadanie 16}
+Na ile sposobów można stworzyć deser zawierający 3 gałki lodów, jeśli mamy
+do dyspozycji cztery smaki: czekoladowy, śmietankowy, truskawkowy i waniliowy?
+Wybrane smaki mogą się powtarzać, ale ich kolejność nie ma znaczenia.
+
+\subsection*{Rozwiązanie}
+Jest to kombinacja z powtórzeniami.  Liczba $k$-elementowych kombinacji
+z~powtórzeniami zbioru $n$-elementowego wyraża się wzorem:
+$\quad \displaystyle \overline{C}_k^n = \binom{k + n - 1}{k}$
+
+W zadaniu $n = 4$ oraz $k = 3$, zatem: $\quad \displaystyle \overline{C}_4^3 = \binom{3 + 4 - 1}{3} = \binom{6}{3} = 20$
+
+\subsection*{Odpowiedź}
+
+\[ \overline{C}_4^3 = \binom{6}{3} = 20 \]
+
+
+\chapter{Zestaw 2}
+\section{Zadanie 2}
+Ile różnych napisów 5-literowych można utworzyć używając liter ze słowa
+"MATEMATYKA", a~ile z~liter ze słowa "DYSKRETNA"?
+
+\subsection*{Rozwiązanie}
+
+Niech słowo "MATEMATYKA" to lista\footnote{Struktura danych jak programistyce}
+$Q$, a "DYSKRETNA" to lista $U$
+
+Niech $f: X \to \mathbb{N}$, gdzie $X$ to lista liter, będzie funkcją wskazującą,
+ile dla danej liczby można utworzyć 5-literowych napisów
+
+\subsubsection*{"MATEMATYKA"}
+
+\begin{figure}[h!]
+   \center
+   \begin{BVerbatim}
+   Q = { 'M', 'A', 'T', 'E', 'M', 'A', 'T', 'Y', 'K', 'A' } =
+   = { 'A', 'A', 'A', 'E', 'K', 'M', 'M', 'T', 'T', 'Y' }
+   \end{BVerbatim}
+\end{figure}
+
+Należy zwrócić uwagę na powtarzające się litery.
+
+Litera \texttt{'A'} powtarza się $3$ razy, litera \texttt{'M'} powtarza się
+$2$ razy, a litera \texttt{'T'} powtarza się $2$ razy.
+
+Gdyby listę $Q$ zmienić w zbiór, to \texttt{Q' = \{ 'A', 'E', 'K', 'M', 'T', 'Y' \}}
+
+Możliwe przypadki:
+
+\begin{adjustwidth}{2em}{}
+   \case{1}: wszystkie litery \texttt{'A'} użyte
+
+   \begin{adjustwidth}{1em}{}
+      \case{1.1}: oraz obie \texttt{'M'} lub \texttt{'T'}
+      \begin{adjustwidth}{3em}{}
+         Wybór miejsc dla \texttt{'A'} oraz wybór pomiędzy \texttt{'M'} a \texttt{'T'}: $\displaystyle \binom{5}{3} \cdot 2 $
+      \end{adjustwidth}
+
+      \case{1.2}: oraz brak dodatkowych powtórzeń
+      \begin{adjustwidth}{3em}{}
+         Wybór miejsc dla \texttt{'A'} oraz dwóch liter z pozostałych w zbiorze $Q'$: $ \displaystyle \binom{5}{3} \cdot 5 \cdot 4 $
+      \end{adjustwidth}
+
+   \end{adjustwidth}
+
+   \case{2}: dwie pary
+   \begin{adjustwidth}{1em}{}
+      \case{2.1}: jedna z nich to para liter \texttt{'A'}
+      \begin{adjustwidth}{3em}{}
+         Wybór miejsc dla \texttt{'A'}, wybór miejsc dla drugiej pary, wybór między \texttt{'M'} a \texttt{'T'}, wybór ostatniej litery:
+         $ \displaystyle \binom{5}{2} \cdot \binom{3}{2} \cdot 2 \cdot 4 $
+      \end{adjustwidth}
+
+      \case{2.2}: brak par \texttt{'A'}
+      \begin{adjustwidth}{3em}{}
+         Wybór miejsc dla jednej z par, wybór miejsc dla drugiej pary, wybór
+         ostatniej litery z wykluczeniem \texttt{'A'}:
+         $ \displaystyle \binom{5}{2} \cdot \binom{3}{2} \cdot 4 $
+      \end{adjustwidth}
+
+   \end{adjustwidth}
+
+   \begin{samepage}
+      \case{3}: jedna para
+      \begin{adjustwidth}{1em}{}
+
+         \case{3.1}: para \texttt{'A'}
+         \begin{adjustwidth}{3em}{}
+            Wybór miejsc dla pary, wybranie pozostałych liter z pominięciem \texttt{'A'}:
+            $ \displaystyle \binom{5}{2} \cdot 5 \cdot 4 \cdot 3 $
+         \end{adjustwidth}
+
+         \case{3.2}: para nie \texttt{'A'}
+         \begin{adjustwidth}{3em}{}
+            Miejsa dla pary, wybór między \texttt{'M'} a \texttt{'T'}, wybranie pozostałych liter:
+            $ \displaystyle \binom{5}{2} \cdot 2 \cdot 5 \cdot 4 \cdot 3 $
+         \end{adjustwidth}
+
+      \end{adjustwidth}
+
+   \end{samepage}
+
+   \case{4}: brak powtórzeń
+   \[ V_5^6 = \frac{6!}{1!} = 6! \]
+
+\end{adjustwidth}
+
+Zbierając wszystkie przypadki razem, wychodzi:
+\begin{equation*}
+   \begin{aligned}
+      f(Q) &= \binom{5}{3} \cdot 2 + \binom{5}{3} \cdot 5 \cdot 4 +
+      \binom{5}{2} \cdot \binom{3}{2} \cdot 2 \cdot 4 +
+      \binom{5}{2} \cdot \binom{3}{2} \cdot 4 +
+      \binom{5}{2} \cdot 5 \cdot 4 \cdot 3 +
+      \binom{5}{2} \cdot 2 \cdot 5 \cdot 4 \cdot 3 +
+      6! =\\
+      &= \binom{5}{3} \cdot 22 + \binom{5}{2} \cdot (21 + 12 + 60 + 120) + 6! =\\
+      &= \binom{5}{3} \cdot 22 + \binom{5}{2} \cdot 213 + 720 =\\
+      &= 220 + 2130 + 720 =\\
+      &= 3070
+   \end{aligned}
+\end{equation*}
+
+\subsubsection*{"DYSKRETNA"}
+
+\begin{figure}[h!]
+   \center
+   \begin{BVerbatim}
+   U = { 'D', 'Y', 'S', 'K', 'R', 'E', 'T', 'N', 'A' } =
+   = { 'A', 'D', 'E', 'K', 'N', 'R', 'S', 'T', 'Y' }
+   \end{BVerbatim}
+\end{figure}
+
+W przypadku "DYSKRETNA", gdyby zmienić listę $B$ na zbiór, nic by się nie zmieniło,
+gdyż żadna z liter się nie powtarza. Oznacza to, że lista $B$ jest de facto zbiorem.
+Zatem problem sprowadza się do prostej wariacji bez powtórzeń:
+\[
+   f(U) = \scalebox{1.35}{$V$}^{\#B}_5 = \frac{(\#B)!}{(\#B - 5)!} = \frac{9!}{4!} = 9 \cdot 8 \cdot 7 \cdot 6 \cdot 5 = 15\ 120
+\]
+
+\subsection*{Odpowiedź}
+
+"MATEMATYKA": $3070$
+
+"DYSKRETNA": $15\ 120$
+
+\chapter{Zestaw 3}
+\section{Zadanie 2b}
+Ile jest liczb pięciocyfrowych, które nie są podzielne przez 3, 5 ani 8?
+
+\vspace{-0.5em}\subsection*{Rozwiązanie}
+
+Niech: \vspace{-1em}
+\begin{itemize}
+   \item[] $X$ - zbiór liczb pięciocyfrowych
+   \item[] $A$ - zbiór liczb pięciocyfrowych podzielnych przez $3$
+   \item[] $B$ - zbiór liczb pięciocyfrowych podzielnych przez $5$
+   \item[] $C$ - zbiór liczb pięciocyfrowych podzielnych przez $8$
+\end{itemize}
+
+Moc zbioru $X$ to różnica największej liczby pięcio- i czterocyfrowej:
+\begin{equation*}
+   \#X = 99999 - 9999 = 90000
+\end{equation*}
+
+Co $n$-ta liczba będzie podzielna przez $n$. Ich ilość można wyrazić poprzez $\displaystyle \floor{\frac{\#X}{n}}$, zatem:
+\begin{align*}
+   \#A = \floor{90000 \div 3} = 30000 \\
+   \#B = \floor{90000 \div 5} = 18000 \\
+   \#C = \floor{90000 \div 8} = 11250
+\end{align*}
+
+Zbiór liczb pięciocyfrowych podzielnych przez $3$ lub $5$ lub $8$, to suma zbiorów $A$, $B$ i $C$
+
+Z zasady włączeń i wyłączeń dla trzech zbiorów:
+\begin{equation*}
+   \#(A \cup B \cup C) = \#A + \#B + \#C - \#(A \cap B) - \#(A \cap C) - \#(B \cap C) + \#(A \cap B \cap C)
+\end{equation*}
+
+\vspace{-1em}gdzie\vspace{-1em}
+\begin{itemize}
+   \item[] $A \cap B$        - podzielne przez $3$ i $5$, więc przez $\lcm(3,5) = 15$
+   \item[] $A \cap C$        - podzielne przez $3$ i $8$, więc przez $\lcm(3,8) = 24$
+   \item[] $B \cap C$        - podzielne przez $5$ i $8$, więc przez $\lcm(5,8) = 40$
+   \item[] $A \cap B \cap C$ - zbiór liczb pięciocyfrowych podzielnych przez $\lcm(3,5,8) = 120$
+\end{itemize}
+
+Zatem\vspace{-1em}
+\begin{align*}
+   \#(A \cap B) = \floor{90000 \div 15} = 6000 \\
+   \#(A \cap C) = \floor{90000 \div 24} = 3750 \\
+   \#(B \cap C) = \floor{90000 \div 40} = 2250 \\
+   \#(A \cap B \cap C) = \floor{90000 \div 120} = 750
+\end{align*}
+
+Stąd, liczb pięciocyfrowych podzielnych przez $3$ lub $5$ lub $8$ jest:
+\begin{equation*}
+   \#(A \cup B \cup C) = 30000 + 18000 + 11500 - 6000 - 3750 - 2250 + 750 = 48250
+\end{equation*}
+
+Pytanie było o liczby niepodzielne, zatem szukane są wszystkie pozostałe: $90000-48250=\mathbf{41750}$
+
+\vspace{1em}
+
+\section{Zadanie 7a}
+Na ile sposobów można posadzić trzech Anglików, trzech Francuzów i czterech
+Turków w jednym rzędzie tak, by żadna trójka rodaków nie siedziała obok siebie?
+
+\subsection*{Rozwiązanie}
+
+Niech: $\dots$ - możliwe usadowienia ludzi, aby trzech $\dots$ siedziało obok siebie
+\vspace{-1em}\begin{itemize}
+   \item[] $A$ - Anglików
+   \item[] $F$ - Francuzów
+   \item[] $T$ - Turków
+\end{itemize}
+
+3 Anglików + 3 Francuzów + 4 Turków = 10 miejsc
+
+Wybierajmy miejsca dla trójki wg miejsca środkowego. Miejsce środkowe nie może
+być na brzegach, zatem istnieje $10-2=8$ możliwości.
+
+Zatem
+\vspace{-1em}\begin{itemize}
+   \item[] $\#A = 3! \cdot \binom{8}{1} \cdot 7! = 6 \cdot 8!$
+   \item[] $\#F = 3! \cdot \binom{8}{1} \cdot 7! = 6 \cdot 8!$
+   \item[] $\#T = \frac{4!}{1!} \cdot \binom{8}{1} \cdot 7! = 24 \cdot 8!$
+\end{itemize}
+
+Wybór w przypadku iloczynów zbiorów będzie wyglądał nieco inaczej. Wpierw
+niech zajęte będą trzy miejsca przez jednych rodaków, następnie niech wybór padnie
+po której stronie (prawo/lewo) będzie siedzieć następna trójka, a na koniec ile
+miejsc wolnych będzie pomiędzy nimi (max. $10-3-3=4$). Zatem:
+\vspace{-1em}\begin{itemize}
+   \item[] $\#(A \cap F) = 3! \cdot 2 \cdot 3! \cdot 4 \cdot 4! = 3! \cdot 2 \cdot 4! \cdot 4!$
+   \item[] $\vdots$
+\end{itemize}
+
+Na koniec, dla $\#(A \cap F \cap T)$, wpierw permutacje kolejności trójek rodaków, następnie
+wybieramy gdzie będzie siedział czwarty Turek i permutacje osób w trójkach.
+
+Ostatecznie, korzystamy z zasady włączeń-wyłączeń, aby obliczyć $\#(A\cup F \cup T)$
+i wynik odejmujemy od wszystkich możliwych kombinacji, aby otrzymać liczbę usadzeń,
+gdzie nie siedzą obok siebie.
+
+\section{Zadanie 18}
+Przy pomocy wielomianu szachowego znaleźć liczbę 6-literowych napisów
+złożonych z trzech liter A, dwóch liter B i litery C, w których A nie występuje
+na pierwszym ani ostatnim miejscu, B nie występuje na drugim, trzecim ani czwartym
+miejscu i C nie występuje na piątym miejscu.
+
+\begin{table}[h!]
+   \centering
+   \begin{tabular}{ccccccc}
+      &
+      1 &
+      2 &
+      3 &
+      4 &
+      5 &
+      6 \\ \cline{2-7}
+      \multicolumn{1}{c|}{A} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{X} \\ \cline{2-7}
+      \multicolumn{1}{c|}{A} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{X} \\ \cline{2-7}
+      \multicolumn{1}{c|}{A} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{X} \\ \cline{2-7}
+      \multicolumn{1}{c|}{B} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} \\ \cline{2-7}
+      \multicolumn{1}{c|}{B} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} \\ \cline{2-7}
+      \multicolumn{1}{c|}{C} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{} \\ \cline{2-7}
+   \end{tabular}
+   \caption*{$\beta$}
+\end{table}
+
+\begin{table}[h!]
+   \centering
+   \begin{tabular}{ccccccc}
+      &
+      5 &
+      2 &
+      3 &
+      4 &
+      1 &
+      6 \\ \cline{2-7}
+      \multicolumn{1}{c|}{A} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{X} \\ \cline{2-7}
+      \multicolumn{1}{c|}{A} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{X} \\ \cline{2-7}
+      \multicolumn{1}{c|}{A} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{X} \\ \cline{2-7}
+      \multicolumn{1}{c|}{B} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} \\ \cline{2-7}
+      \multicolumn{1}{c|}{B} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} \\ \cline{2-7}
+      \multicolumn{1}{c|}{C} &
+      \multicolumn{1}{c|}{X} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} &
+      \multicolumn{1}{c|}{} \\ \cline{2-7}
+   \end{tabular}
+   \caption*{$\beta'$}
+\end{table}
+
+\begin{equation*}
+   r_{\overline{\beta'}}(x) = (1 + 6x + 6x^2)(1+6x+6x^2)(1+x) =
+   1 + 13x + 60x^2 + 120x^3 + 108x^4 + 36x^5
+\end{equation*}
+
+\begin{equation*}
+   [x^6] r_{\beta}(x) = 6! - 5!\cdot 13 + 4!\cdot 60 - 3!\cdot 120 + 2!\cdot 108 - 36 = 60
+\end{equation*}
+
+\begin{equation*}
+   \frac{[x^6] r_{\beta}(x)}{3!2!1!} = \frac{60}{12} = 5
+\end{equation*}
+
+\subsection*{Odpowiedź}
+
+Istnieje 5 takich napisów
+
+\chapter{Zestaw 4}
+\section{Zadanie 4b}
+Udowodnić, że dla dowolnego $n \ge 1$ w zbiorze $n$ liczb całkowitych
+istnieje niepusty podzbiór, którego suma dzieli się przez $n$.
+
+\subsection*{Rozwiązanie}
+
+Oznaczmy rozpatrywany zbiór jako $A = \{ a_1, a_2, \dots, a_n \}$
+
+Spójrzmy kolejno na sumy $a_1$, \ $a_1 + a_2$, \ \dots, \ $a_1 + a_2 + \dots + a_n$.
+Sum tego typu jest $n$.
+
+W przypadku, gdy żadna z nich nie jest podzielna przez $n$, to każda w dzieleniu
+przez $n$ daje resztę z przedziału od $1$ do $n-1$, ergo możliwych reszt jest $n-1$.
+
+Szufladkując powyższe sumy wg reszt, przynajmniej do jednej z szufladek trafią co najmniej dwie.
+
+Zatem te dwie sumy to liczby postaci $bn + r$ oraz $cn + r$.
+
+Różnica sum współdzielących szufladkę jest podzielna przez $n$, gdyż
+\[ bn + r - (cn + r) = bn - cn = n(b-c) \]
+Ponieważ były to sumy kolejnych elementów, to $n(b-c)$ jest równe sumie typu:
+\[ a_i + a_{i+1} + \dots + a_j \for 0 < i \le j \]
+
+\qed
+
+\section{Zadanie 5b}
+Ze zbioru $\{1,2,\dots,2n\}$ wybrano $n+1$ różnych liczb. Pokazać, że musi wśród nich istnieć
+liczba będąca wielokrotnością pewnej innej liczby z tego zbioru.
+
+\subsection*{Rozwiązanie}
+Każdą liczbę naturalną z przedziału od $1$ do $2n$ można zapisać jednoznacznie
+w postaci $2^k (2m+1)$, gdzie $0 \le m \le n-1$.
+
+Niech funkcja $f$ przyporządkowuje argumentowi odpowiadającą mu liczbę $m$.
+
+Dziedzina funkcji $f$, to zbiór o mocy $n+1$, zaś może ona przyjąć nie więcej
+niż $n$ wartości, gdyż:
+\begin{equation*}
+   2n \ge 2^k(2m+1) \ge 2m+1 \implies 0 \le m \le n-1
+\end{equation*}
+
+Zatem $f$ nie jest injekcją. Stąd, szufladkując względem wartości $m$, wiadomo,
+że istnieje przynajmniej jedna szufladka, w której znajdą się dwie liczby.
+
+To oznacza, że dla dwóch liczb $2m+1 = t$ będzie takie samo, czyli w praktyce
+istnieją dwie liczby: $2^i t$ oraz $2^j t$, a jedna z nich musi być podzielna
+przez drugą (różnią się o potęgę dwójki).
+
+\qed
+
+\section{Zadanie 15}
+Na płaszczyźnie danych jest 5 punktów kratowych. Pokazać, że środek jednego
+z odcinków łączących te punkty jest również punktem kratowym. Ile punktów kratowych
+potrzeba aby uzyskać ten sam rezultat w przestrzeni $\R^3$? A ile ogólnie w $\R^k$?
+
+\subsection*{Rozwiązanie}
+Współrzędne środka odcinka to średnia współrzędnych jego końców.
+
+Średnia arytmetyczna jest liczbą całkowitą, gdy suma jest liczbą parzystą, czyli
+współrzędne tej samej osi obu końców muszą być tej samej parzystości.
+
+Istnieje $2^2$ kombinacji ustawienia współrzędnych wg kryterium parzystości, tj.:\\
+$(p,p)$, $(p,r)$, $(r,p)$, $(r,r)$ - gdzie $p$ to parzyste, a $r$ nieparzyste.
+
+$2^2 = 4$, a punktów jest 5, zatem szufladkując punkty wg parzystości współrzędnych,
+widać, że przynajmniej dwa punkty będą w jednej szufladce.
+
+Zatem odcinek łączący te dwa punkty ma środek w punkcie kratowym.
+
+\qed
+
+\vspace{2em}
+
+W przypadku wyższych przestrzeni zasada jest taka sama. Zmienia się tylko liczba
+kombinacji na $2^n$, zatem w przestrzeni $\R^n$ potrzeba przynajmniej $2^n + 1$
+punktów, by mieć pewność.
+
+\subsection*{Odpowiedź}
+
+\centerline{Dla $ \R^3: 2^3 + 1 = 9 $}
+\centerline{Dla $ \R^n: 2^n + 1 $}
+
+\chapter{Zestaw 5}
+\section{Zadanie 6}
+Zdefiniujmy zbiory $B_i = \{i,(i+ 1) \pmod{7}, (i+ 3) \pmod{7} \} \subset \Z_7 \for i= 0,\dots,6$.
+Pokazać, że rodzina $\{B_0,\dots,B_6\}$ jest konfiguracją kombinatoryczną na zbiorze
+$\Z_7$ oraz wyznaczyć jej parametry i macierz incydencji.
+\subsection*{Rozwiązanie}
+
+Ponieważ $n$ jest niewielkie, najprościej jest wypisać wszystkie zbiory $B_i$:
+\begin{align*}
+   B_0 = \{ 0, 1, 3 \} \\
+   B_1 = \{ 1, 2, 4 \} \\
+   B_2 = \{ 2, 3, 5 \} \\
+   B_3 = \{ 3, 4, 6 \} \\
+   B_4 = \{ 4, 5, 0 \} \\
+   B_5 = \{ 5, 6, 1 \} \\
+   B_6 = \{ 6, 0, 2 \} \\
+\end{align*}
+
+Skąd można wyczytać, że jest to:
+\vspace{-1em}\begin{itemize}
+   \item 1-konfiguracja o parametrach $(7, 3, 3)$
+   \item 2-konfiguracja o parametrach $(7, 3, 1)$ \textit{ \scriptsize (szukane)}
+\end{itemize}
+
+\begin{table}[h!]
+   \center
+   \begin{tabular}{c|ccccccc}
+      & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ \\ \hline
+      $B_0$ & $1$ & $1$ & $0$ & $1$ & $0$ & $0$ & $0$ \\
+      $B_1$ & $0$ & $1$ & $1$ & $0$ & $1$ & $0$ & $0$ \\
+      $B_2$ & $0$ & $0$ & $1$ & $1$ & $0$ & $1$ & $0$ \\
+      $B_3$ & $0$ & $0$ & $0$ & $1$ & $1$ & $0$ & $1$ \\
+      $B_4$ & $1$ & $0$ & $0$ & $0$ & $1$ & $1$ & $0$ \\
+      $B_5$ & $0$ & $1$ & $0$ & $0$ & $0$ & $1$ & $1$ \\
+      $B_6$ & $1$ & $0$ & $1$ & $0$ & $0$ & $0$ & $1$
+   \end{tabular}
+\end{table}
+
+\subsection*{Odpowiedź}
+
+Jest to konfiguracja o parametrach $(7,3,1)$ i macierzy incydencji
+$\displaystyle
+\begin{bmatrix}
+   1 & 1 & 0 & 1 & 0 & 0 & 0 \\
+   0 & 1 & 1 & 0 & 1 & 0 & 0 \\
+   0 & 0 & 1 & 1 & 0 & 1 & 0 \\
+   0 & 0 & 0 & 1 & 1 & 0 & 1 \\
+   1 & 0 & 0 & 0 & 1 & 1 & 0 \\
+   0 & 1 & 0 & 0 & 0 & 1 & 1 \\
+   1 & 0 & 1 & 0 & 0 & 0 & 1
+\end{bmatrix}
+$
+
+\section{Zadanie 7a}
+Kodem (binarnym) długości $n$ nazywamy dowolny podzbiór $C \subset \{0,1\}^n$,
+jego elementy nazywamy słowami kodowymi. Przyjmijmy jako słowa kodowe $C$ wiersze
+macierzy incydencji konfiguracji z poprzedniego zadania i zapiszmy je jako 7-bitowe ciągi.\newline
+Pokazać, że kod $C$ jest w stanie wykryć zmianę trzech (lub mniej) bitów w dowolnym
+słowie kodowym (tzn.\ aby przekształcić jedno słowo kodowe w inne trzeba zmienić
+przynajmniej 4 bity).
+
+\subsection*{Rozwiązanie}
+
+Badany kod (macierz incydencji z zad. 6):
+\begin{figure}[h!]
+   \center
+   \begin{BVerbatim}
+   1 1 0 1 0 0 0
+   0 1 1 0 1 0 0
+   0 0 1 1 0 1 0
+   0 0 0 1 1 0 1
+   1 0 0 0 1 1 0
+   0 1 0 0 0 1 1
+   1 0 1 0 0 0 1
+   \end{BVerbatim}
+\end{figure}
+
+Można zauważyć, że w każdym słowie kodowym występuje sekwencja \texttt{1 1 0 1}
+o długości 4 bitów.
+Można też zaobserwować, że w każdym kolejnym słowie sekwencja jest "przesunięta"
+("cyklicznie") o jedno miejsce.
+
+Wszystkie kombinacje, które nie zachowują sekwencji, będą automatycznie wykryte.
+
+Wystarczy zatem wykazać, że przesunięcie sekwencji wymaga modyfikacji minimum 4 bitów.
+
+"Przeniesienie" jednego bitu wymaga zmiany dwóch.
+
+Nie istnieje możliwość przeniesienia wyłącznie jednego bitu przy zachowaniu sekwencji,
+zatem trzeba przenieść przynajmniej dwa. Przeniesienie dwóch będzie wymagało modyfikacji
+czterech. Zatem, aby przekształcić jedno słowo kodowe w inne trzeba zmienić przynajmniej 4 bity.
+
+\qed
+
+\section{Zadanie 16}
+Załóżmy, że $P$ jest wielomianem o współczynnikach całkowitych, tzn.
+$P(x) = a_0 + a_1 x + \dots + a_d x^d$ dla pewnych $a_i \in \Z$. Pokazać, że
+dla dowolnych $x,y \in \Z$ liczba $P(x) - P(y)$ dzieli się przez $x-y$.
+
+\subsection*{Rozwiązanie}
+\begin{equation*}
+   \begin{aligned}
+      P(x) - P(y) &= a_0 + a_1 x + a_2 x^2 + \dots + a_d x^d - (a_0 + a_1 y + a_2 y^2 + \dots + a_d y^d) =\\
+      &= a_0 + a_1 x + a_2 x^2 + \dots + a_d x^d - a_0 - a_1 y - a_2 y^2 - \dots - a_d y^d =\\
+      &= a_1 x + a_2 x^2 + \dots + a_d x^d - a_1 y - a_2 y^2 - \dots - a_d y^d =\\
+      &= a_1 x - a_1 y + a_2 x^2 - a_2 y^2 + \dots - \dots + a_d x^d - a_d y^d =\\
+      &= (a_1 x - a_1 y) + (a_2 x^2 - a_2 y^2) + \dots + (a_d x^d - a_d y^d) =\\
+      &= a_1(x - y) + a_2(x^2 - y^2) + \dots + a_d(x^d - y^d)
+   \end{aligned}
+\end{equation*}
+
+Ponieważ znany jest fakt, że $x^n - y^n = (x-y)(x^{n-1} + x^{n-2} y + \dots + x y^{n-2} + y^{n-1})$,
+wiadomo, że każdy element powyższej sumy po przekształceniach jest iloczynem
+zawierającym $(x-y)$, zatem cała suma jest podzielna przez $(x-y)$, ergo $(x-y)|P(x)-P(y)$.
+
+\qed
+
+\section{Zadanie 17a}
+Przypomnijmy "szkolny" sposób sprawdzania, czy liczba całkowita jest podzielna przez 3:
+wystarczy sprawdzić, czy suma cyfr jej zapisu dziesiętnego dzieli się przez 3.\\
+W oparciu o poprzednie zadanie dowieść poprawności tej metody.
+
+\subsection*{Rozwiązanie}
+
+Dowolną liczbę postaci
+\begin{tabular}{|c|c|c|c|c|}
+   \hline
+   $a_d$ & \dots & $a_2$ & $a_1$ & $a_0$ \\ \hline
+\end{tabular}
+w zapisie dziesiętnym można przedstawić jako wielomian $P(10)$, gdzie cyfry liczby
+to współczynniki przy argumentach:
+
+\begin{equation*}
+   \begin{tabular}{|c|c|c|c|c|}
+      \hline
+      $a_d$ & \dots & $a_2$ & $a_1$ & $a_0$ \\ \hline
+   \end{tabular} = P(10) = a_0 + 10 a_1 + 10^2 a_2 + \dots + 10^d a_d
+\end{equation*}
+
+Taki wielomian można rozpisać na:
+\begin{equation*}
+   \begin{aligned}
+      P(10) &= a_0 + \Big((10-1) a_1 + a_1\Big) + \Big((10^2-1) a_2 + a_2\Big) + \dots + \Big((10^d-1) a_d + a_d\Big) =\\
+      &= \big(a_0 + a_1 + a_2 + \dots + a_d \big) +(10-1) a_1 + (10^2-1) a_2 + \dots + (10^d-1) a_d
+   \end{aligned}
+\end{equation*}
+
+Każda liczba $(10^n - 1)$ jest podzielna przez 3, ponieważ są to liczby $9, 99, 999, \dots \for n = 1,2,3,\dots$
+
+Zatem rozstrzygnięcie podzielności zależy od sumy $(a_0 + a_1 + a_2 + \dots + a_d)$,
+która to jest sumą cyfr badanej liczby.
+
+\qed
+
+\vspace{1em}
+(\small Jest to też dowód cechy podzielności przez 9)
+
+\chapter{Zestaw 6}
+\section{Zadanie 12}
+Rozwiązać równanie $x^2 + 4x + 3 = 0$ w $\Z_6$ oraz $\Z_{13}$. Podać przykład
+niezerowego wielomianu (możliwie najniższego stopnia), który przyjmuje
+wartość $0$ dla wszystkich elementów $\Z_6$.
+
+\vspace{-1em}
+\subsection*{Rozwiązanie}
+
+\subsubsection*{Równanie}
+\vspace{-2em}\begin{align*}
+   x^2 + 4x + 3 &= 0 \\
+   x^2 + 4x + 4 &= 1 \\
+   (x+2)^2      &= 1 \\
+   x+2          &= \sqrt{1}
+\end{align*}
+$\Z_6$:
+\begin{equation*}
+   \begin{aligned}
+      \sqrt{1} \in \{ -5, -1, 1, 5 \} & \overset{\bmod 6}{\implies}
+      \sqrt{1} \in \{ 1, 5, 1, 5 \} \implies
+      \sqrt{1} \in \{ 1, 5 \} \implies \\
+      &\implies
+      x+2      \in \{ 1, 5 \} \implies
+      \Big| x        \in \{ -1, 3 \} \Big| \implies
+      x        \in \{ 5, 3 \} \implies \\
+      &\implies \mathbf{x_1 = 3, \ x_2 = 5}
+   \end{aligned}
+\end{equation*}
+$\Z_{13}$:
+\begin{equation*}
+   \begin{aligned}
+      \sqrt{1} \in \{ -12, -1, 1, 12 \} & \overset{\bmod 6}{\implies}
+      \sqrt{1} \in \{ 1, 12, 1, 12 \} \implies
+      \sqrt{1} \in \{ 1, 12 \} \implies \\
+      &\implies
+      x+2      \in \{ 1, 12 \} \implies
+      \Big| x        \in \{ -1, 10 \} \Big| \implies
+      x        \in \{ 12, 3 \} \implies \\
+      &\implies \mathbf{x_1 = 10, \ x_2 = 12}
+   \end{aligned}
+\end{equation*}
+
+\subsubsection*{Wielomian}
+
+\vspace{-1em}
+Ponieważ $\Z_6$ nie składa się z wielu elementów, wypiszemy $n \in \Z_6$ przypadków:
+\vspace{-1em}\begin{itemize}
+   \item[] \case{n} \ $x=n$: \quad $0 = n \cdot a \for a \in \Z_6$
+   \item[] \case{0} \ $x=0$: \quad $0 = 0 \cdot a$
+   \item[] \case{1} \ $x=1$: \quad $0 = 1 \cdot 0$
+   \item[] \case{2} \ $x=2$: \quad $0 = 2 \cdot 3$
+   \item[] \case{3} \ $x=3$: \quad $0 = 3 \cdot 4 = 3 \cdot 2$
+   \item[] \case{4} \ $x=4$: \quad $0 = 4 \cdot 3$
+   \item[] \case{5} \ $x=5$: \quad $0 = 5 \cdot 0$
+\end{itemize}
+
+Przypadek 0 jest spełniony zawsze. Zauważmy, że $x(x+1)$ spełnia przypadki
+2, 3 i 5. Żeby spełnić przypadek czwarty, wystarczy pomnożyć przez 3.
+Pomnożenie, sprawia też, że spełniony jest przypadek\,1, ponieważ $3(1+1) = 3\cdot 2= 0$.
+
+Zatem wielomianem spełniającym założenia jest $3x(x+1)$, co rozwija się do $\mathbf{3x^2 + 3x}$
+
+\subsection*{Odpowiedź}
+
+\begin{itemize}
+   \item[] $\Z_6$: $x_1 = 5$, $x_2 = 3$
+   \item[] $\Z_{13}$: $x_1 = 5$, $x_2 = 10$
+   \item[] $\displaystyle \forall_{x \in \Z_6} : 3x^2 + 3x = 0$
+\end{itemize}
+
+\chapter{Zestaw 8}
+\section{Zadanie 3}
+
+Podać przykład nieizomorficznych grafów $G$ i $H$ o takich samych ciągach
+stopni wierzchołków.
+
+\subsection*{Rozwiązanie}
+
+\begin{Verbatim}[commandchars=\$\{\}]
+
+             G:                               H:
+                          c -- d                  A
+                        /                           \
+                 a -- b                               B -- C -- D -- E
+                        \                           /
+                          e -- f                  F
+
+\end{Verbatim}
+
+Najdłuższa ścieżka z grafu $G$ ma "pośrodku" wierzchołek z trzema połączeniami.
+W grafie $H$ najdłuższa ścieżka ma wierzchołek z trzema połączeniami na miejscu
+"drugim" (lub "przedostatnim").
+
+\vspace{1em}
+Zatem nie da się na grafie $H$ ustawić ścieżki $dcbef$ i wierzchołka $a$.
+
+Ułożenie ścieżki $dcbef$ z grafu $G$ w grafie $H$ wymaga jednego z czterech
+poniższych ułożeń:
+\begin{verbatim}
+            d                                    f
+              \                                    \
+                c -- b -- e -- f                     e -- b -- c -- d
+
+
+                c -- b -- e -- f                     e -- b -- c -- d
+              /                                    /
+            d                                    f
+\end{verbatim}
+
+W żadnym z powyższych przypadków wierzchołek $b$ nie ma trzeciego połączenia
+i nie ma jak wstawić wierzchołka $a$.
+
+\chapter{Zestaw 10}
+\section{Zadanie 8*}
+
+Wykazać, że w każdym grafie dwudzielnym $G$ zachodzi $\chi'(G) = \Delta(G) = \max\{ \deg(v) : v \in V\}$
+
+\subsection*{Rozwiązanie}
+
+\subsubsection{Lemat: \textit{Jeśli graf $G$ jest dwudzielnym grafem $k$-regularnym to $\chi'(G) = k$}}
+
+Wiadomo, że $\chi'(G) \ge k$ \ ($\because \Delta(G) = k$). Udowodnimy przez indukcję,
+że $G$ ma prawidłowe $k$-kolorowanie krawędzi.
+
+\begin{itemize}
+   \item Jeżeli $k=0$, to $G$ nie ma krawędzii, czyli jego indeks chromatyczny wynosi $0$
+   \item Jeżeli $k=1$, to $G$ składa się z $K_2$, czyli jego indeks chromatyczny wynosi $1$
+   \item \textit{Hipoteza:} Załóżmy, że $\chi'(H) = l$ dla wszystkich $l$-regularnych grafów dwudzielnych, gdzie $l<k$
+\end{itemize}
+
+Z twierdzenia Hall'a wiemy, że $G$ ma skojarzenie pełne $M$.\\
+Graf $G-M$ będzie $(k-1)$-regularny, więc z hipotezy indukcyjnej, indeks
+chromatyczny równy jest $k-1$.
+
+Zatem dodajemy $M$ z powrotem jako nowy kolor, rozszerzając tym samym właściwe
+$(k-1)$-kolorowanie krawędziowe grafu $G-M$ do właściwego kolorowania $k$-krawędziowego
+grafu $G$.
+
+{\scriptsize\qed}
+
+\subsubsection{Teza: \textit{Dla każdego grafu dwudzielnego $G$ zachodzi $\chi'(G) = \Delta(G)$}}
+
+Jeśli $G$ jest grafem regularnym, to prawdziwość tezy wynika z lematu.
+
+W przypadku przeciwnym istnieje przynajmniej jeden wierzchołek $w$ o stopniu
+mniejszym niż $\Delta(G)$. Możemy zatem skonstruować taki dwudzielny graf $R$,
+że będzie on $\Delta(G)$-regularny oraz $G \subset R$.
+
+Zatem niech $G = (X \cup Y, E)$. "Skopiujmy" $G$ jako $G'$, gdzie $X',Y'$ są
+kopiami $X,Y$.\\
+Wtedy do każdego wierzchołka $u$ stopnia innego od $\Delta(G)$ dodajemy krawędź
+prowadzącą do jego kopii\,$u'$.\\
+Tak otrzymany graf jest grafem dwudzielnym o zbiorach wierzchołków
+$X \cup Y'$ oraz $X' \cup Y$.\\
+Operacja ta zachowuje dwudzielność i stopień maksymalny, zwiększając przy tym
+stopień minimalny.
+
+Powtarzając ten proces, można zauważyć, że różnica pomiędzy stopniem minimalnym
+a maksymalnym się zmniejsza, zatem należy go zakończyć otrzymując
+\mbox{$\Delta(G)$-regularny} graf $R$.
+
+Na podstawie lematu wiemy, że $\chi'(R) = \Delta(G)$, czyli istnieje kolorowanie
+prawidłowe krawędzi grafu $R$, a ponieważ $G \subset R$, to takie kolorowanie
+aplikuje również do grafu $G$.
+
+Zatem: $\chi'(G) = \Delta(G)$
+
+\qed
+
+\chapter{Zestaw 11}
+\section{Zadanie 13c (zła interpretacja treści)}
+
+Podać przykład spójnego grafu dwudzielnego, 3-regularnego, planarnego o $2n$
+wierzchołkach dla jakiegoś $n > 5$.
+
+\subsection*{Odpowiedź}
+
+\begin{figure}[h!]
+   \center
+   \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1.5,xscale=1.5]
+      \draw    (209.5,269.5) -- (458.5,270.5) ;
+      \draw    (209.5,69.5) -- (458.5,70.5) ;
+      \draw    (209.5,69.5) -- (129.5,169.5) ;
+      \draw    (129.5,169.5) -- (149.5,229.5) ;
+      \draw    (149.5,229.5) -- (209.5,269.5) ;
+      \draw    (209.5,129.5) -- (129.5,169.5) ;
+      \draw    (149.5,229.5) -- (209.5,189.5) ;
+      \draw    (209.5,69.5) -- (289.5,169.5) ;
+      \draw    (289.5,169.5) -- (269.5,229.5) ;
+      \draw    (269.5,229.5) -- (209.5,269.5) ;
+      \draw    (209.5,129.5) -- (289.5,169.5) ;
+      \draw    (269.5,229.5) -- (209.5,189.5) ;
+      \draw    (209.5,129.5) -- (209.5,189.5) ;
+      \draw  [fill={rgb, 255:red, 255; green, 0; blue, 0 }  ,fill opacity=1 ] (200,189.5) .. controls (200,184.25) and (204.25,180) .. (209.5,180) .. controls (214.75,180) and (219,184.25) .. (219,189.5) .. controls (219,194.75) and (214.75,199) .. (209.5,199) .. controls (204.25,199) and (200,194.75) .. (200,189.5) -- cycle ;
+      \draw  [fill={rgb, 255:red, 255; green, 0; blue, 0 }  ,fill opacity=1 ] (200,269.5) .. controls (200,264.25) and (204.25,260) .. (209.5,260) .. controls (214.75,260) and (219,264.25) .. (219,269.5) .. controls (219,274.75) and (214.75,279) .. (209.5,279) .. controls (204.25,279) and (200,274.75) .. (200,269.5) -- cycle ;
+      \draw  [fill={rgb, 255:red, 255; green, 0; blue, 0 }  ,fill opacity=1 ] (280,169.5) .. controls (280,164.25) and (284.25,160) .. (289.5,160) .. controls (294.75,160) and (299,164.25) .. (299,169.5) .. controls (299,174.75) and (294.75,179) .. (289.5,179) .. controls (284.25,179) and (280,174.75) .. (280,169.5) -- cycle ;
+      \draw  [fill={rgb, 255:red, 255; green, 0; blue, 0 }  ,fill opacity=1 ] (120,169.5) .. controls (120,164.25) and (124.25,160) .. (129.5,160) .. controls (134.75,160) and (139,164.25) .. (139,169.5) .. controls (139,174.75) and (134.75,179) .. (129.5,179) .. controls (124.25,179) and (120,174.75) .. (120,169.5) -- cycle ;
+      \draw  [fill={rgb, 255:red, 0; green, 0; blue, 255 }  ,fill opacity=1 ] (200,129.5) .. controls (200,124.25) and (204.25,120) .. (209.5,120) .. controls (214.75,120) and (219,124.25) .. (219,129.5) .. controls (219,134.75) and (214.75,139) .. (209.5,139) .. controls (204.25,139) and (200,134.75) .. (200,129.5) -- cycle ;
+      \draw  [fill={rgb, 255:red, 0; green, 0; blue, 255 }  ,fill opacity=1 ] (200,69.5) .. controls (200,64.25) and (204.25,60) .. (209.5,60) .. controls (214.75,60) and (219,64.25) .. (219,69.5) .. controls (219,74.75) and (214.75,79) .. (209.5,79) .. controls (204.25,79) and (200,74.75) .. (200,69.5) -- cycle ;
+      \draw  [fill={rgb, 255:red, 0; green, 0; blue, 255 }  ,fill opacity=1 ] (260,229.5) .. controls (260,224.25) and (264.25,220) .. (269.5,220) .. controls (274.75,220) and (279,224.25) .. (279,229.5) .. controls (279,234.75) and (274.75,239) .. (269.5,239) .. controls (264.25,239) and (260,234.75) .. (260,229.5) -- cycle ;
+      \draw  [fill={rgb, 255:red, 0; green, 0; blue, 255 }  ,fill opacity=1 ] (140,229.5) .. controls (140,224.25) and (144.25,220) .. (149.5,220) .. controls (154.75,220) and (159,224.25) .. (159,229.5) .. controls (159,234.75) and (154.75,239) .. (149.5,239) .. controls (144.25,239) and (140,234.75) .. (140,229.5) -- cycle ;
+      \draw    (458.5,270.5) -- (378.5,170.5) ;
+      \draw    (378.5,170.5) -- (398.5,110.5) ;
+      \draw    (398.5,110.5) -- (458.5,70.5) ;
+      \draw    (458.5,210.5) -- (378.5,170.5) ;
+      \draw    (398.5,110.5) -- (458.5,150.5) ;
+      \draw    (458.5,270.5) -- (538.5,170.5) ;
+      \draw    (538.5,170.5) -- (518.5,110.5) ;
+      \draw    (518.5,110.5) -- (458.5,70.5) ;
+      \draw    (458.5,210.5) -- (538.5,170.5) ;
+      \draw    (518.5,110.5) -- (458.5,150.5) ;
+      \draw    (458.5,210.5) -- (458.5,150.5) ;
+      \draw  [fill={rgb, 255:red, 255; green, 0; blue, 0 }  ,fill opacity=1 ] (449,150.5) .. controls (449,155.75) and (453.25,160) .. (458.5,160) .. controls (463.75,160) and (468,155.75) .. (468,150.5) .. controls (468,145.25) and (463.75,141) .. (458.5,141) .. controls (453.25,141) and (449,145.25) .. (449,150.5) -- cycle ;
+      \draw  [fill={rgb, 255:red, 255; green, 0; blue, 0 }  ,fill opacity=1 ] (449,70.5) .. controls (449,75.75) and (453.25,80) .. (458.5,80) .. controls (463.75,80) and (468,75.75) .. (468,70.5) .. controls (468,65.25) and (463.75,61) .. (458.5,61) .. controls (453.25,61) and (449,65.25) .. (449,70.5) -- cycle ;
+      \draw  [fill={rgb, 255:red, 255; green, 0; blue, 0 }  ,fill opacity=1 ] (529,170.5) .. controls (529,175.75) and (533.25,180) .. (538.5,180) .. controls (543.75,180) and (548,175.75) .. (548,170.5) .. controls (548,165.25) and (543.75,161) .. (538.5,161) .. controls (533.25,161) and (529,165.25) .. (529,170.5) -- cycle ;
+      \draw  [fill={rgb, 255:red, 255; green, 0; blue, 0 }  ,fill opacity=1 ] (369,170.5) .. controls (369,175.75) and (373.25,180) .. (378.5,180) .. controls (383.75,180) and (388,175.75) .. (388,170.5) .. controls (388,165.25) and (383.75,161) .. (378.5,161) .. controls (373.25,161) and (369,165.25) .. (369,170.5) -- cycle ;
+      \draw  [fill={rgb, 255:red, 0; green, 0; blue, 255 }  ,fill opacity=1 ] (449,210.5) .. controls (449,215.75) and (453.25,220) .. (458.5,220) .. controls (463.75,220) and (468,215.75) .. (468,210.5) .. controls (468,205.25) and (463.75,201) .. (458.5,201) .. controls (453.25,201) and (449,205.25) .. (449,210.5) -- cycle ;
+      \draw  [fill={rgb, 255:red, 0; green, 0; blue, 255 }  ,fill opacity=1 ] (449,270.5) .. controls (449,275.75) and (453.25,280) .. (458.5,280) .. controls (463.75,280) and (468,275.75) .. (468,270.5) .. controls (468,265.25) and (463.75,261) .. (458.5,261) .. controls (453.25,261) and (449,265.25) .. (449,270.5) -- cycle ;
+      \draw  [fill={rgb, 255:red, 0; green, 0; blue, 255 }  ,fill opacity=1 ] (509,110.5) .. controls (509,115.75) and (513.25,120) .. (518.5,120) .. controls (523.75,120) and (528,115.75) .. (528,110.5) .. controls (528,105.25) and (523.75,101) .. (518.5,101) .. controls (513.25,101) and (509,105.25) .. (509,110.5) -- cycle ;
+      \draw  [fill={rgb, 255:red, 0; green, 0; blue, 255 }  ,fill opacity=1 ] (389,110.5) .. controls (389,115.75) and (393.25,120) .. (398.5,120) .. controls (403.75,120) and (408,115.75) .. (408,110.5) .. controls (408,105.25) and (403.75,101) .. (398.5,101) .. controls (393.25,101) and (389,105.25) .. (389,110.5) -- cycle ;
+   \end{tikzpicture}
+\end{figure}
+
+\begin{equation*}
+   n = 8
+\end{equation*}
+
+\chapter{Zestaw 13}
+\section{Zadanie 14a}
+
+\begin{equation*}
+   \left\{ \begin{array}{l}
+      b_0 = 1 \\
+      b_1 = 2 \\
+      b_{n+2} = 4b_{n+1} - 4b_n + n \for n \ge 0
+   \end{array} \right.
+\end{equation*}
+
+\begin{equation*}
+   \begin{aligned}
+      B(x) &=
+      \sum_{n=0}^{\infty} b_n x^n = 1 + 2x + \sum_{n=2}^{\infty} b_{n} x^{n}
+      =
+      1 + 2x + \sum_{n=0}^{\infty} b_{n+2} x^{n+2}
+      =
+      1 + 2x + \sum_{n=0}^{\infty} (4b_{n+1} - 4b_n + n) x^{n+2}
+      = \\ & =
+      1 + 2x
+      + 4 \sum_{n=0}^{\infty} b_{n+1} x^{n+2}
+      - 4 \sum_{n=0}^{\infty} b_n x^{n+2}
+      + \sum_{n=0}^{\infty} n x^{n+2}
+      = \\ & =
+      1 + 2x
+      + 4x \sum_{n=0}^{\infty} b_{n+1} x^{n+1}
+      - 4x^2 \sum_{n=0}^{\infty} b_n x^n
+      + x^2 \sum_{n=0}^{\infty} n x^n
+      = \\ & =
+      1 + 2x
+      + 4x (B(x) - 1)
+      - 4x^2 B(x)
+      + \frac{x^3}{(1-x)^2}
+      = \\ & =
+      1 + 2x
+      + 4x B(x) - 4x
+      - 4x^2 B(x)
+      + \frac{x^3}{(1-x)^2}
+      = \\ & =
+      B(x) \cdot \Big( 4x - 4x^2  \Big)
+      + 1 + 2x - 4x
+      + \frac{x^3}{(1-x)^2}
+   \end{aligned}
+\end{equation*}
+
+\begin{equation*}
+   B(x) \cdot \Big( 1 - 4x + 4x^2  \Big) = 1 - 2x + \frac{x^3}{(1-x)^2} = \frac{-x^3 + 5x^2 -4x + 1}{(x-1)^2}
+\end{equation*}
+
+\begin{equation*}
+   B(x) = \frac{-x^3 + 5x^2 -4x + 1}{(2x-1)^2 (x-1)^2}
+   = \frac{-x^3 + 5x^2 -4x + 1}{(1 - 3 x + 2 x^2)^2}
+\end{equation*}
+
+\vspace{2em}
+\centerline{\dots}
+
+\chapter{Zestaw 14}
+\section{Zadanie 22}
+
+Wykorzystując równanie rekurencyjne znaleźć liczbę porównań w~algorytmie
+wyszukiwania binarnego w~posortowanej tablicy rozmiaru $n$. Uwaga: w~rozwiązaniu
+\textbf{nie} należy zakładać, że $n$ jest potęgą 2.
+
+\subsection*{Rozwiązanie}
+
+\begin{equation} \label{bin}
+   \left\{ \begin{aligned}
+      T(1) &= 0 \\
+      T(n) &= T\left(\frac{n}{2}\right)
+   \end{aligned} \right.
+\end{equation}
+
+\begin{equation*}
+   \begin{aligned}
+      ~\ref{bin} &\implies T\left(\frac{n}{2}\right) = T\left(\frac{n}{4}\right) + c
+      \implies
+      T(n) = \left(T\left(\frac{n}{4}\right) + c\right) + c = T\left(\frac{n}{4}\right) + 2c
+   \end{aligned}
+\end{equation*}
+
+\begin{equation}
+   \left. \begin{gathered}
+      T\left(\frac{n}{4}\right)   = T\left(\frac{n}{2^3}\right) + c \implies T(n) = T\left(\frac{n}{2^3}\right) + 3c \\
+      T\left(\frac{n}{2^3}\right) = T\left(\frac{n}{2^4}\right) + c \implies T(n) = T\left(\frac{n}{2^4}\right) + 4c \\
+      \vdots \\
+   \end{gathered} \right\} \implies T(n) = T\left(\frac{n}{2^k}\right) + kc
+\end{equation}
+
+\vspace{2em}
+\centerline{\dots}
+
+\section{Zadanie 23}
+
+Niech $n$ będzie liczbą parzystą i dane będą dwie $n$-cyfrowe (w zapisie
+dziesiętnym) liczby całkowite $x=x_1 10^\frac{n}{2}+x_0$ oraz
+$y=y_1 10^\frac{n}{2}+y_0$, przy czym $x_1, x_0, y_1, y_0$ są liczbami
+$\frac{n}{2}$-cyfrowymi. Wynik mnożenia $x \cdot y$ możemy obliczyć na dwa
+sposoby:
+\begin{enumerate}
+   \item $x \cdot y = (x_1 y_1)10^n + (x_1 y_0 + x_0 y_1)10^\frac{n}{2} + (x_0 y_0)$ - wykonując
+      cztery mnożenia liczb $\frac{n}{2}$-cyfrowych
+   \item $x \cdot y = (x_1 y_1)10^n + ((x_1+x_0)(y_1+y_0) - x_1 y_1 - x_0 y_0)10^\frac{n}{2} + (x_0 y_0)$ - wykonując
+      trzy mnożenia liczb $\frac{n}{2}$-cyfrowych (iloczyny $x_1 y_1$ oraz $x_0 y_0$ zapamiętujemy
+      i nie obliczamy ich ponownie)
+\end{enumerate}
+
+Rozwiązując równania rekurencyjne znaleźć liczbę mnożeń liczb
+1-cyfrowych potrzebnych do pomnożenia dwóch liczb $n$-cyfrowych przy użyciu
+każdego z podanych sposobów (można założyć, że $n$ jest potęgą 2).
+
+\vspace{2em}
+\centerline{\dots}
+
+\section{Zadanie 24}
+
+Znaleźć i rozwiązać równania rekurencyjne opisujące \st{średnią} optymistyczną
+i~pesymistyczną liczbę porównań wykonaną przez algorytm QuickSort podczas
+sortowania $n$-elementowej tablicy (można założyć, że $n$ jest potęgą 2).
+
+\subsection*{Rozwiązanie}
+
+\subsubsection*{\st{Średni} Optymistyczny}
+
+\vspace{-1em}
+\begin{equation*}
+   T(n) = 2T\left(\frac{n}{2}\right) + n
+\end{equation*}
+
+\begin{equation*}
+   \left. \begin{aligned}
+      T(n) &= 2T\left(\frac{n}{2}\right) + n = 2\left(T\left(\frac{n}{4}\right) + \frac{n}{2}\right) + n = \\
+           &= 4T\left(\frac{n}{4}\right) + 2\frac{n}{2} + n = \\
+           &= 8T\left(\frac{n}{8}\right) + 4\frac{n}{4} + 2\frac{n}{2} + n = \\
+           &= \ldots
+   \end{aligned} \right\} \implies
+   T(n) = 2^k T\left(\frac{n}{2^k}\right) + kn
+\end{equation*}
+
+Zakładając, że $T(1)=1$ oraz $n=2^k$:
+\begin{equation*}
+   T(n) = 2^k T\left(\frac{2^k}{2^k}\right) + k2^k = 2^k T(1) + k2^k = 2^k + k2^k
+\end{equation*}
+\begin{equation*}
+   n = 2^k \implies k = \log_2 n \implies T(n) = 2^{\log_2 n} + \log_2 n \cdot 2^{\log_2 n} = n + n \log_2 n
+\end{equation*}
+
+\subsubsection*{Pesymistyczny}
+
+\vspace{-1em}
+Przypadek pesymistyczny QuickSort’a  zachodzi gdy za pivot wybrany jest element
+najmniejszy lub największy. Jeśli tak się stanie, jedna z podtablic będzie pusta,
+zatem QuickSort będzie ponownie wywołany wyłącznie na jednej tablicy o rozmiarze $n-1$.
+
+\begin{equation*}
+   \left\{ \begin{aligned}
+      T(0) &= T(1) = 0 \\
+      T(n) &= T(n-1) + n
+   \end{aligned} \right.
+\end{equation*}
+
+\begin{equation*}
+   \begin{aligned}
+      T(n) &= T(n-1) + n \\
+      T(n-1) &= T(n-2) + (n-1) \\
+      T(n-2) &= T(n-3) + (n-2) \\
+      &\quad\vdots \\
+      T(3) &= T(2) + 3 \\
+      T(2) &= T(1) + 2 \\
+      T(1) &= 1
+   \end{aligned}
+\end{equation*}
+
+\begin{equation*}
+   T(n) = n + (n-1) + (n-2) + \cdots + 3 + 2 + 1 = \sum_{k=1}^{n} k = \frac{n(n-1)}{2}
+\end{equation*}
+
+\subsection*{Odpowiedź}
+
+\vspace{-1em}
+\centerline{
+   Przypadek \st{średni} optymistyczny: $n + n \log_2 n$
+   \qquad
+   Przydatek pesymistyczny: $\dfrac{n(n-1)}{2}$}
+
+\end{document}
