@@ -1,0 +1,229 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, vmargin=20pt, hmargin=50pt, head=16pt, includehead]{geometry}
+\usepackage[bottom]{footmisc}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{amsmath}     % math
+\usepackage{amssymb}     % math symbols
+\usepackage{ulem}
+\usepackage{changepage}  % for the adjustwidth environment
+\usepackage{enumitem}    % enumerate/list items
+\usepackage{fancyhdr}    % header
+\usepackage{fancyvrb}
+\usepackage{mathtools}   % math tools
+\usepackage{multicol}    % multiple columns
+\usepackage{pgfplots}    % graphs
+\usepackage{stackengine} % stacking objects vertically
+\usepackage{tikz}
+\usepackage{titlesec}    % alternative section titles
+\usepackage{xcolor}      % color text
+
+\newcommand\calculator{\tikz{
+   \node (c) [inner sep=0pt, draw, fill=black, anchor=south west]{\phantom{N}};
+   \begin{scope}[x=(c.south east),y=(c.north west)]
+      \fill[white] (.1,.7) rectangle (.9,.9);
+      \foreach \x in {.1, .33, .55, .79}{
+         \foreach \y in {.1, .24, .38, .53}{
+            \fill[white] (\x,\y) rectangle +(.11,.07);}}
+   \end{scope}
+}}
+
+\usepgfplotslibrary{fillbetween}
+
+\newcommand{\Because}{\quad\because\quad}
+\newcommand{\case}[1]{\textrm{#1$^\circ$}}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\degree}{^{\circ}}
+\newcommand{\diff}{\mathop{}\!\mathrm{d}}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\for}{\ \leftrightarrow\ }
+\newcommand{\Integral}[4]{\int_{#1}^{#2} \! #3 \, \mathop{}\!\mathrm{d}#4}
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\qed}{\textbf{\textit{QED}}}
+\newcommand{\qef}{\textbf{\textit{QEF}}}
+\newcommand{\task}[1]{\textit{#1}}
+\newcommand{\xrowht}[2][0]{\addstackgap[.5\dimexpr#2\relax]{\vphantom{#1}}}
+
+\let\oldref\ref \renewcommand{\ref}[1]{\mathrm{(\oldref{#1})}}
+
+\DeclareMathOperator{\?}{?}
+\DeclareMathOperator{\ave}{ave}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lin}{lin}
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\var}{var}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+
+\let\oldepsilon\epsilon \renewcommand{\epsilon}{\varepsilon}
+
+\counterwithin*{equation}{section}  % reset equation counter after each section
+\titleformat{\section}{\normalfont\Large\bfseries}{}{0pt}{} % remove section numbering
+
+\let\stdsection\section  \renewcommand\section{\newpage\stdsection} % each section on new page
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0em}
+
+\setlist[itemize]{noitemsep, topsep=0pt}   % don't add space before itemize
+\setlist[enumerate]{noitemsep, topsep=0pt} % don't add space before enumerate
+
+\pagestyle{fancy}
+
+\renewcommand{\sectionmark}[1]{ \markright{#1}{} }
+
+\chead{Algorytmy i struktury danych; kolokwium 1}
+\lhead{Jakub Łukasiewicz}
+\rhead{\rightmark}
+
+\begin{document}
+\section{Zadanie 4}
+\subsection*{Rozwiązanie}
+
+\begin{algorithm}
+   \caption{Sortowanie przez wstawianie}
+   \begin{algorithmic}
+      \FOR {$i \gets 1$ \TO $N$}
+      \STATE{$t \gets A[i]$}
+      \STATE{$j \gets i-1$}
+      \WHILE {$j > 0$ \AND $A[j] > t$}
+      \STATE{$A[j+1] \gets A[j]$}
+      \STATE{$j \gets j+1$}
+      \ENDWHILE
+      \STATE{$A[j+1] \gets t$}
+      \ENDFOR
+   \end{algorithmic}
+\end{algorithm}
+
+Koszty i liczba wykonań:
+\begin{enumerate}
+   \item $c_1$ \qquad $n$
+   \item $c_2$ \qquad $n-1$
+   \item $c_3$ \qquad $n-1$
+   \item $c_4$ \qquad $\sum_{k=2}^n t_k$
+   \item $c_5$ \qquad $\sum_{k=2}^n (t_k-1)$
+   \item $c_6$ \qquad $\sum_{k=2}^n (t_k-1)$
+   \item $c_7$ \qquad $n-1$
+\end{enumerate}
+
+Zatem:
+\begin{equation*}
+   T(n) =
+   c_1 n
+   + c_2 (n-1)
+   + c_3 (n-1)
+   + c_4 \sum_{k=2}^n t_k
+   + c_5 \sum_{k=2}^n (t_k-1)
+   + c_6 \sum_{k=2}^n (t_k-1)
+   + c_7 (n-1)
+\end{equation*}
+
+Licząc złożoność średnią, ponieważ wszystkie możliwe permutacje są jednakowo
+prawdopodobne, przyjmiemy $t_k = \frac{k-1}{2}$.
+
+Czyli:
+\begin{equation*}
+   A(n) = T(n) \for t_k = \frac{k-1}{2}
+\end{equation*}
+
+{\tiny Rozwinięcie na następnej stronie}
+
+Zatem:
+\begin{equation*}
+   \begin{aligned}
+      A(n) &=
+      c_1 n
+      + c_2 (n-1)
+      + c_3 (n-1)
+      + c_4 \sum_{k=2}^n \frac{k-1}{2}
+      + c_5 \sum_{k=2}^n (\frac{k-1}{2}-1)
+      + c_6 \sum_{k=2}^n (\frac{k-1}{2}-1)
+      + c_7 (n-1) =\\
+      &=
+      c_1 n
+      + c_2 (n-1)
+      + c_3 (n-1)
+      + c_7 (n-1)
+      + c_4 \sum_{k=2}^n \frac{k-1}{2}
+      + c_5 \sum_{k=2}^n (\frac{k-1}{2}-1)
+      + c_6 \sum_{k=2}^n (\frac{k-1}{2}-1) = \\
+      &=
+      c_1 n
+      + (n-1)(c_2 + c_3 + c_7)
+      + \frac{c_4}{2} \sum_{k=2}^n (k-1)
+      + \frac{c_5}{2} \sum_{k=2}^n (k-1-2)
+      + \frac{c_6}{2} \sum_{k=2}^n (k-1-2) = \\
+      &=
+      c_1 n
+      + (n-1)(c_2 + c_3 + c_7)
+      + \frac{c_4}{2} \left(\sum_{k=2}^n k - \sum_{k=2}^n 1\right)
+      + \frac{c_5}{2} \sum_{k=2}^n (k-3)
+      + \frac{c_6}{2} \sum_{k=2}^n (k-3) = \\
+      &=
+      c_1 n
+      + (n-1)(c_2 + c_3 + c_7)
+      + \frac{c_4}{2} \left(\left(\sum_{k=2}^n k \right) - (n - 1) \right)
+      + \frac{c_5 + c_6}{2} \sum_{k=2}^n (k-3) = \\
+      &=
+      c_1 n
+      + (n-1)(c_2 + c_3 + c_7)
+      + \frac{c_4}{2} \left(\frac{n(n+2)}{2} - n + 1 \right)
+      + \frac{c_5 + c_6}{2} \left(\sum_{k=2}^n k - \sum_{k=2}^{n} 3 \right) = \\
+      &=
+      c_1 n
+      + (n-1)(c_2 + c_3 + c_7)
+      + \frac{c_4}{2} \left(\frac{n(n+2) - 2n + 2)}{2}\right)
+      + \frac{c_5 + c_6}{2} \left(\sum_{k=2}^n k - 3(n-1) \right) = \\
+      &=
+      c_1 n
+      + (n-1)(c_2 + c_3 + c_7)
+      + \frac{c_4}{2} \left(\frac{n^2 + 2n - 2n + 2)}{2}\right)
+      + \frac{c_5 + c_6}{2} \left(\frac{n(n+2)}{2} - 3(n-1) \right) = \\
+      &=
+      c_1 n
+      + (n-1)(c_2 + c_3 + c_7)
+      + \frac{c_4(n^2 + 2)}{2}
+      + \frac{(c_5 + c_6)(n^2 + 2n - 6n + 6)}{2} = \\
+      &= O(n^2) \Because \textrm{ w notacji asymptotycznej bierzemy pod uwagę elementy najbardziej znaczące}
+   \end{aligned}
+\end{equation*}
+
+\subsection*{Odpowiedź}
+\begin{equation*}
+   A(n) = O(n^2)
+\end{equation*}
+
+\section{Zadanie 7}
+\subsection*{Rozwiązanie}
+
+Przypadek optymistyczny zarówno dla \texttt{first} oraz \texttt{second}, występuje
+gdy $n<10$. Złożoność wtedy to $\Theta(1)$, albowiem jest to warunek wyjścia z rekurencji
+tych funkcji.
+
+Przypadek pesymistyczny i średni występują, gdy $n > 10$. Algorytm wykona wtedy
+$n-10$ wywołań rekurencyjych (w przypadku procedury \texttt{first} zrobi to dwa
+razy). Zatem:
+\begin{gather*}
+   A_{\texttt{first}}(n) = 2(n-10) = 2n - 20 = O(2n) = O(n) \\
+   W_{\texttt{first}} = 2(n-1) = 2n - 2 = O(2n) = O(n)
+\end{gather*}
+\begin{gather*}
+   A_{\texttt{second}}(n) = n-10 = O(n) \\
+   W_{\texttt{second}} = n-1 = O(n)
+\end{gather*}
+
+Jak widać, pod względem złożoności (w notacji asympototycznej) procedury \texttt{first}
+i \texttt{second} są takie same.
+
+\subsection*{Odpowiedź}
+\begin{itemize}
+   \item[] $Opt.(n) = \Theta(1)$
+   \item[] $A(n) = O(n)$
+   \item[] $W(n) = O(n)$
+\end{itemize}
+
+\end{document}
