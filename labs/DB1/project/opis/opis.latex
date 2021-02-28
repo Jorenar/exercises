@@ -1,0 +1,338 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, vmargin=20pt, hmargin=50pt, head=16pt, includehead]{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\usepackage{polski}
+\usepackage[polish]{babel}
+\usepackage{csquotes}
+
+\setlength{\parindent}{0em}
+
+\title{Projekt Foo13 (nazwa tymczasowa)}
+\author{Jakub Łukasiewicz}
+\date{2021-02-22}
+
+\begin{document}
+
+\makeatletter
+\begin{titlepage}
+   \centering
+
+   {\huge\bfseries \@title \par}
+
+   \vspace{1em}
+
+   {\LARGE Projekt bazodanowy dla osobistego warsztatu elektronika \par}
+
+   \vspace{2cm}
+   {\LARGE\itshape \@author\/ \par}
+
+   \vfill
+
+   {\Large Labolatoria: Bazy danych 2020/2021 \par}
+
+   \vspace{1em}
+
+   \@date
+
+   \vfill
+
+   \tableofcontents
+   \vspace{1em}
+\end{titlepage}
+\makeatother
+
+\section{Wstęp}
+
+Projekt składa się z dwóch części:
+\begin{itemize}
+   \item bazy dancyh (ver 0.1.8)
+   \item programu klienckiego (ver 0.1.3)
+\end{itemize}
+
+\subsection{Cel}
+
+Celem projektu jest dostarczenie niewymagającego oprogramowania wspomagającego
+działalność serwisu (warsztatu) elektronicznego.
+
+\vspace{1em}
+
+Platformą docelową, na której oprogramowanie ma być uruchamiane, jest
+Raspberry Pi Zero.
+
+\subsection{Podstawowe założenia i ograniczenia}
+
+Baza danych winna przechowywać informacje o dotychczasowych klientach
+i~naprawianych urządzeniach (w szczególności ich typach, jak
+laptop/tablet/magnetowid), oferowanych usługach, stanie magazynowym części
+(tranzystory, rezystory, etc.) oraz posiadanych narzędzi wraz z "akcesoriami"
+(np.\ groty do lutownicy).
+
+\vspace{1em}
+
+Ze względu na platformę docelową wymagane jest ograniczenie aplikacji klienckiej
+do tekstowego interfejsu użytkownika (TUI). Dla zwiększenia potencjalnej
+kompatybilności użyto czystych sekwencji Esc ANSI, zamiast gotowej biblioteki
+typu \textit{ncurses}.
+
+Sama baza będzie korzystała z systemu SQLite.
+
+Pełny skrypt SQL towrzący bazę znajduje się w pliku \texttt{schema.sql} w korzeniu
+projektu.
+
+\vspace{1em}
+
+Problemy z dostępnością kabla HDMI typu C (tzw.\ mini-HDMI) skutecznie spowolniły
+prace nad aplikacją kliencką, w efekcie zatrzymując ją zaledwie na wersji 0.1.3
+
+Następstwem powyższych utrudnień było również pogorszenie developmentu bazy
+właściwej; na stan obecny na wersji 0.1.8
+
+\subsection{Koszta}
+
+Szacuje się, że w obecnej formie projekt nie jest wart więcej niż 200 PLN. Po
+osiągnięciu wszystkich założeń możliwy jest dziesięciokrotny wzrost wartości.
+
+Wartość włożonej pracy można przyjąć na 1.5 obecnej wartości projektu.
+Natomiast wartość pracy potrzebnej na pełną rozbudowę na połowę przewidywanej
+wartości końcowej.
+
+Zwiększenie zespołu z 1 do 3 osób mogłoby mieć korzystny wpływ zarówno na koszta
+jak i czas pracy.
+
+\subsection{Licencja i udostępnianie}
+
+Gdy wersje osiągną numery $\ge$ 0.2.0, projekt zostanie udostępniony na platformie
+GitHub najpewniej na zasadach licencji GNU GPLv3.
+
+\section{Pielęgnacja}
+
+Prócz regularnych kopii zapasowych (zarówno manualnych, jak i automatycznych)
+na nośniku zewnętrznym, w przyszłości w kliencie zostanie zaimplementowana
+(opcjonalna, domyślnie włączona) funkcjonalność tworzenia kopii po każdym
+zakończeniu pracy programu i sprawdzania zgodności sum kontrolnych przed każdym
+uruchomieniem.
+
+\section{Diagram}
+
+\includegraphics[height=25cm,keepaspectratio]{er}
+
+\section{Tabele}
+\subsection{Klienci}
+\begin{verbatim}
+CREATE TABLE clients (
+  id      INTEGER PRIMARY KEY AUTOINCREMENT,
+  name    TEXT,
+  surname TEXT,
+  tel     TEXT,
+  email   TEXT
+);
+\end{verbatim}
+
+Zawiera imię i nazwisko klienta oraz jego dane kontaktowe
+
+\subsection{Urządzenia}
+
+\begin{verbatim}
+CREATE TABLE devices (
+  id   INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT,
+  type TEXT
+);
+\end{verbatim}
+
+Zawiera nazwę i typ sprzętu
+
+\subsection{Właściciele urządzenia}
+
+\begin{verbatim}
+CREATE TABLE devices_owners (
+  deviceID INTEGER,
+  ownerIDi  INTEGER,
+  FOREIGN KEY (deviceID) REFERENCES devices(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (ownerID)  REFERENCES clients(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (deviceID, ownerID)
+);
+\end{verbatim}
+
+Wskazuje właścicieli danego urządzenia (w osobnej tabeli, gdyż jedno urządzenie
+może mieć wielu współwłaścicieli).
+
+\subsection{Zamówienia}
+
+\begin{verbatim}
+CREATE TABLE orders (
+  id        INTEGER PRIMARY KEY AUTOINCREMENT,
+  deviceID  INTEGER,
+  clientID  INTEGER,
+  inDate    INTEGER,
+  outDate   INTEGER,
+  state     TEXT,
+  FOREIGN KEY (deviceID) REFERENCES devices(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (clientID) REFERENCES clients(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+\end{verbatim}
+
+Każde urządzenie przyjęte do serwisu traktowane jest jako osobne zamówienie.
+Tabela przechowuje identyfikator klienta składającego dane zamówienie,
+idendyfikator urządzenia do serwisowania, datę złożenia i odbioru oraz obecny
+stan zamówienia.
+
+\subsection{Zamówione usługi}
+
+\begin{verbatim}
+CREATE TABLE ordered_services (
+  orderID     INTEGER,
+  serviceID   INTEGER,
+  price       REAL,
+  startDate   INTEGER,
+  endDate     INTEGER,
+  description TEXT,
+  FOREIGN KEY (id)        REFERENCES orders(id)   ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (serviceID) REFERENCES services(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (orderID, serviceID)
+);
+\end{verbatim}
+
+Każde zamówienie może mieć wybrane więcej niż jedną usługę, np.\
+naprawa~+~czyszczenie. Tabela dla każdego zlecenia przechowuje identyfikatory
+zamówionych usług, ich cenę obowiązującą w chwili składania, datę rozpoczęcia
+i zakończenia prac nad konkretną usługą oraz dodatkowe uwagi.
+
+\subsection{Usługi}
+\begin{verbatim}
+CREATE TABLE services (
+  id    INTEGER PRIMARY KEY AUTOINCREMENT,
+  name  TEXT,
+  price REAL
+);
+\end{verbatim}
+
+Przechowuje dostępne usługi i za nie bieżące opłaty
+
+\subsection{Części}
+
+\begin{verbatim}
+CREATE TABLE parts (
+  id       INTEGER PRIMARY KEY AUTOINCREMENT,
+  name     TEXT,
+  quantity INTEGER
+);
+\end{verbatim}
+
+Zawiera spis posiadanych na stanie części i ich ilości
+
+\subsection{Narzędzia}
+
+\begin{verbatim}
+CREATE TABLE tools (
+  id       INTEGER PRIMARY KEY AUTOINCREMENT,
+  name     TEXT,
+  type     TEXT,
+  quantity INTEGER
+);
+\end{verbatim}
+
+Spis narzędzi, ich typów (np.\ lutownica/oscyloskop/szlifierka/\dots) i ilości.
+
+Szczególnie przydatne w przypadku pilników, papierów ściernych, śrubokrętów
+precyzyjnych, wkrętaków specjalnych, bitów itp.
+
+\subsection{Akcesoria}
+
+\begin{verbatim}
+CREATE TABLE accessories (
+  id       INTEGER PRIMARY KEY AUTOINCREMENT,
+  name     TEXT,
+  type     TEXT,
+  quantity INTEGER
+);
+\end{verbatim}
+
+Różnego rodzaju dodatki/wkładki do narzędzi (np.\ groty/kolby lutownicze).
+
+\subsection{Narzędzia/akcesoria}
+
+\begin{verbatim}
+CREATE TABLE tools_accessories (
+  toolID      INTEGER,
+  accessoryID INTEGER,
+  FOREIGN KEY (toolID)      REFERENCES tools(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (accessoryID) REFERENCES accessories(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (toolID, accessoryID)
+);
+\end{verbatim}
+
+``Łącznik'' tabel \texttt{tools} i \texttt{accessories}
+
+\subsection{Substancje}
+
+\begin{verbatim}
+CREATE TABLE substances (
+  id       INTEGER PRIMARY KEY AUTOINCREMENT,
+  name     TEXT,
+  type     TEXT,
+  quantity INTEGER,
+  unit     TEXT
+);
+\end{verbatim}
+
+Posiadane substancje (spoiwa lutownicze, izopropanol, topniki etc.)
+
+\section{Widoki}
+\subsection{Wyświetlanie klientów}
+
+\begin{verbatim}
+CREATE VIEW clients_view AS
+SELECT clients.*, COUNT(orders.clientID) FROM clients
+LEFT JOIN orders ON clients.id = orders.clientID
+GROUP BY clients.id;
+\end{verbatim}
+
+Rozszerzenie tabeli \texttt{clients} o liczbę złożonych przez danego klienta
+zamówień.
+
+\subsection{Wyświetlanie zamówień}
+
+\begin{verbatim}
+CREATE VIEW orders_view AS
+SELECT
+    id,
+    deviceID,
+    clientID,
+    datetime(inDate,  'unixepoch'),
+    datetime(outDate, 'unixepoch'),
+    state
+FROM clients;
+\end{verbatim}
+
+Wyświetlanie tabeli \texttt{orders} z formatowaniem dat
+
+\section{Program kliencki}
+
+Program napisany został w języku C++. Wykorzystuje bibliotekę do rysowania
+tabel \href{https://github.com/dattanchu/bprinter}{bprinter} oraz header
+\href{https://github.com/Jorengarenar/ANSI_Esc_Seq}{ANSI\_Esc\_Seq}.
+Za build system posłużył CMake.
+
+Na chwilę obecną oferuje jedynie przeglądanie klientów i zamówień oraz tymczasową
+(tj.\ niezapisywaną do bazy) wartości poszczególnych pól rekordów.
+
+Zaimplementowana na razie jest wyłącznie angielska wersja językowa.
+
+\section{TODO}
+
+\begin{itemize}
+   \item Wymiana biblioteki rysującej tabele na rozwiązanie autorskie (najlepiej
+      wykorzystujące klasy dziedziczące po `std::ostream`)
+   \item Rozwój biblioteki ANSI\_Esc\_Seq
+   \item Uzupełnienie procedur i wyzwalaczy wstawiających i aktualizujących dane
+   \item Stworzenie bardziej złożonych widoków danych
+   \item Dodanie brakujących kart w programie
+   \item Stałe zapisywanie wprowadzonych zmian do bazy
+   \item Możliwość wprowadzania danych, a nie tylko ich modyfikacji
+\end{itemize}
+
+\end{document}
