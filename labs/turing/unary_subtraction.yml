@@ -1,0 +1,127 @@
+# Jakub Łukasiewicz
+
+# Interpreter: https://turingmachine.io/
+
+name: 'unary subtraction'
+
+# Assumptions: two numbers are provided in input
+
+input: '1 -'      #    1   -   0  =  1
+#input: '- -'      #    0   -   0  =  0
+#input: '- 11'     #    0   -   2  = -2
+#input: '11 11'    #    2   -   2  =  0
+#input: '1 11'     #    1   -   2  = -1
+#input: '- -1'     #    0   - (-1) =  1
+#input: '-11 -11'  #  (-2)  - (-2) =  0
+#input: '-1 1'     #  (-1)  -   1  = -2
+#input: '-111 111' #  (-3)  -   3  = -6
+#input: '111 -111' #    3   - (-3) =  6
+
+blank: ' '
+
+start state: s
+table:
+  s: # check if positive or not
+    '-': { R: s2 }
+    '1': { R: A1 }
+  s2: # check if 0 or nagative
+    '1': { R: B1 }
+    ' ': { L: C1 }
+  X:
+    '-': { L: f, write: ' ' }
+    '1': { L: f, write: ' ' }
+  f:
+
+  A1: # from positive subtract...
+    '1': { R: A1 }
+    ' ': { R: A2 }
+  A2:
+    '-': { R: Ab1 } # .. negative
+    '1': { R: Aa1 } # .. positive
+    ' ': { L: f }
+
+  B1: # from negative subtract...
+    '1': { R: B1 }
+    ' ': { R: B2 }
+  B2:
+    '-': { R: Bb1 } # ... negative
+    '1': { R: Ba1 } # ... positive
+    ' ': { L: f }
+
+  C1: # from 0 subtract ...
+    '-': { R: C2, write: ' ' }
+  C2:
+    '-': { R: C3 }
+    '1': { L: C4 }
+    ' ': { R: C2 }
+  C3:
+    '1': { L: C4 }
+    ' ': { L: f }
+  C4:
+    '-': { R: f, write: ' ' }
+    ' ': { L: f, write: '-' }
+
+
+  Aa1:
+    '1': { R: Aa1 }
+    ' ': { L: Aa2 }
+  Aa2:
+    '1': { L: Aa3, write: ' ' }
+  Aa3:
+    '1': { L: Aa3 }
+    ' ': { L: Aa4 }
+  Aa4:
+    '1': { L: Aa4 }
+    ' ': { R: Aa5 }
+  Aa5:
+    '1': { R: Aa6, write: ' ' }
+  Aa6:
+    '1': { R: A1 }
+    ' ': { L: f, write: '-' }
+
+  Ab1:
+    '1': { L: Ab2 }
+    ' ': { L: X }
+  Ab2:
+    '-': { L: Ab2 }
+    ' ': { R: Ab3, write: '1' }
+  Ab3:
+    '-': { R: Ab3 }
+    '1': { R: Ab3 }
+    ' ': { L: Ab4 }
+  Ab4:
+    '1': { L: Ab5, write: ' '}
+  Ab5:
+    '-': { R: Ab6, write: '1' }
+    '1': { L: Ab5 }
+  Ab6:
+    '1': { R: Ab6 }
+    ' ': { L: X }
+
+
+  Ba1:
+    '1': { R: Ba1 }
+    ' ': { L: Ba2 }
+  Ba2:
+    '1': { L: Ba3, write: ' ' }
+  Ba3:
+    '1': { L: Ba3 }
+    ' ': { R: f, write: '1' }
+
+  Bb1:
+    '1': { R: Bb2 }
+    ' ': { L: X }
+  Bb2:
+    '1': { R: Bb2 }
+    ' ': { L: Bb3 }
+  Bb3:
+    '1': { L: Bb4, write: ' ' }
+  Bb4:
+    '-': { L: Bb4 }
+    '1': { L: Bb4 }
+    ' ': { L: Bb5 }
+  Bb5:
+    '-': { R: Bb6, write: ' ' }
+    '1': { L: Bb5 }
+  Bb6:
+    '1': { R: B1, write: '-' }
