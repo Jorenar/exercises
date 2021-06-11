@@ -1,0 +1,86 @@
+\documentclass[notitlepage]{article}
+\usepackage[a4paper, vmargin=20pt, hmargin=50pt, head=16pt, includehead]{geometry}
+% \geometry{letterpaper}
+
+% https://git.overleaf.com/2811329btybdm
+
+\usepackage[utf8]{inputenc}
+\usepackage{paralist}
+\usepackage{fullpage}
+
+\usepackage{titling}
+\usepackage{lipsum}
+\usepackage{framed}
+\usepackage{color}
+\usepackage{comment}
+
+\pretitle{\begin{center}\LARGE \bfseries Use-Case Specification: }
+\posttitle{\par\end{center}\vskip 0.5em}
+\date{}
+\author{}
+
+\renewcommand*\sectionmark[1]{\markboth{#1}{}}
+\renewcommand*\subsectionmark[1]{\markright{#1}}
+
+\newcommand{\name}[1]{ \title{#1} \maketitle }
+
+\includecomment{comment}
+
+\begin{document}
+\name{Creating file}
+
+\section{General Information}
+\subsection{Use-case description}
+
+Creating files is second most desired functionality of hex editors after
+their primary purpose of editing files.
+
+\subsection{Actors}
+
+\begin{itemize}
+   \item User
+   \item Hex editor (further referred to as XE or \texttt{xe})
+   \item File (further referred to also as \texttt{path/to/file/filename.ext})
+\end{itemize}
+
+\section{Preconditions}
+
+\begin{itemize}
+   \item User has access to terminal emulator
+   \item XE is installed in \texttt{\$PATH}
+\end{itemize}
+
+\section{Scenarios}\label{sec:scenarios}
+\subsection{Main Scenario}\label{main:scenario}
+
+\begin{enumerate}
+   \item User executes command \texttt{xe path/to/file/filename.ext}
+   \item XE is launched
+   \item XE applies configuration from dotfiles
+   \item XE tries opening file given by path \texttt{path/to/file/filename.ext}\label{search}
+   \item XE does not find file in given path
+   \item XE creates file handle for writing
+   \item XE awaits user input
+   \item User provides file contents in form of hexadecimal numbers, each number represents new octet of data
+   \item User saves data
+   \item XE writes data to file in path \texttt{path/to/file/filename.ext}
+   \item User executes exit command\label{noquit}
+   \item XE checks for unsaved changes
+   \item XE does not detect unsaved changes
+   \item XE closes\label{quit}
+\end{enumerate}
+
+\subsection{Alternative Scenario}\label{subsec:alternative:scenario}
+\subsubsection{File exists}
+
+\begin{enumerate}
+      \setcounter{enumi}{\ref{search}}
+   \item XE successfully finds and opens file
+   \item Switch to this point number in main scenario of UC: Editing file
+\end{enumerate}
+
+\section{Postconditions}\label{sec:postconditions}
+
+New file is present in filesystem
+
+\end{document}
