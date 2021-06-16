@@ -1,0 +1,13 @@
+Pre-project:
+  - pozyskanie kapitału
+  - analiza biznesowa
+  - przygotowanie zasobów
+Feasibility:
+  - określenie kosztów
+  - określenie czasu
+Fundation:
+  - określenie głównych wymagań
+Exploration:
+  - rozwijanie rzeczy z Fundation
+Deployment:
+  - oddanie dokumentacji i gotowego projektu

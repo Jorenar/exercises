@@ -1,0 +1,4 @@
+Jednym z przykładowych wzorców, które mogłyby być użyteczne w implementacji
+tego systemu jest Builder (Budowniczy), ponieważ oddziela on tworzenie złożonego
+obiektu od jego reprezentacji, dzięki czemu ten sam proces konstrukcji może
+prowadzić do stworzenia wielorakich reprezentacji.
