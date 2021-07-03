@@ -1,0 +1,592 @@
+\documentclass[oneside]{book}
+
+\usepackage[a4paper, vmargin=20pt, hmargin=50pt, head=16pt, includehead, includefoot]{geometry}
+\usepackage[inline]{enumitem}
+\usepackage{amsmath}     % math
+\usepackage{relsize}
+\usepackage{amssymb}     % math symbols
+\usepackage{caption}
+\usepackage{changepage}  % for the adjustwidth environment
+\usepackage{hyperref}
+\usepackage{enumitem}    % enumerate/list items
+\usepackage{fancyhdr}    % header
+\usepackage{fancyvrb}
+\usepackage{mathtools}   % math tools
+\usepackage{multicol}    % multiple columns
+\usepackage{pgfplots}    % graphs
+\usepackage{soul}
+\usepackage{stackengine} % stacking objects vertically
+\usepackage{titlesec}    % alternative section titles
+\usepackage{varwidth}
+\usepackage{tcolorbox}
+\usepackage{xcolor}      % color text
+
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{automata,positioning}
+
+\newcommand{\Because}{\quad\because\quad}
+\newcommand{\case}[1]{\textrm{#1$^\circ$}}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\degree}{^{\circ}}
+\newcommand{\diff}{\mathop{}\!\mathrm{d}}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\for}{\ \leftrightarrow\ }
+\newcommand{\Integral}[4]{\int_{#1}^{#2} \! #3 \, \mathop{}\!\mathrm{d}#4}
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\qed}{\textbf{\textit{QED}}}
+\newcommand{\qef}{\textbf{\textit{QEF}}}
+\newcommand{\Land}{\quad\land\quad}
+\newcommand{\Lor}{\quad\lor\quad}
+
+\let\oldref\ref
+\renewcommand{\ref}[1]{\mathrm{(\oldref{#1})}}
+
+\DeclareMathOperator{\?}{?}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\alp}{alph}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\lin}{lin}
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+
+\renewcommand{\ge}{\geqslant}
+\renewcommand{\le}{\leqslant}
+
+\counterwithout{equation}{section} % reset equation counter after each section
+
+\titleformat{\section}{\normalfont\Large\bfseries}{}{0pt}{} % remove section numbering
+\titleformat{\chapter}{\normalfont\Huge\bfseries\centering}{}{0pt}{}
+
+\let\stdsection\section
+\renewcommand\section{\clearpage\stdsection} % each section on new page
+
+\setlength{\parskip}{0.7em}
+\setlength{\parindent}{0em}
+\setitemize[1]{noitemsep,topsep=2pt,parsep=0pt,partopsep=0pt}
+
+\pagestyle{fancy}
+%
+\renewcommand{\sectionmark}[1]{ \markright{#1}{} }
+%
+\lhead{Języki formalne i automaty}
+\rhead{\rightmark}
+
+\renewcommand*\contentsname{Zadania}
+
+\begin{document}
+\section{Zestaw  1, zadanie 12}
+
+\begin{itemize}
+   \item Zdefiniować formalnie pojęcie $\alp(x)$ dla $x \in \Sigma^*$. W definicji
+      wykorzystaj wyłącznie standardowy aparat teoriomnogościowy, kwantyfikatory oraz
+      pojęcia: gwiazdki Kleenego i konkatenacji.
+
+   \item Zdefiniować formalnie pojęcie $\#_a w$ oznaczające liczbę wystąpień litery
+      $a$~w~słowie $w$. \\
+      Wskazówka: definicja rekurencyjna.
+\end{itemize}
+
+\subsection*{Rozwiązanie}
+
+\begin{equation*}
+   \alp(x) = \{a \in \Sigma : ( \exists_{w,v \in \Sigma^*} : wav = x ) \}
+\end{equation*}
+
+\begin{equation*}
+   \#_a w = \left\{ \begin{array}{cl}
+      0          & \for |w| \le 1 \ \land\ w \ne a \\
+      1          & \for w = a \\
+      \#_a x + \#_a v & \for w = xv : x \in \Sigma, v \in \Sigma^*
+   \end{array} \right.
+\end{equation*}
+
+\section{Zestaw  2, zadanie 13}
+
+Z wykładu wiemy, że DFA, NFA oraz $\epsilon$-NFA wszystkie rozpoznają tę samą
+klasę języków (klasę języków regularnych). Czy jeśli do definicji DFA, NFA lub
+$\epsilon$-NFA dodamy dodatkowy warunek ``stan końcowy jest dokładnie jeden'',
+to rozpoznawana klasa się zmieni? W każdym z przypadków (DFA, NFA,
+$\epsilon$-NFA) udowodnić, że się nie zmieni lub podać kontrprzykład.
+
+\subsection*{Rozwiązanie}
+\subsubsection*{DFA i NFA}
+
+Klasa zostaje \textbf{ograniczona}, gdyż istnieją języki wymagające kilku stanów
+finalnych.
+
+Rozważmy język opisany prostym wyrażeniem $\epsilon + a$ \ (\texttt{/a?/}).
+
+Stan początkowy musi być stanem akceptującym, gdyż nie ma przejść po $\epsilon$
+
+\begin{figure}[h!]
+   \centering
+   \begin{tikzpicture}[shorten >=1pt,node distance=3cm,auto]
+      \node[state,initial,initial text=,accepting] (s) {$s$};
+   \end{tikzpicture}
+\end{figure}
+
+Gdybyśmy teraz stworzyli pętlę \begin{tikzpicture}[baseline=0,shorten >=1pt,node distance=3cm,auto]
+   \node[state,initial,initial text=,accepting] (s) {$s$};
+   \path[->]
+   (s) edge [loop right] node {a} ( );
+\end{tikzpicture}
+aby akceptować symbol $a$, to wyrażenie zmieniłoby się na $a^*$. Zatem należy
+dodać kolejny stan:
+
+\begin{figure}[h!]
+   \centering
+   \begin{tikzpicture}[shorten >=1pt,node distance=3cm,auto]
+      \node[state,initial,initial text=,accepting] (s) {$s$};
+      \node[state] (f) [right of=s] {$f$};
+      \path[->] (s) edge node {a} (f);
+   \end{tikzpicture}
+\end{figure}
+
+Znowu, ponieważ $\epsilon + a$ jest rozpatrywanym wyrażeniem, a nie
+$\epsilon + aa$ lub $\epsilon + a^+$ oraz nie ma przejść po $\epsilon$,
+to stan $f$ musi być stanem akceptującym:
+
+\begin{figure}[h!]
+   \centering
+   \begin{tikzpicture}[shorten >=1pt,node distance=3cm,auto]
+      \node[state,initial,initial text=,accepting] (s) {$s$};
+      \node[state,accepting] (f) [right of=s] {$f$};
+      \path[->] (s) edge node {a} (f);
+   \end{tikzpicture}
+\end{figure}
+
+Zatem automat musi posiadać dwa stany finalne aby poprawnie wykrywać $\epsilon + a$
+
+* Aby był to DFA, wystarczy dodać niefinalny stan zlewu
+
+\begin{figure}[h!]
+   \centering
+   \begin{tikzpicture}[shorten >=1pt,node distance=3cm,auto]
+      \node[state,initial,initial text=,accepting] (s) {$s$};
+      \node[state,accepting] (f) [right of=s] {$f$};
+      \node[state] (t) [right of=f] {$t$};
+
+      \path[->]
+      (s) edge node {a} (f)
+      (f) edge node {a} (t)
+      (t) edge [loop right] node {a} ( );
+   \end{tikzpicture}
+\end{figure}
+
+\subsubsection*{$\epsilon$-NFA}
+
+Klasa \textbf{nie zostanie zmieniona}, gdyż by spełnić dodatkowy warunek wystarczy
+od dotychczasowych stanów finalnych poprowadzić przejście po $\epsilon$ do nowego,
+pojedynczego stanu, np.:
+
+\begin{figure}[h!]
+   \centering
+   \begin{tikzpicture}[baseline=0,shorten >=1pt,node distance=3cm,auto]
+      \node[state,initial,initial text=] (s) {$s$};
+      \node[state,accepting] (q) [below left  of=s] {$q$};
+      \node[state,accepting] (r) [below right of=s] {$r$};
+
+      \path[->]
+      (s) edge              node {a} (q) edge node {b} (r)
+      (q) edge [loop left]  node {a} ( )
+      (r) edge [loop right] node {b} ( );
+   \end{tikzpicture}
+   %
+   \begin{tikzpicture}[baseline=0,scale=0.1]
+      \fill[rotate=180] (0,0) -- (5,4) -- (5,2) to[bend right=10] (25,5) to[bend left=10] (5,-2) -- (5,-4) -- cycle;
+   \end{tikzpicture}
+   %
+   \begin{tikzpicture}[baseline=0,shorten >=1pt,node distance=3cm,auto]
+      \node[state,initial,initial text=] (s) {$s$};
+      \node[state]           (q) [below left  of=s] {$q$};
+      \node[state]           (r) [below right of=s] {$r$};
+      \node[state,accepting] (f) [below of=s]       {$f$};
+
+      \path[->]
+      (s) edge              node {$a$} (q) edge node {$b$}        (r)
+      (q) edge [loop left]  node {$a$} ( ) edge node {$\epsilon$} (f)
+      (r) edge [loop right] node {$b$} ( ) edge node {$\epsilon$} (f);
+   \end{tikzpicture}
+\end{figure}
+
+\section{Zestaw  4, zadanie 9.1}
+
+Niech $L_1, L_2$ będą językami nad alfabetem $\Sigma$. Załóżmy, że $L_1 \cup L_2$
+jest regularny oraz $L_1$ jest regularny. Czy $L_2$ jest regularny? Udowodnić
+lub podać kontrprzykład.
+
+\subsection*{Rozwiązanie}
+
+Nie, język $L_2$ nie musi być regularny. Przykład:
+\begin{equation*}
+   L_1 = L(a^* b^*) \qquad L_2 = \{ a^n b^n : n \ge 0 \}
+\end{equation*}
+\begin{equation*}
+   L_1 \cup L_2 = L_1
+\end{equation*}
+
+\section{Zestaw  6, zadanie 9.2}
+
+Niech $L=\{ a^n b^n : n \in \N \}$. Udowodnić, że język $(a+b)^* \ \backslash \ L$
+jest bezkontekstowy.
+
+\subsection*{Rozwiązanie}
+
+$(a+b)^*$ jest równoważne $\Sigma^*$ (gdzie $\Sigma = \{a,b\}$).
+
+Zauważamy, że w języku $L$ brak słów zaczynających się na $b$, kończących na
+$a$ lub zawierających podciąg $ba$.
+
+Zatem słowo należy do rozpatrywanego języka jeśli spełnia jeden z warunków:
+\vspace{-1em}
+\begin{enumerate}
+   \item zaczyna się na $b$ lub kończy na $a$, \vspace{-0.5em}
+   \item zawiera podciąg $ba$, \vspace{-0.5em}
+   \item jest postaci $\{ a^m b^n : m>n \}$ lub $\{ a^n b^m : m>n \}$
+\end{enumerate}
+
+Widać, że jeżeli nie spełnia warunku 1 i 2, to musi spełniać warunek 3. Jeśli
+nie spełnia 1 i 3, to musi spełniać 2. Jeśli nie spełnia 2 i 3, to musi
+spełniać 1. A jeśli nie spełnia wszystkich, to albo należy do $L$ albo nie
+należy do $\Sigma^*$.
+
+Stwórzmy stosowną gramatykę o produkcjach:
+\vspace{-0.5em}
+\begin{align*}
+   &S \rightarrow S_1 \ | \ S_2 \ | \ S_3 \\
+   &\quad S_1 \rightarrow bX \ | \ Xa \\
+   &\qquad X \rightarrow aX \ | \ bX \ | \ \epsilon \\
+   &\quad S_2 \rightarrow XbaX \\
+   &\quad S_3 \rightarrow AY \ | \ YB \\
+   &\qquad Y \rightarrow aYb \ | \ \epsilon \\
+   &\qquad A \rightarrow aA \ | \ a \\
+   &\qquad B \rightarrow bB \ | \ b
+\end{align*}
+
+Uprośćmy produkcje $P$:
+\vspace{-1em}
+\begin{align*}
+   &S \rightarrow bX \ | \ Xa \ | \ XbaX \ | \ AY \ | \ YB \\
+   &\quad X \rightarrow aX \ | \ bX \ | \ \epsilon \\
+   &\quad Y \rightarrow aYb \ | \ \epsilon \\
+   &\quad A \rightarrow aA \ | \ a \\
+   &\quad B \rightarrow bB \ | \ b
+\end{align*}
+
+\begin{equation*}
+   G = (\{X,Y,A,B\}, \{a,b\}, P, S)
+\end{equation*}
+
+Udało się stworzyć dla rozważanego języka gramatykę bezkontekstową, zatem język
+ten \textbf{jest bezkontekstowy}.
+
+\qed
+
+\section{Zestaw  9, zadanie 7}
+
+Z wykładu wiadomo, że klasa języków bezkontekstowych jest zamknięta na sumę
+mnogościową. Czy klasa języków akceptowanych przez DPDA przez pusty stos również?
+Udowodnić lub podać kontrprzykład.
+
+\subsection*{Rozwiązanie}
+
+Niech $L_1 = \{ a \}$ oraz $L_2 = \{ aa \}$,
+wtedy $L_1 \cup L_2 = \{ a, aa \}$ nie spełnia warunku prefiksu
+
+\section{Zestaw 10, zadanie 13}
+
+Wymyślić dowolne jednoznaczne kodowanie liczb całkowitych na taśmie maszyny
+Turinga (w szczególności również ujemnych). \\
+Używając wymyślonego kodowania opisać maszynę realizującą odejmowanie liczb
+całkowitych.
+
+\subsection*{Rozwiązanie}
+
+Do zapisu liczb zostanie użyty system jedynkowy. Liczby ujemne oznaczane będą
+znakiem minus na początku. Zero to sam znak minus.
+
+Przykłady:
+\quad $0_{(10)} = -_{(1)}$,
+\quad $1_{(10)} = 1_{(1)}$,
+\quad $-2_{(10)} = -11_{(1)}$,
+\quad $4_{(10)} = 1111_{(1)}$,
+\quad $-5_{(10)} = -11111_{(1)}$
+
+Maszyna odejmująca dwie liczby zapisane w powyższym systemie:
+
+\begin{equation*}
+   M = \Big(Q,\ \{ -, 1 \},\ \{ -, 1, \_ \},\ \delta,\ s,\ \_,\ \{ f \}\Big)
+\end{equation*}
+
+\begin{multicols}{2}
+
+   \begin{tabular}{c|ccc}
+      $\delta$ & $-$                     & $1$                     & $\_$                    \\ \hline
+      $s$      & $(s_2, -, \rightarrow)$ & $(A_1, 1, \rightarrow)$ & ---                     \\
+      $s_2$    & ---                     & $(B_1, 1, \rightarrow)$ & $(C_1, \_, \leftarrow)$ \\
+      $X$      & $(f, \_, \leftarrow)$   & $(f, \_, \leftarrow)$   & ---                     \\
+      $f$      & ---                     & ---                     & ---                     \\
+   \end{tabular}
+
+   \begin{tabular}{c|ccc} % A
+      $\delta$ & $-$                        & $1$                        & $\_$                     \\ \hline
+      $A_1$    & ---                        & $(A_1, 1, \rightarrow)$    & $(A_2, \_, \rightarrow)$ \\
+      $A_2$    & $(A_{b1}, -, \rightarrow)$ & $(A_{a1}, 1, \rightarrow)$ & $(f, \_, \leftarrow)$    \\
+   \end{tabular}
+
+   \begin{tabular}{c|ccc} % B
+      $\delta$ & $-$                        & $1$                        & $\_$                     \\ \hline
+      $B_1$    & ---                        & $(B_1, 1, \rightarrow)$    & $(B_2, \_, \rightarrow)$ \\
+      $B_2$    & $(B_{b1}, -, \rightarrow)$ & $(B_{a1}, 1, \rightarrow)$ & $(f, \_, \leftarrow)$    \\
+   \end{tabular}
+
+   \begin{tabular}{c|ccc} % C
+      $\delta$ & $-$                      & $1$                    & $\_$                     \\ \hline
+      $C_1$    & $(C_2, \_, \rightarrow)$ & ---                    & ---                      \\
+      $C_2$    & $(C_3, -, \rightarrow)$  & $(C_4, 1, \leftarrow)$ & $(C_2, \_, \rightarrow)$ \\
+      $C_3$    & ---                      & $(C_4, 1, \leftarrow)$ & $(f, \_, \leftarrow)$    \\
+      $C_4$    & $(f, \_, \rightarrow)$   & ---                    & $(f, -, \leftarrow)$     \\
+   \end{tabular}
+
+\columnbreak
+
+   \begin{tabular}{c|ccc} % A_a
+      $\delta$ & $-$ & $1$                         & $\_$                        \\ \hline
+      $A_{a1}$ & --- & $(A_{a1}, 1, \rightarrow)$  & $(A_{a2}, \_, \leftarrow)$  \\
+      $A_{a2}$ & --- & $(A_{a3}, \_, \leftarrow)$  & ---                         \\
+      $A_{a3}$ & --- & $(A_{a3}, 1, \leftarrow)$   & $(A_{a4}, \_, \leftarrow)$  \\
+      $A_{a4}$ & --- & $(A_{a4}, 1,\leftarrow)$    & $(A_{a5}, \_, \rightarrow)$ \\
+      $A_{a5}$ & --- & $(A_{a6}, \_, \rightarrow)$ & ---                         \\
+      $A_{a6}$ & --- & $(A_1, 1, \rightarrow)$     & $(f, -, \leftarrow)$        \\
+   \end{tabular}
+
+   \begin{tabular}{c|ccc} % A_b
+      $\delta$ & $-$                        & $1$                        & $\_$                       \\ \hline
+      $A_{b1}$ & ---                        & $(A_{b2}, 1, \leftarrow)$  & $(X, \_, \leftarrow)$      \\
+      $A_{b2}$ & $(A_{b2}, -, \leftarrow)$  & ---                        & $(A_{b3}, 1, \rightarrow)$ \\
+      $A_{b3}$ & $(A_{b3}, -, \rightarrow)$ & $(A_{b3}, 1, \rightarrow)$ & $(A_{b4}, \_, \leftarrow)$ \\
+      $A_{b4}$ & ---                        & $(A_{b5}, \_, \leftarrow)$ & ---                        \\
+      $A_{b5}$ & $(A_{b6}, 1, \rightarrow)$ & $(A_{b5}, 1, \leftarrow)$  & ---                        \\
+      $A_{b6}$ & ---                        & $(A_{b6}, 1, \rightarrow)$ & $(X, \_, \leftarrow)$      \\
+   \end{tabular}
+
+   \begin{tabular}{c|ccc} % B_a
+      $\delta$ & $-$ & $1$                        & $\_$                       \\ \hline
+      $B_{a1}$ & --- & $(B_{a1}, 1, \rightarrow)$ & $(B_{a2}, \_, \leftarrow)$ \\
+      $B_{a2}$ & --- & $(B_{a3}, \_, \leftarrow)$ & ---                        \\
+      $B_{a3}$ & --- & $(B_{a3}, 1, \leftarrow)$  & $(f, 1, \rightarrow)$      \\
+   \end{tabular}
+
+   \begin{tabular}{c|ccc} % B_b
+      $\delta$ & $-$                         & $1$                        & $\_$                       \\ \hline
+      $B_{b1}$ & ---                         & $(B_{b2}, 1, \rightarrow)$ & $(X, \_, \leftarrow)$      \\
+      $B_{b2}$ & ---                         & $(B_{b2}, 1, \rightarrow)$ & $(B_{b3}, \_, \leftarrow)$ \\
+      $B_{b3}$ & ---                         & $(B_{b4}, \_, \leftarrow)$ & ---                        \\
+      $B_{b4}$ & $(B_{b4}, -, \leftarrow)$   & $(B_{b4}, 1, \leftarrow)$  & $(B_{b5}, \_, \leftarrow)$ \\
+      $B_{b5}$ & $(B_{b6}, \_, \rightarrow)$ & $(B_{b5}, 1, \leftarrow)$  & ---                        \\
+      $B_{b6}$ & ---                         & $(B_1, -, \rightarrow)$    & ---                        \\
+   \end{tabular}
+
+\end{multicols}
+
+\section{Zestaw 12, zadanie 7}
+
+Udowodnić, że jeśli $M$ jest maszyną Turinga oraz $w$ jest słowem, które $M$ może
+przeczytać, problem ``czy $M$ zatrzymuje się na $w$?'' jest nierozstrzygalny
+(jest to tak zwany problem stopu).
+
+\subsection*{Rozwiązanie}
+
+Niech maszyna $H(M,w)$ rozstrzyga, czy maszyna $M$ nie zawiesza się dla słowa $w$.
+\begin{equation*}
+   H(M,w) = \left\{ \begin{aligned}
+      1 &\for \textrm{$M(w)$ zatrzymuje się} \\
+      0 &\for \textrm{$M(w)$ wiesza się}
+   \end{aligned} \right.
+\end{equation*}
+
+Niech $P(X)$, gdzie $X$ to dowolna maszyna,
+zawiesza się, jeżeli $H(X,X)$ zwróci $1$, a zatrzymuje gdy $0$.
+
+Rozważmy co się stanie dla $P(P)$
+
+\textbf{Przypadek 1:}
+$H(P,P)$ zwraca $1$, co oznacza, że $P(P)$ nie powinno się zawiesić. Ale jeżeli $H(P,P) = 1$,
+to zgodnie z definicją $P$, powinno się ono zawiesić. Zatem $H$ wydaje niepoprawny wynik.
+
+\textbf{Przypadek 2:}
+$H(P,P)$ zwraca $0$, co oznacza, że $P(P)$ powinno się zawiesić. Ale zgodnie z definicją $P$,
+dla $H(P,P) = 0$ maszyna $P$ się nie wiesza. $H$ ponownie daje błędny wynik.
+
+Ta sprzeczność pokazuje, że istnienie maszyny potrafiącej rozwiązywać problem
+stopu jest logicznie niemożliwe, zatem jest to problem nierozstrzygalny. \qed
+
+\section{Zestaw 13, zadanie 1}
+
+Interpretując ciąg cyfr jako liczbę pozwalamy na to, żeby zaczynała się od pewnej liczby
+zer, po prostu je ignorujemy.
+\begin{enumerate}[label=(\alph*)]
+   \item Wskazać konkretny DFAO z $\Sigma = \{ 0, 1 \}$, który dla słów, które interpretowane
+      jako liczba binarna są parzyste zwraca 0, natomiast dla nieparzystych 1 (zauważmy, że
+      ten przypadek odpowiada ``zwykłemu'' DFA).
+   \item Wskazać konkretny DFAO z $\Sigma = \Delta = \{ 0,1,2 \}$, który interpretując wejście jako
+      liczbę w zapisie trójkowym zwraca jej resztę z dzielenia przez 3.
+   \item Niech $k \ge 2$. Wskazać DFAO z $\Sigma = \Delta = \{ 0,1,2,\dots,k-1 \}$, który
+      interpretując wejście jako liczbę w zapisie o~podstawie $k$ zwraca jej resztę
+      z~dzielenia przez $k$.
+\end{enumerate}
+
+\subsection*{Rozwiązanie (a)}
+
+\begin{figure}[h!]
+   \centering
+   \begin{tikzpicture}[baseline=0,shorten >=1pt,node distance=3cm,auto]
+      \node[state,initial,initial text=] (q0) {$q_0/0$};
+      \node[state] (q1) [right of=q0] {$q_1/1$};
+
+      \path[->]
+      (q0) edge[loop above]  node{$0$}()  edge [bend left]  node {$1$} (q1)
+      (q1) edge[loop above] node{$1$}()  edge[bend left] node {$0$} (q0);
+   \end{tikzpicture}
+\end{figure}
+
+\subsection*{Rozwiązanie (b)}
+
+\begin{figure}[h!]
+   \centering
+   \begin{tikzpicture}[baseline=0,shorten >=1pt,node distance=3cm,auto]
+      \node[state,initial,initial text=] (q0) {$q_0/0$};
+      \node[state] (q1) [right of=q0] {$q_1/1$};
+      \node[state] (q2) [right of=q1] {$q_2/2$};
+
+      \path[->]
+      (q0) edge[loop above]  node{$0$}()  edge[bend left=10] node{$1$}(q1) edge[bend left=40] node[above]{$2$}(q2)
+      (q1) edge[loop below] node{$1$}()  edge[bend left=10] node{$0$}(q0) edge[bend left=10] node[above]{$2$}(q2)
+      (q2) edge[loop above] node{$2$}()  edge[bend left=75] node[below]{$0$}(q0) edge[bend left=10] node[below]{$1$}(q1);
+   \end{tikzpicture}
+\end{figure}
+
+\subsection*{Rozwiązanie (c)}
+
+W przypadku ogólnym tworzymy automat analogicznie jak w podpunktach (a) i (b).
+
+\quad Dla danej liczby reszta z dzielenia jej przez bazę systemu, równa jest ostatniej cyfrze, zatem:
+\begin{equation*}
+   \mathlarger{
+      \mathop{\mathlarger{\mathlarger{\mathlarger\forall}}}_{\mathlarger{a \in \Delta}}
+      \ \
+      \mathop{\mathlarger{\mathlarger{\mathlarger\forall}}}_{\mathlarger{q_i,q_a \in Q}}
+      \ : \
+      \Big(
+      \mathlarger{
+         \delta(q_i, a) = q_a
+         \ \land \
+         \tau(q_a) = a
+      }
+      \Big)
+   }
+\end{equation*}
+
+\begin{equation*}
+   \mathlarger{
+      M = \Big(
+      Q = \{ q_0, q_1, q_2, \dots \},
+      \delta,
+      \ q_0,
+      \ \Sigma = \{ 0,1,2 \},
+      \ \Delta = \{ 0,1,2 \},
+      \ \tau
+      \Big)
+      }
+\end{equation*}
+
+\section{Zestaw 13, zadanie 2}
+
+Udowodnić poprzez podanie konkretnych automatów, że:
+\begin{enumerate}[label=(\alph*)]
+   \item
+      Ciąg $(0,1,0,1,0,1,\dots)$ jest $2$-automatyczny,\\
+      ciąg $(0,1,2,0,1,2,0,1,2,\dots)$ jest $3$-automatyczny,\\
+      ciąg $(0,1,\dots,k-1,0,1,\dots,k-1,\dots)$ jest $k$-automatyczny.
+   \item Ciąg samych zer jest $k$-automatyczny dla dowolnego $k \ge 2$.
+   \item Ciąg, który na skończenie wielu miejscach na początku ma cyfry $\{0,1,\dots,9\}$,
+      a~potem nieskończenie wiele zer, jest $k$-automatyczny dla dowolnego $k \ge 2$.
+\end{enumerate}
+
+\begin{tcolorbox}
+   Niech $k \ge 2$. Ciąg $(a_n)_{n \ge 0}$ o wyrazach w skończonym alfabecie $\Delta$
+   nazywamy $k$-automatycznym, jeśli istnieje DFAO
+   $M = \big\{ Q, \{0,1,2,\dots,k-1 \}, \delta, q_0, \Delta, \tau \big\}$, taki że dla
+   każdego $n \ge 0$ oraz $[w]_k = n$ mamy $a_n = \tau(\delta(q_0, w))$.
+
+   \begin{adjustwidth}{1em}{1em}
+      \begin{small}
+         Innymi słowy, jeśli na wejście automatu $M$ podamy liczbę, której wartość $w$ zapisie
+         o~podstawie~$k$ wynosi $n$, to~dostaniemy $n$-ty wyraz ciągu (nieważne, ile zer damy
+         na początku tego zapisu).
+      \end{small}
+   \end{adjustwidth}
+\end{tcolorbox}
+
+\subsection*{Rozwiązanie (a)}
+
+Zauważamy, że ciągi te są cyklicznymi ciągami reszt z dzielenia kolejno przez $2$, $3$ i $k$,
+zatem szukane DFAO to automaty z poprzedniego zadania.
+
+\subsection*{Rozwiązanie (b)}
+
+W tym wypadku funkcja przypisania wartości jest stała: $\tau(q) := 0$, bo $a_n := 0$.
+
+\subsection*{Rozwiązanie (c)}
+
+Ponieważ liczba pozycji z cyframi innymi od 0 jest skończona (oznaczmy, że wynosi ona $m$),
+możliwy jest automat, który dla każdego możliwego wejścia, takiego że $n < m$, ma indywidualny
+stan końcowy, dla którego funkcja $\tau$ zwraca wartość $a_n$, a jeżeli $n > m$, to zwraca $0$.
+
+\begin{tcolorbox}
+
+   Dla przykładu, jeżeli ciąg ma postać $(1,2,3,1,0,0,...)$ i $k=2$, to DFAO będzie:
+   \begin{multicols}{2}
+
+      \begin{equation*}
+         \begin{aligned}
+            & \tau(\delta(q_0, [0]_2))  = 1 \\
+            & \tau(\delta(q_0, [1]_2))  = 2 \\
+            & \tau(\delta(q_0, [10]_2)) = 3 \\
+            & \tau(\delta(q_0, [11]_2)) = 1 \\
+            & \tau(\delta(q_0, [100]_2)) = 0 \\
+            & \tau(\delta(q_0, [101]_2)) = 0 \\
+            & \tau(\delta(q_0, [110]_2)) = 0 \\
+            & \quad\vdots
+         \end{aligned}
+      \end{equation*}
+
+      \begin{tikzpicture}[baseline=0,shorten >=1pt,node distance=2cm,auto]
+         \node[state,initial,initial text=] (q0) {$q_0/1$};
+         \node[state] (q1) [right of=q0] {$q_1/2$};
+         \node[state] (q2) [above right of=q1] {$q_2/3$};
+         \node[state] (q3) [below right of=q1] {$q_3/1$};
+         \node[state] (q4) [below right of=q2] {$q_4/0$};
+
+         \path[->]
+         (q0) edge[loop above] node{$0$}()  edge node{$1$}(q1)
+         (q1) edge node{$0$}(q2) edge node{$1$}(q3)
+         (q2) edge node{$0,1$}(q4)
+         (q3) edge node[below right]{$0,1$}(q4)
+         (q4) edge[loop right] node[right]{$0,1$}()
+         ;
+      \end{tikzpicture}
+
+   \end{multicols}
+\end{tcolorbox}
+
+\end{document}
+
+% vim: spl=pl

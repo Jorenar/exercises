@@ -1,0 +1,372 @@
+\documentclass[oneside]{book}
+
+\usepackage[a4paper, vmargin=20pt, hmargin=50pt, head=16pt, includehead]{geometry}
+\usepackage[inline]{enumitem}
+\usepackage{amsmath}     % math
+\usepackage{amssymb}     % math symbols
+\usepackage{caption}
+\usepackage{changepage}  % for the adjustwidth environment
+\usepackage{enumitem}    % enumerate/list items
+\usepackage{fancyhdr}    % header
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\usepackage{mathtools}   % math tools
+\usepackage{multicol}    % multiple columns
+\usepackage{pgfplots}    % graphs
+\usepackage{siunitx}
+\usepackage{soul}
+\usepackage{stackengine} % stacking objects vertically
+\usepackage{titlesec}    % alternative section titles
+\usepackage{varwidth}
+\usepackage{xcolor}      % color text
+
+\usepgfplotslibrary{fillbetween}
+
+\newcommand{\Because}{\quad\because\quad}
+\newcommand{\case}[1]{\textrm{#1$^\circ$}}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\degree}{^{\circ}}
+\newcommand{\diff}{\mathop{}\!\mathrm{d}}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\for}{\ \leftrightarrow\ }
+\newcommand{\Integral}[4]{\int_{#1}^{#2} \! #3 \, \mathop{}\!\mathrm{d}#4}
+\newcommand{\mathcolorbox}[2]{\colorbox{#1}{$\displaystyle #2$}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\qed}{\textbf{\textit{QED}}}
+\newcommand{\qef}{\textbf{\textit{QEF}}}
+\newcommand{\Land}{\quad\land\quad}
+\newcommand{\Lor}{\quad\lor\quad}
+
+\let\oldref\ref
+\renewcommand{\ref}[1]{\mathrm{(\oldref{#1})}}
+
+\DeclareMathOperator{\?}{?}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\alp}{alph}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\lin}{lin}
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+
+\counterwithout{equation}{section} % reset equation counter after each section
+
+\titleformat{\section}{\normalfont\Large\bfseries}{}{0pt}{} % remove section numbering
+\titleformat{\chapter}{\normalfont\Huge\bfseries\centering}{}{0pt}{}
+
+\let\stdsection\section
+\renewcommand\section{\clearpage\stdsection} % each section on new page
+
+\setlength{\parskip}{0.7em}
+\setlength{\parindent}{0em}
+
+\pagestyle{fancy}
+%
+\renewcommand{\chaptermark}[1]{ \markboth{#1}{} }
+\renewcommand{\sectionmark}[1]{ \markright{#1}{} }
+%
+\lhead{Rachunek prawdopodobieństwa i statystyka}
+\rhead{\leftmark \quad\qquad \rightmark}
+
+\renewcommand*\contentsname{Zadania}
+
+\begin{document}
+
+\tableofcontents
+\nopagebreak[0]
+
+\chapter{Zestaw 1}
+\section{Zadanie 9}
+
+Danych jest $n$ anten, z czego $m$ wadliwych i $n-m$ działających. Załóż, że
+anteny wadliwe są nierozróżnialne i~że anteny działające również są
+nierozróżnialne. Ile jest liniowych układów anten w taki sposób, że żadne dwie
+wadliwe anteny nie sąsiadują ze sobą?
+
+\subsection*{Rozwiązanie}
+
+Jeżeli ilośc wadliwych anten przewyższa ilość anten sprawych o więcej niż 1
+(tj.\ $m > n-m-1$), to istnieje $0$ takich układów, gdyż brakuje anten sprawnych
+do odzielenia zepsutych.
+
+Ponieważ żadne dwie wadliwe anteny nie sąsiadują ze sobą, wiadomo, iż pomiędzy
+nimi musi być przynajmniej jedna sprawna, tj.\ układ typu
+\texttt{\ ł\ \dots\ ł l ł l ł\ \dots\ ł\ } (\texttt{ł} - zepsuta, \texttt{l} - sprawna).
+Stąd wynika, że spośród $n-m$ sprawnych anten $m-1$ zawsze będzie stało pomiędzy
+niesprawnymi.
+
+Problem sprowadza się więc do ustawienia $N = n-m-(m-1) = n - 2m + 1$ sprawnych
+anten na $k = m+1$~``stosach''.
+
+Zatem z \textit{zasady rozmieszczania przedmiotów w pudełkach}:
+
+\begin{equation*}
+   \binom{N+k-1}{k-1} = \binom{(n-2m+1)+(m+1)-1}{(m+1)-1} = \binom{n-m+1}{m}
+\end{equation*}
+
+
+\chapter{Zestaw 3}
+\section{Zadanie 4}
+
+W firmie IT $20\%$ wytwarzanych modułów przechodzi specjalny proces inspekcji.
+Z danych historycznych wiadomo, że każdy moduł poddany inspekcji nie ma
+defektów z prawdopodobieństwem $0.95$. Dla modułu nie poddanego procesowi
+inspekcji prawdopodobieństwo to wynosi jedynie $0.7$. Klient znalazł defekt
+w~module.  Jakie jest prawdopodobieństwo, że moduł ten przeszedł przez proces
+inspekcji?
+
+\subsection*{Rozwiązanie}
+
+\begin{equation*}
+   P(I) = 0.2 \qquad
+   P(S|I) = 0.95 \qquad
+   P\left(S|\overline{I}\right) = 0.7 \qquad
+   P\left(I|\overline{S}\right) = \?
+\end{equation*}
+
+\begin{align*}
+   P(I)   = 0.2  &\implies P\left(\overline{I}\right) = 0.8 \\
+   P(S|I) = 0.95 &\implies P\left(\overline{S}|I\right) = 0.05 \\
+   P\left(S|\overline{I}\right) = 0.7 &\implies P\left(\overline{S}|\overline{I}\right) = 0.3
+\end{align*}
+
+Korzystając ze wzoru Bayesa:
+
+\begin{equation*}
+   P\left(I|\overline{S}\right) = \frac{P\left(\overline{S}|I\right) \cdot P(I) }{
+      P\left(\overline{S}|I\right) \cdot P(I)
+      +
+      P\left(\overline{S}|\overline{I}\right) \cdot P(\overline{I})
+   }
+   = \frac{0.05 \cdot 0.2}{0.05 \cdot 0.2 + 0.3 \cdot 0.8} = 0.04
+\end{equation*}
+
+\subsection*{Odpowiedź}
+
+Prawdopodobieństwo, że ten moduł przeszedł inspekcję wynosi $4\%$.
+
+\section{Zadanie 7}
+
+Rysunek przedstawia redundantny system przetwarzania informacji. Informacja
+idzie od lewej do prawej przez komponenty $A, B, C, D, E$ wg wskazanych linii.
+Jeśli komponent $A$ się zepsuje, informacja może nadal dojść do miejsca
+przeznaczenia, poprzez komponent $E$. Jeśli z kolei zepsują się $C$ i $E$,
+informacja nadal może dojść poprzez ścieżkę $A-B-D$. Jeśli zepsują się $A$ i~$E$,
+informacja nie dojdzie, bo nie ma wtedy żadnej możliwej ścieżki dojścia.
+Komponenty są od siebie niezależne. Niezawodność systemu to prawdopodobieństwo
+dotarcia informacji do celu. Wyznacz niezawodność systemu z rysunku, jeśli
+wiadomo, że prawdopodobieństwa awarii modułów $A-E$ wynoszą odpowiednio:
+$P(A) = P(C) = 0.05,\quad P(B) = 0.1,\quad P(D) = P(E) = 0.01$
+
+\begin{figure}[h!]
+   \centering
+   \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-0.5,xscale=0.5]
+      \draw (120,80)  -- (180,80)  -- (180,120) -- (120,120) -- cycle ;
+      \draw (220,80)  -- (280,80)  -- (280,120) -- (220,120) -- cycle ;
+      \draw (360,40)  -- (420,40)  -- (420,80)  -- (360,80)  -- cycle ;
+      \draw (360,120) -- (420,120) -- (420,160) -- (360,160) -- cycle ;
+      \draw (240,160) -- (300,160) -- (300,200) -- (240,200) -- cycle ;
+
+      \draw (220,100) -- (180,100) ;
+      \draw (280,100) -- (320,100) ;
+      \draw (320,100) -- (320,140) ;
+      \draw (320,60)  -- (320,100) ;
+      \draw (320,140) -- (360,140) ;
+      \draw (320,60)  -- (360,60)  ;
+      \draw (120,100) -- (80,100)  ;
+      \draw (80,100)  -- (80,180)  ;
+      \draw (300,180) -- (500,180) ;
+      \draw (420,60)  -- (460,60)  ;
+      \draw (420,140) -- (460,140) ;
+      \draw (460,60)  -- (460,140) ;
+      \draw (460,100) -- (500,100) ;
+      \draw (500,100) -- (500,180) ;
+      \draw (80,180)  -- (240,180) ;
+      \draw (80,140)  -- (40,140)  ;
+      \draw (500,140) -- (540,140) ;
+
+      \draw (138,87)  node [anchor=north west][inner sep=0.75pt] [align=left] {A};
+      \draw (238,88)  node [anchor=north west][inner sep=0.75pt] [align=left] {B};
+      \draw (378,48)  node [anchor=north west][inner sep=0.75pt] [align=left] {C};
+      \draw (378,128) node [anchor=north west][inner sep=0.75pt] [align=left] {D};
+      \draw (258,168) node [anchor=north west][inner sep=0.75pt] [align=left] {E};
+   \end{tikzpicture}
+\end{figure}
+
+\subsection*{Rozwiązanie}
+
+\begin{equation*}
+   P(N) = P(\overline{Q}) = \? \for P(Q) = P\big(A \cup B \cup (C \cap D)\ |\ E \big)
+\end{equation*}
+
+Ponieważ malfunkcje komponentów są zdarzeniami niezależnymi, to możemy
+prawdopodobieństwo warunkowe oraz prawdopodobieństwo iloczynu tych zdarzeń
+otrzymać obliczając iloczyn prawdopodobieństw zdarzeń składowych,
+tj.~$P(U|W) = P(U \cap W) = P(U) \cdot P(W)$.
+
+\begin{align*}
+   P(X) &= P(A \cup B) = P(A) + P(B) - P(A \cap B) = P(A) + P(B) - P(A) \cdot P(B) \\
+   P(Y) &= P(C \cap D) = P(C) \cdot P(D) \\
+   P(Z) &= P(X \cup Y) = P(X) + P(Y) - P(X \cap Y) = P(X) + P(Y) - P(X) \cdot P(Y) \\
+   P(Q) &= P\big(A \cup B \cup (C \cap D)\ |\ E \big) = P(X \cup Y\ |\ E) = P(Z|E) = P(Z \cap E) = P(Z) \cdot P(E) \\
+   P(N) &= 1 - P(Q)
+\end{align*}
+\begin{align*}
+   P(X) &= 0.05 + 0.1 - 0.05 \cdot 0.1 = 0.145 \\
+   P(Y) &= 0.05 \cdot 0.01 = 0.0005 \\
+   P(Z) &= 0.145 + 0.0005 - 0.145 \cdot 0.005 = 0.1454275 \\
+   P(Q) &= 0.1454275 \cdot 0.01 = 0.001454275
+\end{align*}
+
+\begin{equation*}
+   P(N) = 1 - 0.001454275 = 0.998545725
+\end{equation*}
+
+\subsection*{Odpowiedź}
+
+System ten jest w ${\raise.17ex\hbox{$\scriptstyle\sim$}} 99.85\%$ niezawodny.
+
+\chapter{Zestaw 4}
+\section{Zadanie 1}
+
+Niezależne próby polegające na rzucie monetą, gdzie prawdopodobieństwo
+wypadnięcia orła wynosi $p$ są kontynuowane do momentu, w którym wypadnie orzeł
+lub przeprowadzimy $n$ prób. Niech $X$ będzie zmienną losową oznaczającą liczbę
+rzutów monetą.
+
+\begin{enumerate}[label=\alph*)]
+   \item Jakie wartości może przyjmować $X$?
+   \item Oblicz prawdopodobieństwa $P\{X = i\}$
+   \item Pokaż, że prawdopodobieństwa z b) sumują się do 1
+\end{enumerate}
+
+\subsection*{Rozwiązanie}
+
+\begin{enumerate}[label=\alph*)]
+   \item $X \in \{1, 2, \dots, n\}$
+   \item $
+      \left\{ \begin{array}{l}
+         P\{X = i\} = (1-p)^{i-1}p \for i < n \\[0.5em]
+         P\{X = n\} = (1-p)^{n-1}
+      \end{array} \right. $
+   \item $
+      \begin{aligned}
+         \sum_{i=1}^n P\{X = i\} &=
+         \ \sum_{i=1}^{n-1} P\{X = i\} + P\{X = n\}
+         \ = \ p\frac{1 - (1-p)^{n-1}}{1-(1-p)} + P\{X = n\} \ =\\
+         &= \ 1 - (1-p)^{n-1} + P\{X = n\} \ =
+         \ 1 - (1-p)^{n-1} + (1-p)^{n-1} \ = 1 \qquad \qef
+      \end{aligned} $
+\end{enumerate}
+
+\section{Zadanie 2}
+
+3 kule losowane z urny z 3 białymi, 3 czerwonymi i 5 czarnymi. Wygrywamy \$1 za
+każdą białą i tracimy \$1 za każdą czerwoną. Niech $X$ to zmienna losowa
+oznaczająca całkowitą wygraną. Oblicz prawdopodobieństwo wygranej (uzyskania
+co najmniej \$1).
+
+\subsection*{Rozwiązanie}
+
+\begin{equation*}
+   X \in \{ -3, -2, -1, 0, 1, 2, 3 \}
+   \qquad
+   \#\Omega = \binom{11}{3} = 165
+   \qquad
+   P\{X \ge 1\} = \?
+\end{equation*}
+
+\begin{align*}
+   P\{X = 3\} &= \frac{\binom{3}{3} }{\#\Omega} = \frac{1}{165} \\
+   P\{X = 2\} &= \frac{\binom{3}{2} \binom{5}{1}}{\#\Omega} = \frac{3 \cdot 5}{165} = \frac{15}{165} \\
+   P\{X = 1\} &= \frac{\binom{3}{1} \binom{5}{2}}{\#\Omega} + \frac{\binom{3}{2} \binom{3}{1}}{\#\Omega} = \frac{3 \cdot 10 + 3 \cdot 3}{165} = \frac{39}{165}
+\end{align*}
+
+\begin{equation*}
+   P\{X \ge 1\} = P\{X = 3\} + P\{X = 2\} + P\{X = 1\} = \frac{1 + 15 + 39}{165} = \frac{55}{165} = \frac{1}{3}
+\end{equation*}
+
+\section{Zadanie 7}
+
+Wiadomo, że śrubki produkowane przez pewnego producenta są wadliwe
+z~prawdopodobieństwem 0.01 (niezależnie od siebie). Producent śrubek sprzedaje
+je w pakiecie po 10 sztuk i gwarantuje zwrot pieniędzy, jeśli w zestawie będzie
+więcej niż 1 wadliwa śrubka. Dla jakiego odsetka zakupionych zestawów śrubek
+producent będzie musiał zwrócić pieniądze?
+
+\subsection*{Rozwiązanie}
+
+\begin{equation*}
+   P\{X > 1\} = 1 - P\{X \le 1\} = 1 - P\{X = 1\} + P\{X = 0\}
+\end{equation*}
+
+Rozkład Bernoulliego: $ P\{X = i\} = \binom{10}{k} \cdot 0.01^i \cdot 0.99^{10-i} $
+\begin{align*}
+   P\{X = 0\} &= 1 \cdot 1 \cdot 0.99^{10} \\
+   P\{X = 1\} &= 10 \cdot 0.01 \cdot 0.99^9 = 0.1 \cdot 0.99^9
+\end{align*}
+\begin{equation*}
+   P\{X \le 1\} = 0.1 \cdot 0.99^9 + 0.99^{10}
+\end{equation*}
+
+\begin{equation*}
+   P\{X > 1\} = 1 - 0.1 \cdot 0.99^9 - 0.99^{10} \approx 0.00427
+\end{equation*}
+
+\subsection*{Odpowiedź}
+
+Dla około $0.4\%$
+
+\chapter{Zestaw 6}
+\section{Zadanie 1}
+
+Czas życia, w latach, pewnego komponentu elektronicznego jest ciągłą zmienną
+losową o gęstości
+\begin{equation*}
+   f(x) = \left\{ \begin{array}{cl}
+      \frac{k}{x^4} &\for x \ge 1 \\[0.5em]
+      0             &\for x < 1
+   \end{array} \right.
+\end{equation*}
+Znajdź $k$, dystrybuantę oraz prawdopodobieństwo, że czas życia przekroczy 2 lata.
+
+\subsection*{Rozwiązanie}
+
+\begin{equation*}
+   \Integral{-\infty}{\infty}{f(x)}{x} = 1 \implies
+   \Integral{1}{\infty}{f(x)}{x} = 1 \implies
+   \left. -\frac{k}{3x^3} \right|_1^{\infty} = 1 \implies
+   0 - \left(-\frac{k}{3}\right) = 1 \implies
+   k = 3
+\end{equation*}
+
+\begin{equation*}
+   f(x) = \left\{ \begin{array}{cl}
+      \frac{3}{x^4} &\for x \ge 1 \\[0.5em]
+      0             &\for x < 1
+   \end{array} \right.
+   \implies
+   \Integral{}{}{f(x)}{x} = -x^{-3}
+\end{equation*}
+
+\begin{equation*}
+   F(x) = \Integral{-\infty}{x}{f(t)}{t} = \Integral{1}{x}{f(t)}{t} =
+   -x^{-3} - (-1^{-3}) = -x^{-3} + 1 = 1 - \frac{1}{x^3}
+\end{equation*}
+
+\begin{equation*}
+   \mathrm{P}\{X>2\} = 1 - F(2) = 1 - 1 + \frac{1}{2^3} = \frac{1}{8} = 0.125
+\end{equation*}
+
+\subsection*{Odpowiedź}
+
+\begin{equation*}
+   k = 3 \qquad\qquad F(x) = 1 - \frac{1}{x^3} \qquad\qquad \mathrm{P}\{X>2\} = 0.125
+\end{equation*}
+
+\end{document}
