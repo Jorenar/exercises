@@ -1,0 +1,790 @@
+\documentclass[12pt]{extarticle}
+
+\usepackage[
+   a4paper,
+   vmargin=10pt,
+   headheight=16pt,
+   hmargin=50pt,
+   includehead,
+   includefoot
+]{geometry}
+
+\usepackage[bottom]{footmisc}
+
+% \usepackage{polski}
+% \usepackage[polish]{babel}
+% \usepackage{csquotes}
+
+\usepackage{amsmath}
+
+\usepackage{academicons}
+
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+\usepackage{xcolor}
+\definecolor{idcolor}{HTML}{A6CE39}
+
+\usepackage{listings}
+\usepackage{tcolorbox}
+
+\usepackage{pgfplots}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{angles,quotes}
+
+\usepackage[
+   backend=bibtex,
+   urldate=iso,
+   date=iso,seconds=true,
+]{biblatex}
+
+\begin{filecontents}{ref.bib}
+@article{lon2018a,
+  author   = {Lončarić, N. and Keček, D. and Kraljić, M.},
+  title    = {Matrices in computer graphics},
+  volume   = {12},
+  pages    = {120-123},
+  date     = {2018},
+  doi      = {10.31803/tg-20180119143651},
+  language = {en},
+  journal  = {Tehnički glasnik},
+  type     = {[Online].}
+}
+
+@article{progmag24,
+  author   = {Jacek Matulewski},
+  title    = {Macierze w grafice 3D},
+  volume   = {24},
+  pages    = {4-20},
+  date     = {2014-05},
+  language = {pl},
+  journal  = {Programista},
+}
+
+@misc{walaszek,
+  author   = {Jerzy Wałaszek},
+  title    = {Grafika komputerowa: macierze},
+  url      = {https://eduinf.waw.pl/inf/prg/011_sdl2/0015.php},
+  journal  = {Serwis Edukacyjny Nauczycieli I LO w Tarnowie},
+  language = {pl},
+  urldate  = {2020-12-30},
+}
+
+@inreference{pwn,
+  title     = {przekształcenie afiniczne},
+  url       = {https://encyklopedia.pwn.pl/haslo/przeksztalcenie-afiniczne;3866107.html},
+  booktitle = {Encyklopedia PWN},
+  language  = {pl},
+  urldate   = {2021-01-04},
+}
+
+@misc{donut11,
+  author   = {Andy Sloane},
+  title    = {Donut math: how donut.c works},
+  url      = {https://www.a1k0n.net/2011/07/20/donut-math.html},
+  language = {en},
+  urldate  = {2020-12-28},
+}
+
+@online{weissteinRotation,
+  author   = {Weisstein, Eric W.},
+  title    = {Rotation Matrix},
+  subtitle = {From MathWorld--A Wolfram Web Resource},
+  url      = {https://mathworld.wolfram.com/RotationMatrix.html},
+  urldate  = {2020-12-28},
+}
+
+@online{weissteinShear,
+  author   = {Weisstein, Eric W.},
+  title    = {Shear},
+  subtitle = {From MathWorld--A Wolfram Web Resource},
+  url      = {https://mathworld.wolfram.com/Shear.html},
+  urldate  = {2021-01-05},
+}
+
+@misc{opengl,
+  author   = {OpenGL},
+  title    = {Transformations},
+  url      = {https://open.gl/transformations},
+  urldate  = {2020-12-27},
+}
+
+@misc{sobieraj,
+  author   = {Janusz Sobieraj},
+  title    = {Przekształcenie afiniczne - ścięcie},
+  date     = {2010},
+  url      = {http://lo28.internetdsl.pl/elipsa/sciecie.htm},
+  journal  = {Informatyka 28LO},
+  urldate  = {2021-01-02},
+}
+
+@article{oconnor97,
+  author    = {O'Connor, John J. and Robertson, Edmund F.},
+  title     = {August Ferdinand Möbius},
+  date      = {1997},
+  publisher = {University of St Andrews},
+  language  = {en},
+  journal   = {MacTutor History of Mathematics archive},
+  url       = {https://mathshistory.st-andrews.ac.uk/Biographies/Mobius},
+  urldate   = {2020-12-28},
+}
+
+@misc{wiki:Współrzędne_jednorodne,
+  author  = {Wikipedia},
+  title   = {{Współrzędne jednorodne} --- {W}ikipedia{,} wolna encyklopedia},
+  url     = {https://pl.wikipedia.org/wiki/Wsp%C3%B3%C5%82rz%C4%99dne_jednorodne},
+  urldate = {2020-12-28},
+}
+
+@misc{grk,
+  author    = {Jan Zabrodzki},
+  title     = {V. Algorytmy grafiki 2D --- Grafika Komputerowa (GRK)},
+  subtitle  = {Współrzędne jednorodne},
+  publisher = {Polsko-Japońska Akademia Technik Komputerowych},
+  url       = {https://edux.pjwstk.edu.pl/mat/1927/lec/wyklad-5.html#wspolrzedne-jednorodne},
+  urldate   = {2021-01-05},
+}
+
+@article{skala06,
+  author  = {Skala, Vaclav},
+  year    = {2006},
+  month   = {10},
+  pages   = {625-640},
+  title   = {Length, Area and Volume Computation in Homogeneous Coordinates.},
+  volume  = {6},
+  journal = {Int. J. Image Graphics},
+  doi     = {10.1142/S0219467806002422}
+}
+
+@misc{donut06,
+  title   = {Have a donut.},
+  url     = {https://www.a1k0n.net/2006/09/15/obfuscated-c-donut.html},
+  journal = {a1k0n.net},
+  author  = {Sloane, Andy},
+  date    = {2006-09-15},
+}
+
+@online{computerphile_2013,
+  title   = {The True Power of the Matrix (Transformations in Graphics)},
+  url     = {https://www.youtube.com/watch?v=vQ60rFwh2ig},
+  author  = {John Chapman},
+  company = {Computerphile},
+  year    = {2013},
+  urldate = {2021-01-09},
+}
+
+@report{yip01,
+  title   = {Matrices in Computer Graphics},
+  author  = {Ting Yip},
+  date    = {2001-12-03},
+  url     = {https://sites.math.washington.edu/~king/coursedir/m308a01/Projects/m308a01-pdf/yip.pdf},
+  school  = {University of Washington},
+  urldate = {2021-01-09},
+}
+
+@misc{smurf,
+  title   = {Reprezentacja przestrzeni trójwymiarowej na płaszczyźnie},
+  date    = {2010-09-29},
+  url     = {http://smurf.mimuw.edu.pl/external_slides/Reprezentacja_przestrzeni_trojwymiarowej_na_plaszczyznie/Reprezentacja_przestrzeni_trojwymiarowej_na_plaszc.html},
+  urldate = {2021-01-10},
+}
+
+@report{shi2017,
+  title   = {Graphics Programming Principles and Algorithms},
+  author  = {Zongli Shi},
+  date    = {2017-05-27},
+  url     = {https://www.whitman.edu/Documents/Academics/Mathematics/2017/Shi.pdf},
+  school  = {Whitman College},
+  urldate = {2021-02-03},
+}
+
+@book{hearn1997,
+  title     = {Computer Graphics, C Version},
+  author    = {Hearn, D. and Baker, M.P.},
+  edition   = {2},
+  isbn      = {9788177587654},
+  year      = {1997},
+  publisher = {Pearson Education},
+}
+
+@book{Hughes:2013:CGP,
+  author    = {John F. Hughes and Andries van Dam and Morgan McGuire and David F. Sklar and James D. Foley and Steven K. Feiner and Kurt Akeley},
+  title     = {Computer graphics: principles and practice (3rd ed.)},
+  year      = {2013},
+  month     = {July},
+  day       = {20},
+  isbn      = {0321399528},
+  publisher = {Addison-Wesley Professional},
+  address   = {Boston, MA, USA},
+  pages     = {1264},
+  url       = {https://cgpp.net/freechapters.xml}
+}
+
+@book{Gambetta,
+  title  = {Computer Graphics from Scratch},
+  author = {Gabriel Gambetta},
+  url    = {https://gabrielgambetta.com/computer-graphics-from-scratch}
+}
+
+@inbook{informit,
+  title     = {Programming 2D Computer Graphics},
+  author    = {Clayton Walnum},
+  booktitle = {Direct3D Programming Kick Start},
+  date      = {2003-07-04},
+  url       = {https://www.informit.com/articles/article.aspx?p=98117}
+}
+
+@incollection{msColorMatrix,
+  author    = {Microsoft},
+  title     = {ColorMatrix Class},
+  booktitle = {.NET documentation},
+  url       = {https://docs.microsoft.com/en-us/dotnet/api/system.drawing.imaging.colormatrix}
+}
+
+@misc{wiki:Elementarne_macierze_transformacji,
+  author  = {Wikipedia},
+  title   = {{Elementarne macierze transformacji} --- {W}ikipedia{,} wolna encyklopedia},
+  key     = {56795127},
+  year    = {2019},
+  month   = {06},
+  url     = {https://pl.wikipedia.org/wiki/Elementarne_macierze_transformacji},
+  urldate = {2021-05-08}
+}
+
+@misc{imatest,
+  author = {Imatest},
+  title  = {Color Correction Matrix (CCM)},
+  url    = {https://www.imatest.com/docs/colormatrix},
+}
+
+@video{3b1b,
+  title = {Linear transformations and matrices},
+  author = {3Blue1Brown},
+  url = {https://youtu.be/kYB8IZa5AuE},
+}
+\end{filecontents}
+
+\bibliography{ref.bib}
+
+\title{Macierze w grafice komputerowej}
+\author{Jakub Łukasiewicz}
+\date{\today}
+
+\pagestyle{fancy}
+\setlength{\parindent}{0em}
+
+\lstdefinestyle{mystyle}{
+   basicstyle=\ttfamily\footnotesize,
+   breakatwhitespace=false,
+   breaklines=true,
+   captionpos=b,
+   keepspaces=true,
+   numbersep=5pt,
+   showspaces=false,
+   showstringspaces=false,
+   showtabs=false,
+   tabsize=4, }
+
+\lstset{style=mystyle}
+
+\providecommand{\keywords}[1] { \small\textbf{\textbf{Keywords:}} #1 }
+
+\begin{document}
+
+\makeatletter
+\begin{titlepage}
+   \centering
+
+   {\huge\bfseries \@title \par}
+
+   \vspace{2cm}
+   {\Large\itshape \@author\/ \par}
+
+   \vspace{0.5em}
+   {\color{idcolor}\aiOrcid} \url{https://orcid.org/0000-0002-4938-504X}
+
+   \vspace{2em}
+   {\large \@date\par}
+
+   \vspace{5em}
+
+   \vspace{1em}
+   \keywords{macierz, grafika}
+
+   \vfill
+   \tableofcontents
+\end{titlepage}
+\makeatother
+
+\section{Wstęp}
+
+Macierze w sensie matematycznym, tj.\ układy elementów ułożonych w postaci prostokątnej
+tablicy, znalazły niezliczone zastosowania w naukach formalnych i~przyrodniczych, a~także
+w~innych dziedzinach wykorzystujących aparat matematyczny.
+
+\vspace{1em}
+
+W grafice komputerowej macierze wykorzystuje się zarówno do reprezentowania
+obiektów, jak i~ich przekształceń afinicznych - przykładem może być rzut
+trójwymiarowego obiektu na dwuwymiarowy ekran uwzględniający teoretyczną
+pozycję obserwatora (kamery).
+
+\begin{tcolorbox}
+   \textbf{Przekształcenie afiniczne} to wzajemnie jednoznaczne przekształcenie
+   przestrzeni euklidesowej na siebie przeprowadzające proste na proste. Są
+   nimi w szczególności izometrie, podobieństwa, powinowactwa osiowe. Przy
+   przekształceniu afinicznym proste równoległe przechodzą w proste równoległe,
+   środek odcinka w środek odcinka, ale np.\ długości odcinków i kąty ulegają
+   na ogół zmianie.~\cite{pwn}
+\end{tcolorbox}
+
+\section{Przekształcenia na płaszczyźnie}\label{2D}
+
+Podstawowe przekształcenia w przestrzenie dwuwymiarowej (tzw.\ transformacje 2D)
+to translacja, rotacja, skalowanie, odbicie oraz ścinanie.
+
+\vspace{1em}
+
+Mówiąc o przekształceniach można przyjąć jedną z dwóch konwencji: albo następuje
+przemieszenie obiektu względem nieruchomych osi, albo przemieszczenie samych osi.
+Uwagę poświęcimy przypadkowi pierwszemu.
+
+\begin{tcolorbox}
+   Wbrew pozorom druga konwencja wcale nie jest niespotykana w praktycznym użyciu.\\
+   Dla przykładu, w OpenGL kamera jest zdefiniowana na stałe na \texttt{(0,0,0)}.~\cite[View matrix]{opengl}\\
+   Z tego powodu, obraca się wszystko za wyjątkiem obiektu ``poruszającego się''.
+\end{tcolorbox}
+
+\subsection{Translacja}
+
+Przesunięcia punktu $P = (x,y)$ o $a$ jednostek w osi poziomej i $b$ jednostek w osi pionowej dokonamy
+poprzez dodanie macierzy $ T = \begin{bmatrix}
+   a \\ b
+\end{bmatrix} $ do punktu $P$:
+
+\begin{equation*}
+   P' = P + T = \begin{bmatrix} x \\ y \end{bmatrix} + \begin{bmatrix} a \\ b \end{bmatrix} =
+      \begin{bmatrix} x + a \\ y + b \end{bmatrix} = \begin{bmatrix} x' \\ y' \end{bmatrix}
+\end{equation*}
+
+\subsection{Rotacja}
+
+\begin{wrapfigure}{r}{0.25\textwidth}
+   \centering
+   \begin{tikzpicture}[scale=0.6]
+      \begin{axis}[
+            xmin=0,xmax=4,
+            ymin=0,ymax=5,
+            axis x line=middle,
+            axis y line=middle,
+            axis line style=->,
+            axis equal,
+            enlargelimits,
+            xlabel={$x$},
+            ylabel={$y$},
+            xticklabels={,,}, yticklabels={,,},
+         ]
+
+         \coordinate (o) at (0,0);
+         \draw[blue, thick, -latex] (o) -- (5,0) coordinate (a) node[above left] {$v_0$};
+         \draw[blue, thick, -latex] (o) -- (3,4) coordinate (b) node[above left] {$v'$};
+
+         \draw pic[
+            draw=red,
+            thick,
+            -latex,
+            angle radius=2cm,
+         ] {angle=a--o--b};
+
+         \node[red] at (1.3, 0.6) {$\theta$}; % label for angle
+
+      \end{axis}
+   \end{tikzpicture}
+\end{wrapfigure}
+
+Służy do tego tzw.\ macierz obrotu.~\cite{weissteinRotation}
+
+W dwóch wymiarach każda macierz obrotu ma postać:
+\begin{equation*}
+   R(\theta) = \begin{bmatrix}
+      \cos{\theta} & -\sin{\theta} \\
+      \sin{\theta} & \cos{\theta}
+   \end{bmatrix}
+\end{equation*}
+
+Wektor
+$ v = \begin{bmatrix}
+   x \\ y
+\end{bmatrix} $
+pomnożony przez macierz $R(\theta)$ obróci się o kąt $\theta$.
+
+\begin{equation*}
+   v' = R(\theta) \cdot v_0 =
+   \begin{bmatrix}
+      \cos{\theta} & -\sin{\theta} \\
+      \sin{\theta} & \cos{\theta}
+   \end{bmatrix}
+   %
+   \begin{bmatrix}
+      x \\ y
+   \end{bmatrix}
+   =
+   \begin{bmatrix}
+      x \cos{\theta} - y \sin{\theta} \\
+      x \sin{\theta} + y \cos{\theta}
+   \end{bmatrix}
+\end{equation*}
+
+\subsection{Skalowanie}
+
+Kolejnym podstawowym przekształceniem punktów płaszczyzny jest skalowanie.
+Polega ono na przemnożeniu współrzędnej $x$ przez współczynnik skali $S_x$, a
+współrzędnej $y$ przez współczynnik skali $S_y$, co zapisujemy matematycznie w
+formie macierzowej jako:
+
+\begin{equation*}
+   \begin{bmatrix}
+      x' \\ y'
+   \end{bmatrix}
+   =
+   \begin{bmatrix}
+      S_x & 0 \\
+      0   & S_y
+   \end{bmatrix}
+   \cdot
+   \begin{bmatrix}
+      x \\ y
+   \end{bmatrix}
+   =
+   \begin{bmatrix}
+      x \cdot S_x \\
+      y \cdot S_y
+   \end{bmatrix}
+\end{equation*}
+
+\subsection{Odbicie}
+
+\begin{wrapfigure}{r}{0.25\textwidth}
+   \centering
+   \begin{tikzpicture}[scale=0.6]
+      \begin{axis}[
+            xmin=-3,xmax=3,
+            ymin=-0.1,ymax=3.5,
+            axis x line=middle,
+            axis y line=middle,
+            axis line style=->,
+            xlabel={$x$},
+            ylabel={$y$},
+            xticklabels={,,}, yticklabels={,,},
+         ]
+
+         \draw[fill] (3,2) -- (1,1) -- (2,2) -- cycle;
+         \draw[fill] (-3,2) -- (-1,1) -- (-2,2) -- cycle;
+
+      \end{axis}
+   \end{tikzpicture}
+   \vspace{-110pt}
+\end{wrapfigure}
+
+Odbicie jest szczególnym przypadkiem \textbf{skalowania}\footnote{przynajmniej
+w ujęciu macierzowym}.
+
+Parametry rotacji dla odbicia względem:
+\begin{itemize}
+   \item osi X\@: $S_x = 1,\ S_y = -1$
+   \item osi Y\@: $S_x = -1,\ S_y = 1$
+   \item obu osi: $S_x = S_y = -1$
+\end{itemize}
+
+\subsection{Ścięcie}
+
+Pochylenie obiektu względem osi X lub Y nazywa się transformacją
+ścinania.~\cite{lon2018a,sobieraj,weissteinShear}
+
+\begin{figure}[h!]
+   \centering
+   \begin{subfigure}[b]{0.4\textwidth}
+      \centering
+      \begin{tikzpicture}[scale=0.5]
+         \begin{axis}[
+               xmin=-0.1,xmax=6,
+               ymin=-0.1,ymax=7,
+               axis x line=middle,
+               axis y line=middle,
+               axis line style=->,
+               xlabel={$x$},
+               ylabel={$y$},
+               xticklabels={,,}, yticklabels={,,},
+            ]
+
+            \draw[brown!70,fill] (1,0) -- (1,5) -- (4,5) -- (4,0) -- cycle;
+
+         \end{axis}
+      \end{tikzpicture}
+   \end{subfigure}
+   %
+   \begin{subfigure}[b]{0.4\textwidth}
+      \centering
+      \begin{tikzpicture}[scale=0.5]
+         \begin{axis}[
+               xmin=-0.1,xmax=6,
+               ymin=-0.1,ymax=7,
+               axis x line=middle,
+               axis y line=middle,
+               axis line style=->,
+               xlabel={$x$},
+               ylabel={$y$},
+               xticklabels={,,}, yticklabels={,,},
+            ]
+
+            \draw[brown!70,fill] (1,0) coordinate (o) -- (2,5) coordinate (a) -- (5,6) -- (4,1) coordinate (e) -- cycle;
+            \draw[dashed] (o) -- (1,5) coordinate (b) -- (4,5) -- (4,0) coordinate (f) -- cycle;
+
+            \draw pic[
+               draw=blue,
+               thick,
+               latex-,
+               angle radius=3cm,
+            ] {angle=a--o--b};
+            \node[blue] at (1.3, 3) {$\beta$}; % label for angle
+
+            \draw pic[
+               draw=red,
+               thick,
+               -latex,
+               angle radius=2.5cm,
+            ] {angle=f--o--e};
+            \node[red] at (3, 0.3) {$\alpha$}; % label for angle
+
+         \end{axis}
+      \end{tikzpicture}
+   \end{subfigure}
+\end{figure}
+
+Współrzędne punktu $P'$ będącego pochyleniem punktu $P = (x,y)$ o~kąt~$\alpha$
+względem osi~X i~o~kąt~$\beta$ względem osi~Y wynoszą:
+\begin{align*}
+   x' &= x + y \tan{\beta} \\
+   y' &= y + x \tan{\alpha},
+\end{align*}
+co w zapisie macierzowym uzyskamy w następujący sposób:
+\begin{equation*}
+   \begin{bmatrix}
+      x' \\ y'
+   \end{bmatrix}
+   =
+   \begin{bmatrix}
+      1 & \tan{\beta} \\
+      \tan{\alpha} & 1
+   \end{bmatrix}
+   \cdot
+   \begin{bmatrix}
+      x \\ y
+   \end{bmatrix}
+\end{equation*}
+
+\section{Współrzędne jednorodne}
+
+Obiekt opisany w danym układzie współrzędnych, np.\ $X,Y$, może być
+przedstawiony również w układzie współrzędnych o jeden wymiar większym, np.\
+$X,Y,Z$. Wtedy przykładowo dla punktu o współrzędnych $(a,b)$ dochodzi jedna
+współrzędna. Jeżeli przyjmie się, że ta nowa współrzędna będzie miała wartość
+$1$ to mówimy, że punkt jest reprezentowany we współrzędnych jednorodnych
+znormalizowanych. I tak, punkt o współrzędnych $(a,b)$ ma teraz współrzędne
+(a,b,1).~\cite{grk}
+
+\begin{tcolorbox}
+   Współrzędne jednorodne zostały wprowadzone do geometrii w 1827 przez Augusta
+   Möbiusa w pracy "Der barycentrische Calcul".~\cite{oconnor97}
+
+   W 1946 E.~Maxwell użył ich do rozwiązywania problemów związanych z rzutowaniem.
+
+   Są narzędziem do stosowania metod analitycznych w przestrzeniach rzutowych.
+\end{tcolorbox}
+
+Zapis macierzowy wszystkich przekształceń z sekcji~\ref{2D}
+przedstawia się następująco
+\begin{equation*}
+   \begin{bmatrix}
+      x' \\ y'
+   \end{bmatrix}
+   =
+   A \cdot X + T
+   =
+   \begin{bmatrix}
+      a_{11} & a_{12} \\
+      a_{21} & a_{22}
+   \end{bmatrix}
+   \cdot
+   \begin{bmatrix}
+      x \\ y
+   \end{bmatrix}
+   +
+   \begin{bmatrix}
+      t_x \\ t_y
+   \end{bmatrix}
+   =
+   \begin{bmatrix}
+      a_{11} x + a_{12} y + t_x \\
+      a_{21} x + a_{22} y + t_y
+   \end{bmatrix}
+\end{equation*}
+gdzie macierz $A$ zawiera skumulowane informacje o obrocie, skalowaniu
+i~pochyleniu, natomiast wektor $T$ o przesunięciu.
+
+Stosując współrzędne jednorodne można dokonać tego samego za pomocą jednej
+macierzy $3 \times 3$.~\cite{skala06}
+
+\begin{equation*}
+   \begin{bmatrix}
+      x' \\
+      y' \\
+      W'
+   \end{bmatrix} = \mathcal{A \cdot X} = \begin{bmatrix}
+      a_{11} & a_{12} & t_x \\
+      a_{21} & a_{22} & t_y \\
+      0 & 0 & 1
+   \end{bmatrix} \cdot \begin{bmatrix}
+      x \\
+      y \\
+      W
+   \end{bmatrix} = \begin{bmatrix}
+      a_{11}x + a_{12}y + t_x W \\
+      a_{21}x + a_{22}y + t_y W \\
+      W
+   \end{bmatrix}
+\end{equation*}
+
+\vspace{1em}
+
+Mówiąc inaczej: przejście do współrzędnych jednorodnych umożliwia uzyskanie
+jednolitego zapisu podstawowych przekształceń geometrycznych (zwłaszcza istotne
+jest uwzględnienie translacji). W~konsekwencji ułatwia to realizację
+sprzętowego wspomagania obliczeń.
+
+\subsection{Macierze przekształceń}
+\subsubsection*{Translacja o wektor $[a,b]$}
+\begin{equation*}
+   T(a,b) =
+   \begin{bmatrix}
+      1 & 0 & a \\
+      0 & 1 & b \\
+      0 & 0 & 1
+   \end{bmatrix}
+\end{equation*}
+
+\subsubsection*{Rotacja o kąt $\theta$}
+\begin{equation*}
+   R(\theta) =
+   \begin{bmatrix}
+      \cos{\theta} & -\sin{\theta} & 0 \\
+      \sin{\theta} & \cos{\theta} & 0 \\
+      0 & 0 & 1
+   \end{bmatrix}
+\end{equation*}
+
+\subsubsection*{Skalowanie o współczynniki $S_x$ i $S_y$}
+\begin{equation*}
+   \begin{bmatrix}
+      S_x & 0 & 0 \\
+      0 & S_y & 0 \\
+      0 & 0 & 1
+   \end{bmatrix}
+\end{equation*}
+
+\subsubsection*{Pochylenie o kąt $\alpha$ względem osi X i o kąt $\beta$ względem osi Y}
+\begin{equation*}
+   \begin{bmatrix}
+      1 & \tan{\beta}  & 0 \\
+      \tan{\alpha} & 1 & 0 \\
+      0 & 0 & 1
+   \end{bmatrix}
+\end{equation*}
+
+\section{Grafika 3D}
+
+Z uwagi na płaską naturę ekranów urządzeń elektronicznych, prócz transformacji
+analogicznych do już wymienionych w sekcji~\ref{2D}, zachodzi potrzeba zamiany
+obiektu 3D na jego rzut 2D. Służy do tego \textbf{macierz rzutowania}.~\cite{progmag24,yip01}
+
+\clearpage
+
+\subsection{Rzut perspektywiczny}
+
+\begin{figure}[h!]
+   \centering
+   \begin{tikzpicture}
+      \begin{axis}[
+            xmin=-5,xmax=5,
+            ymin=0,ymax=3,
+            axis x line=middle,
+            axis y line=middle,
+            axis line style=->,
+            axis equal,
+            xlabel={$z$},
+            ylabel={$x$},
+            xticklabels={,,}, yticklabels={,,},
+         ]
+         \addplot[gray] expression[domain=-4:6,samples=3]{x/2+2};
+         \addplot[red,  mark=*] coordinates {(-4, 0)} node[below] {$z=-d$};
+         \addplot[blue, mark=*] coordinates {(0, 2)} node[below right] {$P'$};
+         \addplot[gray, mark=*] coordinates {(2, 3)} node[below right] {$P$};
+         \addplot[mark=] coordinates {(-1, 5)} node[below] {$(y)$};
+         \addplot[green] coordinates{(0,0) (0,5)};
+      \end{axis}
+   \end{tikzpicture}
+\end{figure}
+
+Niech obserwator (środek rzutowania) znajduje się w punkcie $(0,0,-d)$ dla $d>0$,
+a płaszczyzna rzutni ma równanie $z=0$ (jak na rysunku).
+Macierz rzutowania we współrzędnych jednorodnych w przestrzeni $R^4$ ma wtedy postać:
+\begin{equation*}
+   \begin{bmatrix}
+      1 & 0 & 0 & 0 \\
+      0 & 1 & 0 & 0 \\
+      0 & 0 & 0 & 0 \\
+      0 & 0 & \frac{1}{d} & 0
+   \end{bmatrix}
+\end{equation*}
+
+Mając dany dowolny punkt $(x,y,z)$ w $R^3$, jego rzut wynosi:
+\begin{equation*}
+   \begin{bmatrix}
+      1 & 0 & 0 & 0 \\
+      0 & 1 & 0 & 0 \\
+      0 & 0 & 0 & 0 \\
+      0 & 0 & \frac{1}{d} & 0
+   \end{bmatrix}
+   \cdot
+   \begin{bmatrix}
+      x \\ y \\ z \\ 1
+   \end{bmatrix}
+   =
+   \begin{bmatrix}
+      x \\ y \\ 0 \\
+      \frac{z}{d} + 1
+   \end{bmatrix}
+   \overset{normalizacja}{\longrightarrow}
+   \begin{bmatrix}
+      \dfrac{xd}{z+d} \\[1em]
+      \dfrac{yd}{z+d} \\[1em]
+      0 \\
+      1
+   \end{bmatrix}
+\end{equation*}
+
+\section*{} % end
+\clearpage
+
+\nocite{walaszek}
+\nocite{shi2017}
+\nocite{computerphile_2013}
+\nocite{hearn1997}
+\printbibliography[heading=bibintoc,title=Bibliografia]
+
+\end{document}
+
+% vim: spl=pl
