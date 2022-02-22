@@ -1,25 +1,28 @@
-\documentclass[12pt]{article}
+\documentclass[12pt,oneside]{book}
 
 \usepackage[a4paper, vmargin=20pt, hmargin=50pt, head=16pt, includehead]{geometry}
-
-
 \usepackage[bottom]{footmisc}
+\usepackage[inline]{enumitem}
+\usepackage[dvipsnames,table,xcdraw]{xcolor}
 \usepackage{algorithmic}
 \usepackage{algorithm}
 \usepackage{amsmath}     % math
 \usepackage{amssymb}     % math symbols
-\usepackage{ulem}
 \usepackage{changepage}  % for the adjustwidth environment
+\usepackage{chngcntr}
 \usepackage{enumitem}    % enumerate/list items
 \usepackage{fancyhdr}    % header
 \usepackage{fancyvrb}
+\usepackage{hyperref}
 \usepackage{mathtools}   % math tools
 \usepackage{multicol}    % multiple columns
 \usepackage{pgfplots}    % graphs
+\usepackage{siunitx}
 \usepackage{stackengine} % stacking objects vertically
+\usepackage{tcolorbox}
 \usepackage{tikz}
 \usepackage{titlesec}    % alternative section titles
-\usepackage{xcolor}      % color text
+\usepackage{ulem}
 
 \newcommand\calculator{\tikz{
    \node (c) [inner sep=0pt, draw, fill=black, anchor=south west]{\phantom{N}};
@@ -60,12 +63,19 @@
 \DeclareMathOperator{\var}{var}
 \DeclareMathOperator{\Z}{\mathbb{Z}}
 
-\let\oldepsilon\epsilon \renewcommand{\epsilon}{\varepsilon}
+\let\oldepsilon\epsilon
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\ge}{\geqslant}
+\renewcommand{\le}{\leqslant}
 
-\counterwithin*{equation}{section}  % reset equation counter after each section
+\counterwithout{equation}{section}
+\renewcommand{\thealgorithm}{}
+
 \titleformat{\section}{\normalfont\Large\bfseries}{}{0pt}{} % remove section numbering
 
-\let\stdsection\section  \renewcommand\section{\newpage\stdsection} % each section on new page
+\titleformat{\chapter}[display]{\normalfont\Huge\bfseries\centering}{}{0pt}{}
+
+\let\stdsection\section  \renewcommand\section{\clearpage\stdsection} % each section on new page
 
 \setlength{\parskip}{0.5em}
 \setlength{\parindent}{0em}
@@ -73,16 +83,91 @@
 \setlist[itemize]{noitemsep, topsep=0pt}   % don't add space before itemize
 \setlist[enumerate]{noitemsep, topsep=0pt} % don't add space before enumerate
 
-\pagestyle{fancy}
-
 \renewcommand{\sectionmark}[1]{ \markright{#1}{} }
 
-\chead{Algorytmy i struktury danych}
-\lhead{Jakub Łukasiewicz}
+\pagestyle{fancy}
 \rhead{\rightmark}
+%
+\renewcommand{\chaptermark}[1]{ \markboth{#1}{} }
+\renewcommand{\sectionmark}[1]{ \markright{#1}{} }
+%
+\lhead{}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\chead{}
+\rhead{}
+
+\renewcommand*\contentsname{Zadania}
 
 \begin{document}
-\section{Zadanie 1a}
+\chapter{Lab 2b}
+\section{Zadanie 2}
+
+Korzystając z metody rekurencji uniwersalnej podaj oszacowanie dla poniższych rekurencji:
+\begin{enumerate}[label=\alph*)]
+   \item $T(n) = 9T(\frac{n}{3}) + n$
+   \item $T(n) = 4T(\frac{n}{4}) + n$
+\end{enumerate}
+
+\subsection*{Rozwiązanie a)}
+
+$T(n) = 9T(\frac{n}{3}) + n \quad \longrightarrow \quad a=9, b=3, f(n) = n$
+
+\begin{equation*}
+   n^{\log_b a} = n^{\log_3 9} = n^2 \implies f(n) = O(n^{\log_b a}) \implies T(n) = \Theta(n^2)
+\end{equation*}
+
+\subsection*{Rozwiązanie b)}
+
+$T(n) = 9T(\frac{n}{3}) + n \quad \longrightarrow \quad a=4, b=4, f(n) = n$
+
+\begin{equation*}
+   n^{\log_b a} = n^{\log_4 4} = n^1 = n \implies f(n) = \Theta(n^{\log_b a}) \implies T(n) = \Theta(n \log n)
+\end{equation*}
+
+\section{Zadanie 3}
+
+Czas działania algorytmu A jest opisany przez rekurencję $T(n) = 7T(\frac{n}{2}) + n^2$,
+a~konkurencyjnego algorytmu A' przez $T'(n) = aT'(\frac{n}{4}) + n^2$.
+Jaka jest największa liczba całkowita a, przy której A′ jest asymptotycznie szybszy niż A?
+
+\subsection*{Rozwiązanie}
+
+\begin{equation*}
+   n^{\log_2 7} > n^2 \implies T(n) = \Theta(n^{\log_2 6})
+\end{equation*}
+\begin{equation*}
+   n^{\log_4 a} < n^{\log_2 7} \implies \log_4 a < \log_2 7 \implies \frac{\log_2 a}{\log_2 4} < \log_2 7
+   \implies \log_2 a < 2 \log_2 7 \implies a \in (0, 49)
+\end{equation*}
+
+\section{Zadanie 6}
+
+Algorytm sortowania o złożoności obliczeniowej $O(n \log n)$ potrzebował 1 milisekundy
+do posortowania 1000 liczb.
+Zakładając, że czas sortowania $n$ liczb jest proporcjonalny do $n \log n$
+(czyli $T(n) = cn \log n$) wyznacz wzór $T(n)$ oraz czas potrzeby na posortowanie 1000000 liczb
+
+\subsection*{Rozwiązanie}
+
+\begin{itemize}
+   \item[] $T(n) = cn \log n = O(n \log n)$
+   \item[] $T(1000) = 1 \si{ms}$
+   \item[] $T(n) = \?$
+   \item[] $T(1000000) = \?$
+\end{itemize}
+
+\begin{equation*}
+   c \cdot 1000 \cdot \log 1000 = 1 \si{ms} \implies 3000c = 1 \si{ms} \implies c = \frac{1}{3} \cdot 10^{-3} \si{ms}
+   \implies \colorbox{yellow}{$T(n) = \frac{n \log n}{3000}$}
+\end{equation*}
+
+\begin{equation*}
+   T(10^6) = \frac{1}{3} \cdot 10^{-3} \si{ms} \cdot 10^6 \cdot6 = 2 \cdot 10^3 = \textrm{2000 \si{ms}} = \colorbox{yellow}{2 \si{s}}
+\end{equation*}
+
+\chapter{Lab 02}
+\section{Zadanie 1}
+
 Obliczyć złożoność oczekiwaną algorytmu wyszukiwania binarnego podanego
 poniżej oraz wariancję tej złożoności
 
@@ -202,12 +287,14 @@ Wariancja:
    \var{X_n} & = 3 \pm \left( \frac{\log^2 n}{n} \right)
 \end{align*}
 
-\section{Zadanie 1b}
+\section{Zadanie 3}
 
-Wymyślić algorytm na odnajdywanie duplikatów w ciągu $n$-nieuporządkowanych
+Zaproponuj algorytm na odnajdywanie duplikatów w ciągu $n$-nieuporządkowanych
 elementów, działający w czasie $O(n \log n)$.
 
-\subsection*{Rozwiązanie}
+\vspace{-0.5em}
+
+\subsection*{Rozwiązanie I}
 
 Zakładamy, że "znalezienie duplikatów" polega wyłącznie na wypisaniu wartości
 występujących w tablicy więcej niż raz.
@@ -218,19 +305,19 @@ w czasie liniowym, ponieważ:
 \begin{equation*}
    O(n \log n) + O(n) = O(n \log n)
 \end{equation*}
-
 Ponieważ nie musimy przejmować się również stabilnością, ani złożonością pamięciową,
 za algorytm sortowania wybierzmy taki, który wszystkie czasy ma maksymalnie
-$O(n \log n)$.  Ten warunek spełnia \textit{sortowanie przez scalanie} oraz
+$O(n \log n)$. \\
+Ten warunek spełnia \textit{sortowanie przez scalanie} oraz
 \textit{sortowanie przez kopcowanie}.
 
 Niech $A$ będzie naszą tablicą o rozmiarze $n$. Algorytm zapisany w pseudokodzie:
 
 \begin{algorithm}
-   \caption{Wypisywanie duplikatów}
+   \caption{Wypisywanie duplikatów (używając sortowania)}
    \begin{algorithmic}
       \STATE {sort($A$, $n$)} \quad\COMMENT{wykonuje dalej MergeSort lub HeapSort}
-      \STATE
+      \vspace{3pt}
       \STATE {$i \gets 1$}
       \WHILE {$i \leq n-1$}
       \IF {$A[i] \ne A[i+1]$ \AND $A[i] = A[i-1]$}
@@ -238,13 +325,136 @@ Niech $A$ będzie naszą tablicą o rozmiarze $n$. Algorytm zapisany w pseudokod
       \ENDIF
       \STATE {$i \gets i + 1$}
       \ENDWHILE
-      \STATE
+      \vspace{3pt}
       \IF {$n > 1$ \AND $A[n] = A[n-1]$}
       \PRINT {$A[n]$}
       \ENDIF
    \end{algorithmic}
 \end{algorithm}
 
+\subsection*{Rozwiązanie II}
+
+Stosując kubełkowanie uzyskujemy złożoność czasową $O(n)$ kosztem złożoności pamięciowej
+
+\begin{algorithm}
+   \caption{Wypisywanie duplikatów (używając kubełkowania)}
+   \begin{algorithmic}
+      \STATE {$i \gets 1$}
+      \WHILE {$i \leq n-1$}
+      \STATE {$H[A[i]] \gets H[A[i]] + 1$}
+      \STATE {$i \gets i + 1$}
+      \ENDWHILE
+      \vspace{3pt}
+      \STATE {$i \gets 1$}
+      \WHILE {$i \leq n-1$}
+      \IF {$H[A[i]] > 1$}
+      \PRINT {$A[i]$}
+      \ENDIF
+      \STATE {$i \gets i + 1$}
+      \ENDWHILE
+   \end{algorithmic}
+\end{algorithm}
+
+\section{Zadanie 4}
+Dla danej liczby $n \in \N$ należy wyznaczyć wszystkie liczby pierwsze $p \le n$. \\
+Porównać złożoność obliczeniową dwóch algorytmów realizujących to zadanie:
+\begin{itemize}
+   \item sprawdzamy kolejno dla każdej liczby naturalnej $2 < k < n$ czy jest liczbą pierwszą;
+   \item sito Eratostenesa z listy $2, \dots, n$ wykreślamy kolejno: liczby podzielne przez 2,\\
+      liczby podzielne przez 3, podzielne przez 5, \dots
+\end{itemize}
+Czy można oba algorytmu zaimplementować w taki sposób, aby ich złożoności były równe/różne?
+
+\subsection*{Rozwiązanie}
+
+\chapter{Jajka}
+\section{Zadanie "Zrzucanie jajek z budynku"}
+
+Załóżmy, że istnieje $N$-piętrowy budynek i mnóstwo jajek. Jajko zostaje stłuczone jeśli
+zrzucamy je z piętra $F$ lub wyższego. W przeciwnym razie pozostaje nietknięte.
+\begin{enumerate}[label=\alph*)]
+   \item Opracuj strategię określania wartości $F$ tak aby liczba zniszczonych \\
+      jajek wynosiła ok. $\lg N$ przy $\lg N$ rzutach.
+   \item Znajdź sposób na zmniejszenie wartości kosztów do ok. $2 \lg F$
+\end{enumerate}
+
+\subsection*{Rozwiązanie a)}
+
+Należy zastosować algorytm wyszukiwania binarnego
+
+\subsection*{Rozwiązanie b)}
+
+\begin{algorithm}
+   \caption{}
+   \begin{algorithmic}
+      \vspace{3pt}
+      \STATE {drop($x$)} \quad\COMMENT{zrzuca jajko z piętra $x$ i zwraca 1 dla rozbitego, a 0 dla całego}
+      \STATE {binarySearch($l$, $r$)} \quad\COMMENT{wyszukuje najniższe piętro z przedziału $[l, r]$, dla którego jajka pękają}
+      \vspace{3pt}
+      \STATE {$i \gets 1$}
+      \WHILE {$i \le n$ \AND $drop(i) = 0$}
+      \STATE {$j \gets i$}
+      \STATE {$i \gets 2 \cdot i$}
+      \ENDWHILE
+      \vspace{3pt}
+      \STATE binarySearch\big($j$, $\min\{i, n\}$\big)
+   \end{algorithmic}
+\end{algorithm}
+
+\section{Zadanie "Zrzucanie \textit{dwóch} jajek z budynku"}
+
+Rozważ poprzednie zadanie, ale zakładając że masz do dyspozycji tylko dwa jajka,
+a model kosztów oparty jest na liczbie rzutów.
+\begin{enumerate}[label=\alph*)]
+   \item Opracuj strategię określania $F$ dla którego liczba rzutów wynosi co najwyżej $2\sqrt{N}$.
+   \item Znajdź sposób na zmniejszenie kosztów do ok. $c \sqrt{F}$ \\
+      {\small Jest to odpowiednik sytuacji, w której przy wyszukiwaniu trafienia (nieuszkodzone jajka)
+      są dużo mniej kosztowne niż pominięcia (zniszczone jajka)}
+\end{enumerate}
+
+\subsection*{Rozwiązanie a)}
+
+\begin{verbatim}
+#include <stdio.h>
+#include <math.h>
+
+#define N 500
+#define F 6
+
+int drop(int i) { return i == F; }
+
+int main()
+{
+    int root = sqrt(N);
+
+    int i = 0;
+    int j = 0;
+
+    int r = 0; // drop counter
+
+    while ((++r, i) != F && i < N) {
+        j = i;
+        i += root;
+    }
+
+    if (i < N) {
+        i = j;
+        while ((++r, i) != F) {
+            ++i;
+        }
+    }
+
+    printf("F = %d\n", i);
+
+    return 0;
+}
+\end{verbatim}
+
+\subsection*{Rozwiązanie b)}
+
+\dots?
+
+\chapter{?}
 \section{Zadanie 1c*}
 Utworzyć zbiór danych dla algorytmu QuickSort z wyborem pierwszego elementu
 w ciągu jako elementu dzielącego, dla których to sortowanie działa w czasie
@@ -301,7 +511,7 @@ Złożoność: $\Theta(n \log{n})$
 \section{Zadanie 2a}
 
 Wykorzystując metodę szeregów (funkcji tworzących) obliczyć złożoność optymalną,
-pesymistyczną \sout{i średnią oraz wariancję} dla algorytmu sortowania przez wstawianie.
+pesymistyczną i średnią oraz wariancję dla algorytmu sortowania przez wstawianie.
 
 \subsection*{Rozwiązanie}
 
@@ -350,22 +560,30 @@ Zatem:
    W(n) = P'(1) = \frac{n^2 - n}{2} 1^{ \frac{n^2 - n -2}{2} } = \frac{n^2 - n}{2} = \mathrm{O}(n^2)
 \end{equation*}
 
+\subsubsection*{Przypadek średni}
+
+\dots?
+
+\subsubsection*{Wariancja}
+
+\dots?
+
 \subsection*{Odpowiedź}
 \begin{equation*}
-   \mathrm{Opt.}(n) = \mathrm{O}(n)
-\end{equation*}
-\begin{equation*}
+   \mathrm{Opt}(n) = \mathrm{O}(n)
+   \qquad
    W(n) = \mathrm{O}(n^2)
+   \qquad
+   A(n) = \dots?
+   \qquad
+   \var A = \dots ?
 \end{equation*}
 
-\section{Zadanie 3}
+\section{Zadanie}
 Wykorzystując metodę kompresji (złożoność Kołmogorowa) jak najdokładniej oszacować
-średnią złożoność jednego z algorytmów sortowań typu sortowania: przez wybieranie,
-przez wstawianie lub QuickSort.
+średnią złożoność algorytmów sortowania przez wstawianie.
 
 \subsection*{Rozwiązanie}
-
-Wybrany algorytm: sortowanie przez wstawianie
 
 Zakładamy, że tablica ma $n$ różnych elementów. Zatem z kombinatoryki wiemy, że
 istnieje $n!$ możliwych ustawień tych elementów.
@@ -393,7 +611,7 @@ Kodujemy liczbę $M$ w postaci:
 \end{equation*}
 
 Dzięki takiemu rozwiązaniu bez problemu odczytamy liczbę $M$ jeśli będzie na
-początku w kodzie. Najpierw odczytujemy $\ceil{\log_2 \log_2 M}$ jedynek, dzięki
+początku w kodzie. Wpierw odczytujemy $\ceil{\log_2 \log_2 M}$ jedynek, dzięki
 temu wiemy ile miejsca zajmuje zapis $\ceil{\log_2 M}$ długości. Odczytujemy tą
 długość a następnie odczytujemy samą liczbę $M$ jak już wiemy ile bitów zajmuje
 jej zapis.
@@ -524,4 +742,181 @@ A to daje dolne oszacowanie na średnią ilość transpozycji:
    A(n) = \left(\frac{n}{e}\right)^2 - O(n)
 \end{equation*}
 
+\section{Zadanie}
+
+Znaleźć i rozwiązać równania rekurencyjne opisujące optymistyczną, średnią
+i~pesymistyczną liczbę porównań wykonaną przez algorytm QuickSort podczas
+sortowania $n$-elementowej tablicy (można założyć, że $n$ jest potęgą 2).
+
+\subsection*{Rozwiązanie}
+
+\begin{tcolorbox}
+   \textbf{Twierdzenie o rekurencji uniwersalnej}\\
+   Jeżeli funkcja $T(n)$ dla $a \ge 1, b > 1, n > 0$ et funkcji dodatniej $f$ jest zdefiniowana jako:
+   \begin{equation*}
+      T(n) = \begin{cases}
+         \Theta(1)                         & \for 1 \le n \le b \\
+         aT\left(\frac{n}{b}\right) + f(n) & \for n \ge b
+      \end{cases}
+   \end{equation*}
+   to:
+   \begin{equation*}
+      T(n) = \begin{cases}
+         \Theta(n^{\log_b a})                & \for \ O(n^{\log_b a-\epsilon}),\ \epsilon > 0 \\
+         \Theta(n^{\log_b a} \cdot \log n)   & \for \ \Theta(n^{\log_b a}) \\
+         \Theta(f(n))                        & \for \ \Omega(n^{\log_b a + \epsilon}),\ \epsilon > 0 \ \land \ af(\frac{n}{b}) \le cf(n),\ c < 1
+      \end{cases}
+   \end{equation*}
+\end{tcolorbox}
+
+\subsubsection*{Optymistyczny}
+
+Z wersją optymistyczną mamy do czynienia, gdy za każdym razem jako pivot podziału wybrana
+zostaje mediana z sortowanego aktualnie fragmentu tablicy, czyli gdy każdy podział daje
+dwa równe podzbiory danych.
+
+\vspace{-1em}
+\begin{equation*}
+   T(n) = 2T\left(\frac{n}{2}\right) + n
+   \quad\longrightarrow\quad
+   a = 2,\ b = 2,\ f(n) = n
+\end{equation*}
+\begin{equation*}
+   n^{\log_b a} = n^{\log_2 2} = n^1 = n \implies f(n) = \Theta(n^{\log_b a}) \implies
+   T(n) = \Theta(n^{\log_2 2} \cdot \log n) = \colorbox{GreenYellow}{$\Theta(n \log n)$}
+\end{equation*}
+
+\begin{tcolorbox}
+   \underline{Bez \textit{twierdzenia o rekurencji uniwersalnej}}:
+
+   \begin{equation*}
+      \left. \begin{aligned}
+         T(n) &= 2T\left(\frac{n}{2}\right) + n = 2\Bigg(T\left(\frac{n}{4}\right) + \frac{n}{2}\Bigg) + n = \\
+         &= 4T\left(\frac{n}{4}\right) + 2\frac{n}{2} + n = \\
+         &= 8T\left(\frac{n}{8}\right) + 4\frac{n}{4} + 2\frac{n}{2} + n = \\
+         &= \ldots
+      \end{aligned} \right\} \implies
+      T(n) = 2^k T\left(\frac{n}{2^k}\right) + kn
+   \end{equation*}
+
+   Zakładając, że $T(1)=1$ oraz $n=2^k$:
+   \begin{equation*}
+      T(n) = 2^k T\left(\frac{2^k}{2^k}\right) + k2^k = 2^k T(1) + k2^k = 2^k + k2^k
+   \end{equation*}
+   \begin{equation*}
+      n = 2^k \implies k = \log_2 n \implies T(n) = 2^{\log_2 n} + \log_2 n \cdot 2^{\log_2 n}
+      = \colorbox{GreenYellow}{$n + n \log_2 n$}
+   \end{equation*}
+\end{tcolorbox}
+
+\subsubsection*{Średni}
+
+Średni czas działania algorytmu jest bliski najlepszemu przypadkowi. W wielu sytuacjach
+podziały przeciętnie wypadają w połowie. Wzór rekurencyjny dla liczby porównań przeprowadzanych
+w~algorytmie sortowania szybkiego dla $n$ losowo ułożonych elementów jest postaci:
+\begin{equation*}
+   T(n) = \begin{cases}
+      n + 1 + \frac{1}{n} \sum_{k=1}^n \Big(T(k-1) + T(n-k)\Big) & \for n \ge 2 \\
+      0                                                            & \for 0 \le n \le 1
+   \end{cases}
+\end{equation*}
+
+Rozbijamy sumę:
+\begin{equation*}
+   n + 1 + \frac{1}{n} \sum_{k=1}^n \Big(T(k-1) + T(n-k)\Big)
+   =
+   n + 1 + \frac{1}{n} \sum_{k=1}^n T(k-1) + \frac{1}{n} \sum_{k=1}^n T(n-k)
+\end{equation*}
+
+Zauważamy, że powyższe sumy są sobie równe, gdyż ({\footnotesize "$T$" pominięte poniżej z powodów typograficznych}):
+\begin{equation*}
+   \begin{aligned}
+      \sum_{k=1}^n (k-1) &= (1-1) + (2-1) + \dots + (n-1) = (0) + (1) + \dots + (n-1) = \\
+      & = (n-1) + \dots + (1) + (0) = (n-1) + \dots +  (n-n+1) + (n-n) = \sum_{k=1}^n (n-k)
+   \end{aligned}
+\end{equation*}
+
+Zatem:
+\begin{equation*}
+   T(n) = n + 1 + \frac{2}{n} \sum_{k=1}^n T(k-1) = n + 1 + \frac{2}{n} \sum_{k=0}^{n-1} T(k)
+\end{equation*}
+
+Mnożąc obustronnie przez $n$:
+\begin{equation*}
+   \underbrace{n \cdot T(n) = n(n + 1) + 2 \sum_{k=0}^{n-1} T(k)}_{F_1}
+   =
+   \underbrace{n(n+1) + 2 T(n-1) + 2\sum_{k=0}^{n-2} T(k)}_{F_2}
+\end{equation*}
+
+Podstawiając $n-1$ do $F_1$:
+\begin{equation*}
+   (n-1) \cdot T(n-1) = (n-1)n + 2 \sum_{k=0}^{n-2} T(k) \iff 2 \sum_{k=0}^{n-2} T(k) = (n-1) \cdot T(n-1) - n(n-1)
+\end{equation*}
+
+Eliminujemy sumę aplikując powyższą równośc do $F_2$:
+\begin{equation*}
+   \begin{aligned}
+      n \cdot T(n) &= n(n+1) + 2 T(n-1) + (n-1) \cdot T(n-1) - n(n-1) = \\
+      &= n(n+1) + (2 + n - 1)\cdot T(n-1) - n(n-1) = \\
+      &= n(n+1) - n(n-1) + (n + 1)\cdot T(n-1) = \\
+      &= n(n+1 - n+1) + (n + 1)\cdot T(n-1) = 2n + (n + 1)\cdot T(n-1)
+   \end{aligned}
+\end{equation*}
+
+Dzielimy obustronnie przez $n(n+1)$:
+\begin{equation*}
+   \begin{aligned}
+      \frac{T(n)}{n+1} &= \frac{2}{n+1} + \frac{T(n-1)}{n} = \\
+      &= \frac{2}{n+1} + \frac{2}{n-1+1} + \frac{T(n-2)}{n-1} = \\
+      &= \frac{2}{n+1} + \frac{2}{n} + \frac{2}{n-1} + \frac{T(n-3)}{n-2} = \\
+      &= \frac{2}{n+1} + \frac{2}{n} + \frac{2}{n-1} + \frac{2}{n-2} + \frac{T(n-4)}{n-3} = \\
+      &= \frac{2}{n+1} + \frac{2}{n} + \frac{2}{n-1} + \frac{2}{n-2} + \dots + \frac{T(n-n+2)}{n-n+3} + \frac{T(n-n+1)}{n-n+2} = \\
+      &= \frac{2}{n+1} + \frac{2}{n} + \frac{2}{n-1} + \frac{2}{n-2} + \dots + \frac{T(2)}{3} + \frac{T(1)}{2} = \\
+      &= \frac{2}{n+1} + \frac{2}{n} + \frac{2}{n-1} + \frac{2}{n-2} + \dots + \frac{T(2)}{3} + 0 = \\
+      &= \sum_{k=2}^n \frac{2}{k+1} = 2 \sum_{k=2}^n \frac{1}{k+1}
+   \end{aligned}
+\end{equation*}
+
+Dla dostatecznie dużych $n$:
+\begin{equation*}
+   \frac{T(n)}{n+1} = 2 \sum_{k=2}^n \frac{1}{k+1} \approx 2 \sum_{k=2}^n \frac{1}{k}
+   \approx 2 \Integral{1}{n}{\frac{1}{x}}{x} = 2 \ln n
+\end{equation*}
+
+Przekształcając aby usuwając $n+1$ z mianownika otrzymujemy wynik:
+\begin{equation*}
+   T(n) \approx (2 \ln n)(n+1) = 2(n+1) \ln n \approx \colorbox{GreenYellow}{$2n \ln n$}
+\end{equation*}
+
+\subsubsection*{Pesymistyczny}
+
+Przypadek pesymistyczny QuickSort’a  zachodzi gdy za pivot wybrany jest element
+najmniejszy lub największy. Jeśli tak się stanie, jedna z podtablic będzie pusta,
+zatem QuickSort będzie ponownie wywołany wyłącznie na jednej tablicy o rozmiarze $n-1$.
+
+\begin{equation*}
+   T(n) = \begin{cases}
+      T(n-1) + n  & \for n \ge 2 \\
+      0           & \for 0 \le n \le 1 \\
+   \end{cases}
+\end{equation*}
+
+\begin{equation*}
+   \begin{aligned}
+      T(n) &= T(n-1) + n \\
+      T(n-1) &= T(n-2) + (n-1) \\
+      T(n-2) &= T(n-3) + (n-2) \\
+      &\quad\vdots \\
+      T(3) &= T(2) + 3 \\
+      T(2) &= T(1) + 2 \\
+      T(1) &= 1
+   \end{aligned}
+\end{equation*}
+
+\begin{equation*}
+   T(n) = n + (n-1) + (n-2) + \cdots + 3 + 2 + 1 = \sum_{k=1}^{n} k
+   = \colorbox{GreenYellow}{$\displaystyle \frac{n(n-1)}{2}$}
+\end{equation*}
 \end{document}
+
+% vim: spl=pl
