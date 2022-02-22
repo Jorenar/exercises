@@ -1,0 +1,224 @@
+\documentclass[8pt]{extarticle}
+
+\usepackage[a4paper, margin=1cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{adjustbox}
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage{blindtext}
+\usepackage{chngcntr}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{natbib}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{titling}
+\usepackage{xcolor}
+
+\titleformat{\section}{\normalfont\normalsize\bfseries}{}{0pt}{}
+\titlespacing{\section}{0pt}{1em}{0.5em}
+
+\setlength{\parindent}{0em}
+
+\title{Kolokwium I z ASD}
+\author{Studenci}
+\date{\today}
+
+\begin{document}
+
+\begin{multicols}{2}
+
+\section{Twierdzenie o rekurencji uniwersalnej}
+Jeżeli funkcja $T(n)$ dla $a \geq 1, b > 1, n > 0$ zdefiniowanej jako
+\[T(n) = \begin{cases}
+    \Theta(1) & \text{dla } 1 \leq n \leq b \\
+    aT(\frac{n}{b}) + f(n) & \text{dla } n \geq b
+\end{cases}\]
+oraz funkcja $f$ jest dodatnia to:
+\begin{itemize}
+    \item jeśli $f(n) = O(n^{\log_b a-e})$ dla pewnej stałej $e>0$, to $T(n) = \Theta(n^{\log_b a})$
+    \item jeśli $f(n) = \Theta(n^{\log_b a})$, to $T(n) = \Theta(n^{\log_b a} \cdot \log n)$
+    \item jeśli $f(n) = \Omega(n^{\log_b a + e})$ dla pewnej stałej $e>0$, a dodatkowo $af(\frac{n}{b}) \leq cf(n)$, to $T(n) = \Theta(f(n))$
+\end{itemize}
+W pierwszym przypadku funkcja $f(n)$ musi być wielomianowo mniejsza od $n^{log_b^a}$. W trzecim poza wielomianową większością wymagana jest pewna "gładkosć"/"regularność" funkcji.
+
+\section{Notacja asymptotyczna}
+\[\Theta (g(n)) = \{f(n): \exists_{c_1,c_2} \exists_{n_0}: \forall_{n \geqslant n0} 0 \leqslant c_1g(n) \leqslant f(n) \leqslant c_2g(n)\}\]
+\[O(g(n)) = \{f(n): \exists_c \exists_{n_0}: \forall_{n \geqslant n_0} 0 \leqslant f(n) \leqslant cg(n)\}\]
+\[\Omega(g(n)) = \{f(n): \exists_c \exists_{n_0}: \forall_{n \geqslant n_0} 0 \leqslant cg(n) \leqslant f(n)\}\]\\
+\section{Relacja $\prec$}
+Niech $f(n)$ i $g(n)$ - funkcje rozbieżne do nieskończoności gdy $n \to \infty$. Mówimy, że $f(n)$ rośnie wolniej niż $g(n)$ ($f(n) \prec g(n)$ wtw. gdy: \[\lim_{n \to \infty} \frac{f(n)}{g(n)} = 0\]
+
+\section{Logarytm iterowany}
+\[\log^*n = \begin{cases}
+    0 & \text{dla } n \leq 1 \\
+    1 + \log^*(\log n) & \text{dla } n > 1
+\end{cases}\]
+\[\log^*n = \min_i\{i \in \mathbf{N} : \log^{(i)}n \leqslant 1\}\]
+
+\section{Drzewa AVL}
+Drzewo AVL - wysokości poddrzew dowolnego węzła różnią się co najwyżej o 1. Przy każdym węźle dodajemy informację o różnicy wysokości jego poddrzew: -1 dla większego prawego poddrzewa, 0 dla równych poddrzew oraz +1 dla większego lewego poddrzewa.\\
+Wysokość drzewa AVL o $n$ wierzchołkach ($n \geq 1$) jest nie większa niż $1.45\log_2n+O(1)$.\\
+Wstawiane: Jeśli wart. wsp. wyważenia zmieniła się na 2 lub -2, to do przywrócenia warunku potrzebne będą max dwie rotacje.\\
+Usuwanie: Jeśli usuwany węzeł jest liściem, to go usuwamy. Jeśli nie, to jest zastępowany max.el. z lewego poddrzewa, lub min.el. z prawego. Następnie aktualizujemy współczynniki. Możemy przestać jeśli aktualizujemy na 1 lub -1. Gdy aktualizujemy na 2 lub -2 należy wykonać rotacje. W pesymistycznym przypadku mogą one być wykonywane aż do korzenia.\\
+
+\section{Rotacje}
+Rotacja RR(tylko prawe krawędzie): Węzeł B zajmuje miejsce węzła A, węzeł A staje się lewym synem węzła B. Lewy syn węzła B staje się prawym synem węzła A. Rotacja LL(Tylko lewe krawędzie): Lustrzane odbicie RR. Rotacja RL: Trzy węzły A,B,C. B to prawy syn A, C to lewy syn B. Najpierw rotacja LL na C i B a następnie RR na C i A. Rotacja LR: Symetryczne odbicie RL. Złożoność wstawiania i usuwania to O(log n).\\
+
+\section{Splay tree}
+Procedura Splay(T,x) umieszcza węzeł x w korzeniu drzewa. Używana jest podczas wyszukiwania. Usuwanie, dodawanie i wyszukiwanie ma zamortyzowany koszt O(log n). Operacja Splay: Niech p oznacza ojca węzła x, a jeśli p nie jest korzeniem, niech g oznacza z kolei jego ojca. Zig: wykonywany tylko jako ostatni w procedurze Splay i tylko jeśli p jest korzeniem. Polega na rotacji wzg. krawędzi (p,x). Zig-Zig: Kiedy p nie jest korzeniem a (p,x) i (g,p) są w jedną stronę. Polega an rotacji względem (g,p) a następnie (p,x). Zag-zig: kiedy p nie jest korzeniem a (p,x) i (g,p) są w różne strony. Wykonujemy rotację względem (p,x) a potem (g,x). Wyszukiwanie el. x jak w BST, po znalezieniu x - Splay(T,x). Jeśli x nie znaleziono, to Spaly (T,y) gdzie y to ostatni odwiedzony w wyszukiwaniu węzeł. Wstawianie: Wyszukujemy x. Jeśli x znaleziono, to koniec. Jeśli nie, to przyjmujemy $y < x$ (syt. odwrotna jest symetryczna). Odcinamy od y prawe poddrzewo R, tworzymy nowy węzeł x, którego lewym synem jest y, a prawym korzeń R. Usuwanie: Wyszukujemy x, usuwamy x i wyszukujemy w jego lewym poddrzewie wart. x co powoduje przeniesienie do korzenia największej wartości z lewego poddrzewa. Prawe poddrzewo podpinamy pod nowy korzeń.
+
+\section{B-drzewa}
+\begin{samepage}
+B-drzewa rzędu $m$: Korzeń ma $\leqslant 2$ poddrzewa chyba, że jest jedynym węzłem (liściem). Każdy wewnętrzny, nie będący korzeniem węzeł posiada $k-1$ kluczy i $k$ wskaźników do potomków a każdy liść posiada $k-1$ kluczy, gdzie (dla liści i węzłów wew.) $\lceil \frac{m}{2} \rceil \leqslant k \leqslant m$. Jeśli przy wstawianiu elementu węzeł jest już pełny należy go podzielić. Jeśli usuwanie elementu z liścia zaburza warunek $\lceil \frac{m}{2} \rceil \leqslant k$, to próbujemy "pożyczyć" wierzchołek od sąsiada. Jeśli nie ma możliwości pożyczenia, to łączymy wierzchołki powyżej usuwanego. Jeśli usuwamy z węzła wewnętrznego to próbujemy pożyczyć element z węzła poniżej, aż do liścia. Koszt operacji na B-drzewach wynosi $O(\log n)$.
+\end{samepage}
+
+\section{Wielomiany do złożoności}
+\begin{samepage}
+\[P_n(x) = \sum_{1\geqslant 0} p_{i,n}x^i\]
+\[P_n(1) = 1\]
+\[ave(X_n) = P_n'(1)\]
+\[var(X_n) = P_n''(1)+P_n'(1)-P_n(1)^2\]\\
+\[\delta(n) = dev(X_n) = \sqrt{var(X_n)} = \sqrt{\sum(k-ave(X_n))^2p_{k, n}}\]
+\end{samepage}
+
+\section{Wzór Stirlinga}
+\[\ln(n!) = n\ln n - n + \Theta(\ln n)\]
+\[\ln(n!) = \sum_{j=1}^n \ln j = \int_{1}^{n}\ln x \,dx = n\ln n -n +1\]\\
+
+\section{Szereg harmoniczny}
+\[H_n = \sum_{j=1}^n \frac{1}{j}\]
+\[ \ln n = \int_{1}^{n} \frac{1}{x}\,dx < H_n <1+ \int_{1}^{x} \frac{1}{x}\, dx = 1+\ln n\]
+\[\ln n < H_n < \ln n + O(1)\]\\
+
+\section{Metoda kompresji - wyszukiwanie binarne}
+Przejście w lewo - 0, w prawo - 1. Za pomocą kodowania wyszukiwania które wykonuje N porównań możemy zakodować co najwyżej $\sum_{i = 0}^{n-1}2^i$ liczb. Średnia dł. kodu to (kody krótkie + kody długie)/ilość możliwych do zakodowania liczb. Kod w klasie długiej ma przynajmniej $\lfloor \log cm \rfloor$ cyfr.\\ Średnia dł.kodu$ \geqslant \frac{0\times cm + \log(cm) \times (1-c)m}{m} \approx \log(cm)\times (1-c)$. Ponieważ śr. dł. kodu jest o 1 mniejsza od ilości porównań w wyszukiwaniu binarnym, to możemy ją wykorzystać do oszacowania ilości porównań.
+
+\section{Kopiec}
+Kopiec to drzewo binarne (przedstawiane za pomocą tablicy) w którym jeśli u jest następnikiem v to $u \leqslant v$. Wszystkie poziomy są wypełnione, a ostatni wyrównany do lewej. Wysokość kopca o n wierzchołkach wynosi: $h(n) =\lfloor log(n) \rfloor$. Aby przywrócić warunek kopca po wstawieniu/usunięciu elementu należy kopiec przesiać. \\
+Przesiewanie w górę(Floyd): zamiana kolejnych par (poprzednik, następnik) aż dojdzie się do wierzchołka lub trafi na porządek w parze. Liczba porównań to $\lfloor log(k) \rfloor$ gdzie $k$ to indeks którego wartość się zwiększyła.\\
+Przesiewanie w dół(Williams): Na każdym poziomie wybierz większego z następników, porównaj z poprzednikiem i w razie potrzeby zamień. Liczba porównań to $2\lfloor log(n/k)\rfloor$(logarytm z różnicy między poziomem węzła $k$ którego wart. się zmniejszyła a poziomem liści). Złożoność:O(log n).\\
+
+\end{multicols}
+
+\section{Tabelka złożoności struktur danych}
+\begin{tabular}{r|cccc|cccc|c}
+                      & &    \hfill \textbf{CZAS}  & \textbf{ŚREDNI} \hfill &             &        & \hfill \textbf{CZAS} & \textbf{NAJGORSZY} \hfill  & & \textbf{PAMIĘĆ} \\
+                      & \textbf{Access}           & \textbf{Search}           & \textbf{Insertion}        & \textbf{Deletion}         & \textbf{Access}    & \textbf{Search}         & \textbf{Insertion}   & \textbf{Deletion}      &                 \\ \hline
+   Array              & $\Theta(1)     $ & $\Theta(n)     $ & $\Theta(n)     $ & $\Theta(n)     $ & $O(1)     $ & $O(n)     $    & $O(n)     $ & $O(n)     $   & $O(n)$          \\
+   Stack              & $\Theta(n)     $ & $\Theta(n)     $ & $\Theta(1)     $ & $\Theta(1)     $ & $O(n)     $ & $O(n)     $    & $O(1)     $ & $O(1)     $   & $O(n)$          \\
+   Queue              & $\Theta(n)     $ & $\Theta(n)     $ & $\Theta(1)     $ & $\Theta(1)     $ & $O(n)     $ & $O(n)     $    & $O(1)     $ & $O(1)     $   & $O(n)$          \\
+   Singly-Linked List & $\Theta(n)     $ & $\Theta(n)     $ & $\Theta(1)     $ & $\Theta(1)     $ & $O(n)     $ & $O(n)     $    & $O(1)     $ & $O(1)     $   & $O(n)$          \\
+   Doubly-Linked List & $\Theta(n)     $ & $\Theta(n)     $ & $\Theta(1)     $ & $\Theta(1)     $ & $O(n)     $ & $O(n)     $    & $O(1)     $ & $O(1)     $   & $O(n)$          \\
+   Skip List          & $\Theta(\log{n})$ & $\Theta(\log{n})$ & $\Theta(\log{n})$ & $\Theta(\log{n})$ & $O(n)     $ & $O(n)     $    & $O(n)     $ & $O(n)     $   & $O(n \log{n})$   \\
+   Hash Table         & $N/A      $      & $\Theta(1)     $ & $\Theta(1)     $ & $\Theta(1)     $ & $N/A      $ & $O(n)     $    & $O(n)     $ & $O(n)     $   & $O(n)$          \\
+   Binary Search Tree & $\Theta(\log{n})$ & $\Theta(\log{n})$ & $\Theta(\log{n})$ & $\Theta(\log{n})$ & $O(n)     $ & $O(n)     $    & $O(n)     $ & $O(n)     $   & $O(n)$          \\
+   B-Tree             & $\Theta(\log{n})$ & $\Theta(\log{n})$ & $\Theta(\log{n})$ & $\Theta(\log{n})$ & $O(\log{n})$ & $O(\log{n})$    & $O(\log{n})$ & $O(\log{n})$   & $O(n)$          \\
+   Splay Tree         & $N/A      $      & $\Theta(\log{n})$ & $\Theta(\log{n})$ & $\Theta(\log{n})$ & $N/A      $ & $O(\log{n})$    & $O(\log{n})$ & $O(\log{n})$   & $O(n)$          \\
+   AVL Tree           & $\Theta(\log{n})$ & $\Theta(\log{n})$ & $\Theta(\log{n})$ & $\Theta(\log{n})$ & $O(\log{n})$ & $O(\log{n})$    & $O(\log{n})$ & $O(\log{n})$   & $O(n)$          \\
+\end{tabular}
+
+\begin{multicols}{2}
+
+\section{HeapSort}
+\begin{samepage}
+\begin{verbatim}
+HeapSort(A) {
+   BuildHeap(A)
+   for i <- length(A) downto 2 {
+      exchange A[1] <-> A[i]
+      heapsize <- heapsize -1
+      Heapify(A, 1)
+}
+
+BuildHeap(A) {
+   heapsize <- length(A)
+   for i <- floor( length/2 ) downto 1
+       Heapify(A, i)
+}
+
+Heapify(A, i) {
+   le <- left(i)
+   ri <- right(i)
+   if (le<=heapsize) and (A[le]>A[i])
+      largest <- le
+   else
+      largest <- i
+   if (ri<=heapsize) and (A[ri]>A[largest])
+      largest <- ri
+   if (largest != i) {
+      exchange A[i] <-> A[largest]
+      Heapify(A, largest)
+   }
+}
+\end{verbatim}
+\end{samepage}
+
+\section{Tabelka złożoności sortowań}
+\begin{tabular}{r|ccc|c}
+              &                     & \textbf{CZAS}            &                   & \textbf{PAMIĘĆ} \\
+              & $\mathbf{Opt(n)}$   & $\mathbf{A(n)0}$         & $\mathbf{W(n)}$   & $\mathbf{W(n)}$ \\ \hline
+QuickSort     & $\Omega(n \log{n})$ & $\Theta(n \log{n})   $   & $O(n^2)         $ & $O(\log{n})$    \\
+MergeSort     & $\Omega(n \log{n})$ & $\Theta(n \log{n})   $   & $O(n \log{n})   $ & $O(n)      $    \\
+HeapSort      & $\Omega(n \log{n})$ & $\Theta(n \log{n})   $   & $O(n \log{n})   $ & $O(1)      $    \\
+BubbleSort    & $\Omega(n)        $ & $\Theta(n^2)         $   & $O(n^2)         $ & $O(1)      $    \\
+InsertionSort & $\Omega(n)        $ & $\Theta(n^2)         $   & $O(n^2)         $ & $O(1)      $    \\
+SelectionSort & $\Omega(n^2)      $ & $\Theta(n^2)         $   & $O(n^2)         $ & $O(1)      $    \\
+TreeSort      & $\Omega(n \log{n})$ & $\Theta(n \log{n})   $   & $O(n^2)         $ & $O(n)      $    \\
+BucketSort    & $\Omega(n+k)      $ & $\Theta(n+k)         $   & $O(n^2)         $ & $O(n)      $    \\
+RadixSort     & $\Omega(nk)       $ & $\Theta(nk)          $   & $O(nk)          $ & $O(n+k)    $    \\
+CountingSort  & $\Omega(n+k)      $ & $\Theta(n+k)         $   & $O(n+k)         $ & $O(k)      $    \\
+\end{tabular}
+
+\section{Tablice mieszające}
+\textbf{Adresowanie bezpośrednie:} Reprezentacja zbioru dynamicznego za pomocą tablicy T[0, ..., m-1], w której każdej pozycji
+odpowiada klucz należący do uniwersum U = \{0, 1, …,m-1\}. Aby sprawdzić, czy element x należy do U,
+należy sprawdzić pozycję T[x]. Każda z operacji w czasie O(1). \\
+\textbf{Funkcja hashująca:} Funkcja odwzorowująca uniwersum kluczy U w zbiór indeksów tablicy \{0, …, m – 1\}.
+h: U → \{0, 1, …, m -1\} \\
+\textbf{Haszowanie modularne: $h(k) = k \mod m$ } \\
+Należy unikać pewnych wartości m, np. potęg 2. Najlepiej, żeby wartość zależała od
+wszystkich bitów/cyfr w kluczu. Dobrym wyborem są liczby pierwsze niezbyt bliskie
+potęgom 2. \\
+\textbf{Haszowanie przez mnożenie: h(k) = $\lfloor m \cdot { kA }  \rfloor$} \\
+Gdzie 0 < A < 1, szczególnie dobra wartość: $\approx\frac{\sqrt{5}-1}{2}$. Dowolność wyboru m.
+Przeważnie spełniająca równanie 2 – m = 2p
+(wygoda implementacyjna). \\
+\textbf{Haszowanie uniwersalne:} losowe dobieranie funkcji haszującej (w sposób niezależny od
+wstawianych kluczy.) z rodziny funkcji posiadającej własność, że prawdopodobieństwo
+kolizji wynosi 1/m. \\
+\textbf{Metody rozwiązywania problemu kolizji:} \\
+\textbf{Metoda łańcuchowa} - w tablicy mieszania H[0 .. m-1] przetrzymywane są wskaźniki do list. W każdej z list przechowywane są elementy, dla których funkcja haszująca daje tą samą wartość (kolizja). \\
+\textbf{Adresowanie otwarte} - lementy są przechowywane w tablicy mieszania H[0 .. m-1], a w razie zaistnienia
+kolizji należy użyć innego wolnego miejsca w tej tablicy. \\
+\textbf{Adresowanie liniowe} - Jeśli miejsce w tablicy H[h(v)] jest już zajęte i $H[h(v)] \neq v$ (miejsce zajęte
+wcześniej przez inny element o tej samej wartości h(v)), to należy szukać
+wolnego miejsca pod bezpośrednio kolejnymi adresami tzn.( h(v) + 1 ) mod m, ( h(v) + 2 ) mod m, … \\
+\textbf{Adresowanie kwadratowe} – Modyfikacja adresowania liniowego, zamiast dodawać i dodajemy i2 \\
+\textbf{Mieszanie podwójne} - modyfikacja mieszania liniowego – polega ona na zmianie wartości
+przyrostu indeksów w przypadku kolizji z i = 1 na
+i = h'(v), gdzie h' jest drugą funkcją haszującą - h': U → \{0, 1, …, m -1\} \\
+Cechy h’:
+\begin{itemize}
+    \item h'(v) > 0 dla każdego v z U
+    \item h' jest istotnie różna od h
+    \item h'(v) jest względnie pierwsza z m (czyli najlepiej, gdy m jest liczbą pierwszą)
+\end{itemize}
+W przypadku kolizji na indeksie h(v) sprawdzane są indeksy\\
+$(h(v) + h'(v)) \text{mod } m, (h(v) + 2 * h'(v)) \text{mod } m,\text{ ...}$
+
+
+
+
+\end{multicols}
+
+\section{Dowód zigzag(x)}
+\[\text{cost(zigzag(x)} \leqslant 3(\text{rang(x')-rang(x))}\]
+$\text{cost(zigzag)} = 2 + r(x') - r(x) + r(y') - r(y)  +r(z') - r(z) $ |(mamy r(x') = r(z) $r(y) \geqslant r(x) \Leftrightarrow -r(y) \leqslant -r(x)$)|  $\leqslant 2 - r(x)+r(y') - r(x)+r(z') \leqslant 2-2r(x) + r(y') + r(z') \leqslant 2 - 2r(x') + r(y') + r(z') - 2r(x)+2r(x') \leqslant log_2\frac{|T_{y'}||T_{z'}|}{|T_{x'}||T_{x'}|} + 2+2(r(x')-r(x))\leqslant log_2\frac{\sqrt{(|A|+|B|+1)(|C|+|D|+1)}^2}{(|A|+|B|+|C|+|D|+3)^2}+2+2(r(x')-r(x)) \leqslant log_2\frac{\frac{(|A|+|B|+|C|+|D|+2)^2}{4}}{(|A|+|B|+|C|+|D|+3)^2}+2+2(r(x')-r(x)) \leqslant log_2\frac{1}{4} + 2 + 2(r(x')-r(x)) = -2 +2+2(r(x')-r(x)) \leqslant 2(r(x')-r(x)) \leqslant 3(r(x')-r(x))$\\
+
+$\frac{\frac{(|A|+|B|+|C|+|D|+2)^2}{4}}{(|A|+|B|+|C|+|D|+3)^2} \leqslant log_2\frac{1}{4}$
+
+
+\end{document}
