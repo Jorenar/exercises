@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Moving square</title>
+  <meta name="author" content="Jakub Łukasiewicz">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <canvas width="200" height="200"></canvas>
+  <script>
+    let x = 50;
+    let y = 50;
+
+    const X = 45;
+    const Y = 45;
+
+    const canvas = document.querySelector("canvas");
+    const ctx = canvas.getContext("2d");
+
+    ctx.fillRect(25, 25, 100, 100);
+    ctx.clearRect(X, Y, 60, 60);
+    ctx.strokeRect(x, y, 50, 50);
+
+    document.onkeydown = function(e) {
+      e = e || window.event;
+      ctx.clearRect(X, Y, 60, 60);
+      let color = "gray";
+      switch (e.keyCode) {
+        case 38: // up
+          if (y > Y+1) {
+            --y;
+            color = "green";
+          }
+          break;
+        case 40: // down
+          if (y < Y+9) {
+            ++y;
+            color = "yellow";
+          }
+          break;
+        case 37: // left
+          if (x > X+1) {
+            --x;
+            color = "blue";
+          }
+          break;
+        case 39: // right
+          if (x < X+9) {
+            ++x;
+            color = "red";
+          }
+          break;
+      }
+      ctx.strokeStyle = color;
+      ctx.strokeRect(x, y, 50, 50);
+    }
+
+    document.onkeyup = function(e) {
+      e = e || window.event;
+      switch (e.keyCode) {
+        case 38: // up
+        case 40: // down
+        case 37: // left
+        case 39: // right
+          ctx.clearRect(X, Y, 60, 60);
+          ctx.strokeStyle = "gray";
+          ctx.strokeRect(x, y, 50, 50);
+          break;
+      }
+    }
+  </script>
+</body>

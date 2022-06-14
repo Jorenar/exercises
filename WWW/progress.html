@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Progress bar</title>
+  <meta name="author" content="Jakub Łukasiewicz">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style> /* misc */
+    body {
+      text-align: center;
+    }
+
+    input {
+      display: none;
+    }
+
+    label {
+      display: block;
+      width: 7em;
+      line-height: 2.2em;
+      padding: 0 0.62em;
+      border: 1px solid #666;
+      border-radius: 0.25em;
+      background-image: linear-gradient( to bottom, #fff, #ccc );
+      box-shadow: inset 0 0 0.1em #fff, 0.2em 0.2em 0.2em rgba( 0, 0, 0, 0.3 );
+      font-family: arial, sans-serif;
+      font-size: 0.8em;
+      margin: 0 auto 40px;
+    }
+
+    label:hover {
+      border-color: #3c7fb1;
+      background-image: linear-gradient( to bottom, #fff, #a9dbf6 );
+    }
+
+    label:after {
+      content: "start";
+    }
+
+    input:checked ~ label:after {
+      content: "stop";
+    }
+  </style>
+  <style> /* Firefox notice */
+    aside { visibility: hidden; }
+    @supports (-moz-appearance:none) {
+      aside {
+        visibility: visible;
+        font-size: 12px;
+      }
+    }
+  </style>
+  <style> /* MAIN */
+    @property --p {
+      syntax: '<percentage>';
+      initial-value: 100%;
+      inherits: false;
+    }
+
+    input:checked ~ .pie {
+      --size: 80px;
+      --thick: 22px;
+
+      width: var(--size);
+      aspect-ratio: 1;
+      position: relative;
+      display: inline-grid;
+      place-content: center;
+      font-size: 14px;
+
+      animation: sizes 10s infinite;
+    }
+
+    input:checked ~ .pie:after {
+      content: "TADAAM";
+      animation: captions 10s infinite;
+    }
+
+    input:checked ~ .pie:before {
+      content: "";
+      z-index: -1;
+      inset: 0;
+      position: absolute;
+      border-radius: 50%;
+      background-image: conic-gradient(orange var(--p), #0001 0);
+      animation: progress 10s infinite;
+    }
+
+    @keyframes sizes {
+      0% { width: 80px; }
+      10% { width: 100px; }
+      20% { width: 200px; }
+      30% { width: 100px; }
+      40% { width: 200px; }
+      50% { width: 100px; }
+    }
+
+    @keyframes captions {
+      0% { content: "mały"; }
+      10% { content: "duży"; }
+      20% { content: "wielki"; }
+      30% { content: "mniejszy"; }
+      40% { content: "inkszy"; }
+      50% { content: "inksiejszy"; }
+    }
+
+    @keyframes progress {
+      from { --p: 0%; }
+    }
+  </style>
+</head>
+<body>
+  <aside>
+    Firefox nie implementuje eksperymentalnej funkcjonalności <code>@property</code>,<br>
+    zatem pełnie możliwości tego przykładu można zobaczyć na przeglądarkach Chromium 85+
+    <br> <hr> <br>
+  </aside>
+  <input id="foo" type="checkbox" autocomplete="off">
+  <label for="foo">Click to </label>
+  <div class="pie" style="--p: 80%"></div>
+</body>
+</html>
