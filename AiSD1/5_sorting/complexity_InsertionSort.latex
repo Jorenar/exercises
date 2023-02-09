@@ -1,0 +1,240 @@
+\documentclass[12pt,oneside]{article}
+
+\usepackage[a4paper, vmargin=20pt, hmargin=50pt, head=16pt, includehead]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\for}{\ \leftrightarrow\ }
+\renewcommand{\ge}{\geqslant}
+\renewcommand{\le}{\leqslant}
+\DeclareMathOperator{\N}{\mathbb{N}}
+
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0em}
+
+\pagestyle{fancy}
+\lhead{ASiD - obliczanie złożoności}
+\chead{Sortowanie przez wstawianie}
+\rhead{Jakub Łukasiewicz}
+
+\begin{document}
+\subsubsection*{Przypadek pesymistyczny}
+
+Wykorzystamy metodę funkcji tworzących (szeregów).
+
+Przypadek pesymistyczny występuje, gdy sortowany jest zestaw danych posortowanych
+w odwrotnej kolejności. W trakcie działania tego algorytmu zostanie wykonanych
+wtedy dokładnie $\frac{1}{2}n(n - 1)$ kroków. Zatem:
+
+\begin{equation*}
+   p_{i,n} = \left\{ \begin{array}{ll}
+      1 & \for i = \frac{1}{2}n(n-1) \\[0.5em]
+      0 & \for i \ne \frac{1}{2}n(n-1)
+   \end{array} \right.
+\end{equation*}
+
+Funkcja generująca ma zatem postać $P(x) = x^{\frac{n(n-1)}{2}}$. Natomiast pochodna:
+\begin{equation*}
+   P'(x) = \frac{n^2 - n}{2} x^{ \frac{n^2-n}{2} - 1} = \frac{n^2 - n}{2} x^{ \frac{n^2 - n -2}{2} }
+\end{equation*}
+
+Zatem:
+\begin{equation*}
+   \mathrm{W}(n) = P'(1) = \frac{n^2 - n}{2} 1^{ \frac{n^2 - n -2}{2} } = \frac{n^2 - n}{2} = \mathrm{O}(n^2)
+\end{equation*}
+
+\subsubsection*{Przypadek średni}
+
+Wykorzystamy metodę wyliczania złożoności poprzez kompresję Kołmogorowa.
+
+Zakładamy, że tablica ma $n$ różnych elementów. Zatem z kombinatoryki wiemy, że
+istnieje $n!$ możliwych ustawień tych elementów.
+
+Wyjściową permutację opiszemy podając ciąg liczb \ $d_1, d_2, \dots, d_n$, \ gdzie
+$d_i$ oznacza ilość elementów większych poprzedzających element bieżący $i$.
+
+Niech $T$ to zbiór wszystkich transpozycji dokonanych przez algorytm
+oraz $M = \sum_{i=1}^n d_i$ (oznaczmy to równanie jako X).
+
+Zauważmy, że $\#T \ge M$, gdyż każda transpozycja zmienia liczbę inwersji o jeden.
+
+\vspace{1em}
+
+Kodujemy liczbę $M$ w postaci:
+
+\begin{equation*}
+   \underbrace{11 \dots 11}_{\underset{\mathrm{bit}}{\ceil{\log_2 \log_2 M}}}
+   \ \
+   \underbrace{0}_{\underset{\mathrm{bit}}{1}}
+   \ \
+   \underbrace{\ceil{\log_2 M}}_{\underset{\mathrm{bit}}{\ceil{\log_2 \log_2 M}}}
+   \quad
+   \underbrace{M}_{\underset{\mathrm{bit}}{\ceil{\log_2 M}}}
+\end{equation*}
+
+Dzięki takiemu rozwiązaniu bez problemu odczytamy liczbę $M$ jeśli będzie na
+początku w kodzie. Wpierw odczytujemy $\ceil{\log_2 \log_2 M}$ jedynek, dzięki
+temu wiemy ile miejsca zajmuje zapis $\ceil{\log_2 M}$ długości. Odczytujemy tą
+długość a następnie odczytujemy samą liczbę $M$ jak już wiemy ile bitów zajmuje
+jej zapis.
+
+Zatem na zakodowanie $M$ potrzebne będzie
+$\ceil{\log_2 \log_2 M} + 1 + \ceil{\log_2 \log_2 M} + \ceil{\log_2 M}$ bitów.
+
+\vspace{1em}
+
+Teraz kodujemy ciąg $d_1, d_2, \dots, d_n$.
+
+Równanie X ma $ \binom{M + n - 1}{n - 1} $ rozwiązań w~zbiorze~$\N$.
+Stąd wynika, że przypisując każdemu z rozwiązań kolejne liczby potrzebujemy
+maksymalnie $ \ceil{\log_2 \binom{M+n-1}{n-1}} $ bitów na zapisanie konkretnego
+numeru rozwiązania.
+
+\vspace{1em}
+
+Całość zakodowanej permutacji będzie wyglądała zatem następująco:
+\begin{equation*}
+   \underbrace{11 \dots 11}_{\underset{\mathrm{bit}}{\ceil{\log_2 \log_2 M}}}
+   \ \
+   \underbrace{0}_{\underset{\mathrm{bit}}{1}}
+   \ \
+   \underbrace{\ceil{\log_2 M}}_{\underset{\mathrm{bit}}{\ceil{\log_2 \log_2 M}}}
+   \quad
+   \underbrace{M}_{\underset{\mathrm{bit}}{\ceil{\log_2 M}}}
+   \quad
+   \underbrace{\mathrm{nr\ rozw.\ X}}_{\underset{\mathrm{bit}}{\ceil{\log_2 \binom{M+n-1}{n-1}}}}
+\end{equation*}
+
+Zatem potrzebne jest
+$1 + \ceil{\log_2 M} + 2 \cdot \ceil{\log_2 \log_2 M} +
+\ceil{
+   \log_2
+   \binom{M+n-1}{n-1}
+}
+$
+bitów na zapisanie permutacji wyjściowej.
+
+\vspace{1em}
+
+Z twierdzenia o długości kodu wiemy, że dla co najmniej $(1-c)n!$ permutacji zachodzi
+\begin{equation*}
+   1 + \ceil{\log_2 M} + 2 \cdot \ceil{\log_2 \log_2 M} + \ceil{ \log_2 \binom{M+n-1}{n-1} } \ge \log_2 (cn!)
+\end{equation*}
+
+Co możemy przekształcić do:
+\begin{equation*}
+   \ceil{ \log_2 \binom{M+n-1}{n-1} } \ge \log_2 (cn!) - 2 \cdot \ceil{\log_2 \log_2 M} - \ceil{\log_2 M} - 1
+\end{equation*}
+
+Ponieważ liczba inwersji dla każdego elementu jest nie większa niż $n$ i ilość
+elementów wynosi $n$, to suma $M$ szacuje się od góry przez $n^2$.
+Korzystając z tego oszacowania otrzymujemy:
+
+\begin{equation*}
+   \begin{aligned}
+      \log_2 \binom{M+n-1}{n-1} & \ge \log_2 (cn!) - 2 \cdot \log_2 \log_2 n^2 - \log_2 n^2 - 1 \\
+      \log_2 \binom{M+n-1}{n-1} & \ge \log_2 (cn!) - O(\log_2 n) \\
+      \log_2 \binom{M+n-1}{n-1} & \ge \log_2 c + \log_2 n! - O(\log_2 n)
+   \end{aligned}
+\end{equation*}
+
+Następnie skorzystamy ze wzoru Stirlinga \ $n! \approx \left(\frac{n}{e}\right)^n \sqrt{2\pi n} (1+o(1)) $
+
+\begin{equation*}
+   \begin{aligned}
+      \log_2 \binom{M+n-1}{n-1} & \ge \log_2 c + \log_2 n! - O(\log_2 n) \\
+      & \ge \log_2 c + log_2 \left(\left(\frac{n}{e}\right)^n \sqrt{2\pi n} (1+o(1)) \right) - O(\log_2 n) \\
+      & \ge \log_2 c + log_2 \left(\left(\frac{n}{e}\right)^n \sqrt{2\pi n}) \right) - O(\log_2 n) \\
+      \\
+      \log_2 \binom{M+n-1}{n-1} & \ge \log_2 c + n \log_2 n - n \log_2 e + \frac{1}{2}\log_2 n + \frac{1}{2}\log_2 2\pi - O(\log_2 n) \\
+      \log_2 \binom{M+n-1}{n-1} & \ge \log_2 c + n \log_2 n - n \log_2 e - O(\log_2 n)
+   \end{aligned}
+\end{equation*}
+
+Natomiast oszacowanie $\left(\frac{me}{k}\right)^k > \binom{m}{k}$ daje nierówność:
+
+\begin{equation*}
+   \begin{aligned}
+      \log_2 \left(\frac{(M+n-1)e}{n-1}\right) & \ge \log_2 \binom{M+n-1}{n-1} \\
+      (n-1)\log_2 (M+n-1) + (n-1)\log_2 e - (n-1)\log_2(n-1) & \ge \log_2 \binom{M+n-1}{n-1} \\
+      n\log_2 (M+n) + n\log_2 e - n\log_2(n-1) + \log_2(n-1) & \ge \log_2 \binom{M+n-1}{n-1}
+   \end{aligned}
+\end{equation*}
+
+Kombinując dwie poprzednie nierówności dostaniemy:
+\begin{equation*}
+   n\log_2 (M+n) + n\log_2 e - n\log_2(n-1) + \log_2(n-1) \ge \log_2 c + n \log_2 n - n \log_2 e - O(\log_2 n)
+\end{equation*}
+
+Skąd:
+\begin{equation*}
+   n\log(M+n) \ge \log_2 c + n\log_2 \big(n(n-1)\big) - n\log_2 e^2 - O(\log_2 n)
+\end{equation*}
+
+Podstawiając $c=\frac{1}{n}$ do tej nierówności i dzieląc obustronnie przez $n$ otrzymamy:
+
+\begin{equation*}
+   \begin{aligned}
+      \log(M+n) & \ge \frac{\log_2 n^{-1}}{n} + \log_2 \big(n(n-1)\big) - \log_2 e^2 - O\left(\frac{\log_2 n}{n}\right) \\
+      & \ge \log_2 \big(n(n-1)\big) - \log_2 e^2 - o(1) \\
+      \\
+      \log(M+n) & \ge \log_2 \frac{n(n-1)}{e^2} - o(1)
+   \end{aligned}
+\end{equation*}
+
+Z czego wynika:
+\begin{equation*}
+   M \ge \frac{n(n-1)}{e^2} - o(1) \implies M \ge \frac{n^2}{e^2} - O(n)
+\end{equation*}
+
+Zatem dla co najmniej $(1-c)n!$ permutacji algorytm sortowania przez wstawianie
+wykonuje \mbox{$|T| \ge \frac{n^2}{e^2} - O(n)$} transpozycji.
+
+A to daje dolne oszacowanie na średnią ilość transpozycji:
+
+\begin{equation*}
+      \frac{cn!\cdot 0 + (1-c)n! \cdot \left(\frac{n^2}{e^2} - O(n)\right)}{n!} =
+      (1-c) \left(\frac{n^2}{e^2} - O(n)\right) =
+      \left(1-\frac{1}{n}\right) \left(\frac{n^2}{e^2} - O(n)\right)
+\end{equation*}
+
+Zatem \ $\displaystyle \mathrm{A}(n) \approx \left(\frac{n}{e}\right)^2 - O(n) = \Theta(n^2)$
+
+\subsubsection*{Przypadek optymistyczny}
+
+Wykorzystamy metodę funkcji tworzących (szeregów).
+
+Przypadek pesymistyczny występuje, gdy zestaw danych jest już posortowanych.
+Nastąpi wówczas tylko jedno przejście przez tablicę, czyli dokładnie $n-1$ kroków.
+Zatem:
+\begin{equation*}
+   p_{i,n} = \left\{ \begin{array}{ll}
+      1 & \for i = n-1 \\
+      0 & \for i \ne n-1
+   \end{array} \right.
+\end{equation*}
+
+Funkcja generująca ma zatem postać $P(x) = x^{n-1}$. Natomiast pochodna:
+\begin{equation*}
+   P'(x) = (n-1)x^{n-1-1} = (n-1)x^{n-2}
+\end{equation*}
+
+Zatem:
+\begin{equation*}
+   \mathrm{Opt}(n) = P'(1) = (n-1)1^{n-2} = n-1 = \mathrm{O}(n)
+\end{equation*}
+
+\subsection*{Wyniki}
+\begin{equation*}
+   \mathrm{W}(n) = \frac{n^2-n}{2} = \mathrm{O}(n^2)
+   \qquad\qquad
+   \mathrm{A}(n) = \left(\frac{n}{e}\right)^2 - O(n) = \Theta(n^2)
+   \qquad\qquad
+   \mathrm{Opt}(n) = \mathrm{O}(n)
+\end{equation*}
+
+\end{document}
+
+% vim: spl=pl
