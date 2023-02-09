@@ -1,0 +1,160 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, vmargin=15pt, hmargin=50pt, head=15pt, includehead]{geometry}
+
+\usepackage{enumitem}
+\usepackage{scrextend}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{\normalsize Kraków workshop on Robotics \\ \footnotesize October 12-13, 2022}
+\chead{REPORT}
+\rhead{Jakub Łukasiewicz \\ \footnotesize student at Jagiellonian University}
+
+\setlength{\parskip}{0.7em}
+\setlength{\parindent}{0em}
+
+\begin{document}
+\section*{Day 1}
+\vspace{-0.5em}
+
+We are accustomed to idea in factories performing highly precise "manual" tasks.
+But those movements do not come from the machine itself - those were preprogrammed
+by humans beforehand; slight adjustments can be performed automatically, but the general
+action is predetermined. It works great for the environment those robots do their job:
+predictable factory halls.
+
+On the other hand, we would like robots to be more flexible and perform tasks in places
+yet unknown to them, especially where humans cannot be sent (e.g. asteroid mining).
+For it to be possible, the machine needs to be aware about its surrounding and how various
+objects are related to each other.
+
+\subsection*{myGym: Modular Toolkit for Visuomotor Robotic Tasks \\
+\small {\normalfont by} Michal Vavrecka {\normalfont from} \textit{Czech Technical University in Prague}
+}
+
+Achieving performance as mentioned above requires training, a lot of training. Since it
+is not really possible to create real robots and put them in real environments just for
+the practice, a robotic simulator is needed. One of such simulators is \textbf{myGym}
+presented by Michal Vavrecka from \textit{Czech Technical University in Prague}.
+
+While I do not posses proper expertise to properly judge, using the toolbox seemed
+relatively straightforward: single "generator friendly" config file. One would assume
+you manually need to craft environments for such purposes, yet myGym does handle it
+in real time while providing visuals -  if I understood correctly, it is the only
+toolbox with such capability. \\
+{\footnotesize (I will take real-time view of my virtual bots doing their
+shenanigans over bare wall of flashing text any time!)}
+
+The example where virtual robotic arm was to grab an item while avoiding dangling
+balls got me thinking just how much of a hustle would it to carry out this training
+in real world: the cost of robot itself aside, you need to erect a frame for the
+mechanism, the obstacles need to be physically connected e.g. by a string and of course
+the robot would tangle itself risking damage both for yourself and the whole contraption.
+And in terms of scalability, well, there would be no scalability.
+
+Such toolboxes are not an aid for the researchers, but an absolute necessity.
+
+\subsection*{Analogy in Robot Manipulation\\
+\small {\normalfont by} Frank Guerin {\normalfont from} \textit{University of Surrey}
+}
+
+An important skill of humans is our ability to notice similarities, patterns,
+analogies - we can "connect the dots". Coincidentally, this is a skill computers
+inherently lack.
+
+Frank Guerin from \textit{University of Surrey} presented us with the idea of
+using mappings to store analogies. The idea is relatively simple: objects have
+some properties; we want to perform some task using those objects, we look at
+those properties and then compare them with and grade against the properties
+needed to complete the task. That way we don't need to train the AI to use
+a sponge, we can rather train it to use containers and to recognize the sponge
+as a lot of tiny containers bound together and let it figure out how to replace
+a bucket with it.
+
+It's a crucial aspect, since it is not possible to predict nor train for every
+possible situation - there's too much of edge cases. The algorithm need to be
+able to dynamically analyze and adapt to the unexpected situation, not behave
+equally unexpectedly when presented with data differing too much from the
+training data.
+
+\begin{addmargin}[1em]{0em}
+   \textit{NB: \footnotesize the next day, Paweł Gajewski from \textit{AGH University of Science
+   and Technology} gave a presentation \textbf{Affordance-Based Graphs for Task
+   Understanding} which kind of serves as a continuation of this talk.
+   }
+\end{addmargin}
+
+
+\section*{Day 2}
+\vspace{-0.8em}
+\subsection*{Robot Learning from Humans in Everyday Life Scenarios \\
+\small {\normalfont by} Matthias Hirschmanner {\normalfont from} \textit{TU Wien}
+}
+
+Robots can and are precise...\ as long as the human controls it (either
+directly or indirectly). While recent years brought a lot of improvement
+in machines' autonomy, it still usually requires a tinkering done by its
+creators. But what about the end users? They don't posses necessary skills
+nor knowledge to train the AI to their fitting.
+
+As Matthias correctly notices, in scenario of cleaning robot, it needs
+to be able to learn the arbitrary arrangement of the room based only on
+singular data from the room itself and direct descriptions from the human.
+
+The problem with user provided commands is the mental model of the user
+almost always is different from the model the machine uses. \\
+That creates the need to make some kind of a framework of human-robot
+communication.
+
+Beside the simplest solutions like additional gestures, mobile device app and such,
+there are also more interesting ideas like: \\
+\vspace{-2.5em}
+\begin{itemize}[noitemsep]
+  \item monitoring and then replicating the actions performed by the human;
+  \item utilization of AR/VR technology to synchronize the visions of the
+     user and the robot while teaching the AI movements of the human from
+     first-person perspective.
+\end{itemize}
+
+\vspace{-1em}
+The challenge lies in making those systems intuitive, easy to use, while
+precise enough to be useful. If people won't be pleased with the experience,
+nobody will use those robots after all.
+
+\subsection*{POTENCIES: Active reading, co-design and social robots \\
+\small {\normalfont by} Paulina Zguda, Alicja Wróbel, Karolina Źróbek
+{\normalfont from} \textit{Jagiellonian University}
+}
+
+\rightline{\textit{"Truly wonderful, the mind of a child is"} \textasciitilde \ Master Yoda}
+
+Researchers also think so, thus they not rarely study children reactions to technology,
+what is quite important since thay will have given new tech alongside them for most
+of their life. By studying how children of now react, we can predict how adults of
+the future may behave. Although gatering data may be difficult, especially from younger
+children not quite understanding the tasks.
+
+It is not overly surprising, although important to note, older children (pre-teens)
+were (rightfully) questioning robot's intelligence and autonomy, while younger ones
+were way more trusting of it (I couldn't help myself to not correlate it in mind
+with the belief in Santa Claus). But the most important observation, in my opinion,
+is that nevertheless of their level of trust, both groups had positive attitude
+towards the machine. That suggests robot assistants have a high chance of adaptation
+for the future.
+
+Interesting is also an observation that robot errors instead of breaking the illusion,
+were increasing the children's engagement. So as long as the malfunctions aren't purely
+annoying (like decreased responsiveness), they may bring positive experiences. \\
+But the question begs to be asked: would the results be the same had there been some
+defined task to complete? Would it fall into annoyance category as with conventional
+machines or would it actually make it more relatable since it also makes mistakes like us?
+
+At the end, somebody from the audience asked a question whether the illustrations used
+in the 'Monster game' survey could have some impact on the results. I liked that question,
+because such thought did not come to me at all during whole presentation, despite it
+being a valid concern. Although at the same time I suspect only younger kids would be
+affected in any significant way and for them the survey turned out to not be best tool
+anyway.
+
+\end{document}

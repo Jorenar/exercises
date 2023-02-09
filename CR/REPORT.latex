@@ -1,0 +1,679 @@
+\documentclass[12pt]{extarticle}
+
+\usepackage[
+    a4paper,
+    vmargin=10pt,
+    headheight=16pt,
+    hmargin=50pt,
+    includehead,
+    includefoot
+]{geometry}
+
+\usepackage{changepage}
+
+\usepackage[bottom]{footmisc}
+
+\usepackage{enumitem}
+\usepackage{academicons}
+
+\usepackage{hyperref}
+
+\usepackage{xcolor}
+\definecolor{idcolor}{HTML}{A6CE39}
+
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+\usepackage{multicol}
+
+% references {{{
+\begin{filecontents*}[overwrite]{references.bib}
+@misc{https://doi.org/10.48550/arxiv.2202.10448,
+  doi = {10.48550/ARXIV.2202.10448},
+  url = {https://arxiv.org/abs/2202.10448},
+  author = {Sivakumar, Aravind and Shaw, Kenneth and Pathak, Deepak},
+  keywords = {Robotics (cs.RO), Artificial Intelligence (cs.AI), Computer Vision and Pattern Recognition (cs.CV), Machine Learning (cs.LG), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  title = {Robotic Telekinesis: Learning a Robotic Hand Imitator by Watching Humans on Youtube},
+  publisher = {arXiv},
+  year = {2022},
+  copyright = {arXiv.org perpetual, non-exclusive license}
+}
+
+@article{Shafti_Haar_Mio_Guilleminot_Faisal_2021,
+  title={Playing the piano with a robotic third thumb: assessing constraints of human augmentation},
+  volume={11},
+  ISSN={2045-2322},
+  url={https://www.nature.com/articles/s41598-021-00376-6},
+  DOI={10.1038/s41598-021-00376-6},
+  number={1},
+  journal={Scientific Reports},
+  author={Shafti, Ali and Haar, Shlomi and Mio, Renato and Guilleminot, Pierre and Faisal, A. Aldo},
+  year={2021},
+  month={Nov},
+  pages={21375},
+  language={en}
+}
+
+@article{10.3389/fnbot.2022.918001,
+  author   = {Handelman, David A. and Osborn, Luke E. and Thomas, Tessy M. and Badger, Andrew R. and Thompson, Margaret and Nickl, Robert W. and Anaya, Manuel A. and Wormley, Jared M. and Cantarero, Gabriela L. and McMullen, David and Crone, Nathan E. and Wester, Brock and Celnik, Pablo A. and Fifer, Matthew S. and Tenore, Francesco V.},
+  title    = {Shared Control of Bimanual Robotic Limbs With a Brain-Machine Interface for Self-Feeding},
+  journal  = {Frontiers in Neurorobotics},
+  volume   = {16},
+  year     = {2022},
+  url      = {https://www.frontiersin.org/articles/10.3389/fnbot.2022.918001},
+  doi      = {10.3389/fnbot.2022.918001},
+  issn     = {1662-5218},
+  abstract = {Advances in intelligent robotic systems and brain-machine interfaces (BMI) have helped restore functionality and independence to individuals living with sensorimotor deficits; however, tasks requiring bimanual coordination and fine manipulation continue to remain unsolved given the technical complexity of controlling multiple degrees of freedom (DOF) across multiple limbs in a coordinated way through a user input. To address this challenge, we implemented a collaborative shared control strategy to manipulate and coordinate two Modular Prosthetic Limbs (MPL) for performing a bimanual self-feeding task. A human participant with microelectrode arrays in sensorimotor brain regions provided commands to both MPLs to perform the self-feeding task, which included bimanual cutting. Motor commands were decoded from bilateral neural signals to control up to two DOFs on each MPL at a time. The shared control strategy enabled the participant to map his four-DOF control inputs, two per hand, to as many as 12 DOFs for specifying robot end effector position and orientation. Using neurally-driven shared control, the participant successfully and simultaneously controlled movements of both robotic limbs to cut and eat food in a complex bimanual self-feeding task. This demonstration of bimanual robotic system control via a BMI in collaboration with intelligent robot behavior has major implications for restoring complex movement behaviors for those living with sensorimotor deficits.}
+}
+
+@article{doi:10.1126/scirobotics.abo3996,
+    author = {Minh Tran  and Lukas Gabert  and Sarah Hood  and Tommaso Lenzi },
+    title = {A lightweight robotic leg prosthesis replicating the biomechanics of the knee, ankle, and toe joint},
+    journal = {Science Robotics},
+    volume = {7},
+    number = {72},
+    pages = {eabo3996},
+    year = {2022},
+    doi = {10.1126/scirobotics.abo3996},
+    URL = {https://www.science.org/doi/abs/10.1126/scirobotics.abo3996},
+    eprint = {https://www.science.org/doi/pdf/10.1126/scirobotics.abo3996},
+}
+
+@inproceedings{10.1145/3562939.3565620,
+  author = {Rasla, Alex and Beyeler, Michael},
+  title = {The Relative Importance of Depth Cues and Semantic Edges for Indoor Mobility Using Simulated Prosthetic Vision in Immersive Virtual Reality},
+  year = {2022},
+  isbn = {9781450398893},
+  publisher = {Association for Computing Machinery},
+  address = {New York, NY, USA},
+  url = {https://doi.org/10.1145/3562939.3565620},
+  doi = {10.1145/3562939.3565620},
+  booktitle = {Proceedings of the 28th ACM Symposium on Virtual Reality Software and Technology},
+  articleno = {27},
+  numpages = {11},
+  keywords = {indoor mobility, virtual reality, scene simplification, simulated prosthetic vision, bionic vision},
+  location = {Tsukuba, Japan},
+  series = {VRST '22}
+}
+
+@article{9712252,
+  author={Yeung, Dennis and Guerra, Irene Mendez and Barner-Rasmussen, Ian and Siponen, Emilia and Farina, Dario and Vujaklija, Ivan},
+  journal={IEEE Transactions on Biomedical Engineering},
+  title={Co-Adaptive Control of Bionic Limbs via Unsupervised Adaptation of Muscle Synergies},
+  year={2022},
+  volume={69},
+  number={8},
+  pages={2581-2592},
+  doi={10.1109/TBME.2022.3150665}
+}
+
+@article{Kawai_Nie_Oda_Morimoto_Takeuchi_2022,
+  title={Living skin on a robot},
+  volume={5},
+  ISSN={25902385},
+  DOI={10.1016/j.matt.2022.05.019},
+  number={7},
+  journal={Matter},
+  author={Kawai, Michio and Nie, Minghao and Oda, Haruka and Morimoto, Yuya and Takeuchi, Shoji},
+  year={2022},
+  month={Jul},
+  pages={2190–2208},
+  language={en}
+}
+
+@article{10.3389/fnhum.2022.933401,
+  author   = {Roeder, Brent M. and Riley, Mitchell R. and She, Xiwei and Dakos, Alexander S. and Robinson, Brian S. and Moore, Bryan J. and Couture, Daniel E. and Laxton, Adrian W. and Popli, Gautam and Munger Clary, Heidi M. and Sam, Maria and Heck, Christi and Nune, George and Lee, Brian and Liu, Charles and Shaw, Susan and Gong, Hui and Marmarelis, Vasilis Z. and Berger, Theodore W. and Deadwyler, Sam A. and Song, Dong and Hampson, Robert E.},
+  title    = {Patterned Hippocampal Stimulation Facilitates Memory in Patients With a History of Head Impact and/or Brain Injury},
+  journal  = {Frontiers in Human Neuroscience},
+  volume   = {16},
+  year     = {2022},
+  url      = {https://www.frontiersin.org/articles/10.3389/fnhum.2022.933401},
+  doi      = {10.3389/fnhum.2022.933401},
+  issn     = {1662-5161},
+  abstract = {Rationale: Deep brain stimulation (DBS) of the hippocampus is proposed for enhancement of memory impaired by injury or disease. Many pre-clinical DBS paradigms can be addressed in epilepsy patients undergoing intracranial monitoring for seizure localization, since they already have electrodes implanted in brain areas of interest. Even though epilepsy is usually not a memory disorder targeted by DBS, the studies can nevertheless model other memory-impacting disorders, such as Traumatic Brain Injury (TBI). Methods: Human patients undergoing Phase II invasive monitoring for intractable epilepsy were implanted with depth electrodes capable of recording neurophysiological signals. Subjects performed a delayed-match-to-sample (DMS) memory task while hippocampal ensembles from CA1 and CA3 cell layers were recorded to estimate a multi-input, multi-output (MIMO) model of CA3-to-CA1 neural encoding and a memory decoding model (MDM) to decode memory information from CA3 and CA1 neuronal signals. After model estimation, subjects again performed the DMS task while either MIMO-based or MDM-based patterned stimulation was delivered to CA1 electrode sites during the encoding phase of the DMS trials. Each subject was sorted (post hoc) by prior experience of repeated and/or mild-to-moderate brain injury (RMBI), TBI, or no history (control) and scored for percentage successful delayed recognition (DR) recall on stimulated vs. non-stimulated DMS trials. The subject’s medical history was unknown to the experimenters until after individual subject memory retention results were scored. Results: When examined compared to control subjects, both TBI and RMBI subjects showed increased memory retention in response to both MIMO and MDM-based hippocampal stimulation. Furthermore, effects of stimulation were also greater in subjects who were evaluated as having pre-existing mild-to-moderate memory impairment. Conclusion: These results show that hippocampal stimulation for memory facilitation was more beneficial for subjects who had previously suffered a brain injury (other than epilepsy), compared to control (epilepsy) subjects who had not suffered a brain injury. This study demonstrates that the epilepsy/intracranial recording model can be extended to test the ability of DBS to restore memory function in subjects who previously suffered a brain injury other than epilepsy, and support further investigation into the beneficial effect of DBS in TBI patients.}
+}
+
+
+@misc{enwiki:CognitiveRobotics,
+  author = "{Wikipedia contributors}",
+  title = "Cognitive robotics --- {Wikipedia}{,} The Free Encyclopedia",
+  year = "2022",
+  howpublished = "\url{https://en.wikipedia.org/w/index.php?title=Cognitive_robotics&oldid=1129303135}",
+  note = "[Online; accessed 15-January-2023]"
+}
+
+@misc{robotecture,
+  author = {Jack},
+  title = {What is Cognitive Robotics},
+  year = {2022},
+  url = {https://robotecture.com/tech/what-is-cognitive-robotics/},
+}
+
+@misc{sylabus,
+  title = {Cognitive robotics -- Educational subject description sheet},
+  year = {2021/22},
+  url = {https://sylabus.uj.edu.pl/en/document/0bc30284-89d9-4c26-8e48-01e089e03791.pdf},
+}
+
+@misc{enwiki:CognitiveScience,
+  author = "{Wikipedia contributors}",
+  title = "Cognitive science --- {Wikipedia}{,} The Free Encyclopedia",
+  year = "2023",
+  howpublished = "\url{https://en.wikipedia.org/w/index.php?title=Cognitive_science&oldid=1132575328}",
+  note = "[Online; accessed 16-January-2023]"
+}
+
+@article{HCI-005,
+  url = {http://dx.doi.org/10.1561/1100000005},
+  year = {2008},
+  volume = {1},
+  journal = {Foundations and Trends® in Human–Computer Interaction},
+  title = {Human–Robot Interaction: A Survey},
+  doi = {10.1561/1100000005},
+  issn = {1551-3955},
+  number = {3},
+  pages = {203-275},
+  author = {Michael A. Goodrich and Alan C. Schultz}
+}
+
+@misc{enwiki:Robot,
+  author = "{Wikipedia contributors}",
+  title = "Robot (disambiguation) --- {Wikipedia}{,} The Free Encyclopedia",
+  year = "2022",
+  howpublished = "\url{https://en.wikipedia.org/w/index.php?title=Robot_(disambiguation)&oldid=1126734017}",
+  note = "[Online; accessed 19-January-2023]"
+}
+
+@article{article,
+  author = {Botzheim, J.},
+  year = {2021},
+  month = {06},
+  pages = {1510},
+  title = {Cognitive Robotics},
+  volume = {10},
+  journal = {Electronics},
+  doi = {10.3390/electronics10131510}
+}
+\end{filecontents*}
+% }}}
+
+\usepackage[
+    backend=bibtex,
+    urldate=iso,
+    date=iso,seconds=true,
+]{biblatex}
+\bibliography{\jobname.out.d/references.bib}
+\renewcommand*{\bibfont}{\footnotesize}
+
+\setlength{\parindent}{0em}
+\emergencystretch=1em
+\setitemize[1]{noitemsep,topsep=2pt,parsep=0pt,partopsep=0pt}
+
+\providecommand{\keywords}[1] { \small\textbf{\textbf{Keywords:}} #1 }
+
+
+\author{Jakub Łukasiewicz}
+\title{A semester of Cognitive Robotics}
+\date{2023-02-01}
+
+\begin{document}
+
+\makeatletter
+\begin{titlepage}
+    \centering
+
+    {\huge\bfseries \@title \par}
+
+    \vspace{2cm}
+    {\Large\itshape \@author\/ \par}
+
+    \vspace{0.5em}
+    {\color{idcolor}\aiOrcid} \url{https://orcid.org/0000-0002-4938-504X}
+
+    \vspace{2em}
+    {\large \@date\par}
+
+    \vspace{2em}
+
+    \begin{abstract}
+       The report concluding a semester of studying
+       Cognitive Robotics at Jagiellonian University in Kraków.
+       Lists what topics studied fellow students as well as author's area
+       of interest with short descriptions of read/presented papers.
+    \end{abstract}
+
+    \vspace{1em}
+    \keywords{overview, report, summary, class, studying, cognitive, robotics, prostheses}
+
+    \vfill
+
+    \tableofcontents
+\end{titlepage}
+\makeatother
+
+\section{Cognitive Robotics}
+
+Cognitive Robotics is a cross-section of, \textit{nomen omen}, robotics and cognitive
+science.  It's primary concern is endowing a robot with intelligent behavior by providing
+the machine with a processing architecture that will allow it to learn and reason about
+how to behave in response to complex goals in a complex world; it paves the way for
+machines to have reasoning abilities analogous to those of humans.
+
+\subsection{Key features of cognitive robotics}
+
+\begin{itemize}
+   \item \textbf{Artificial intelligence} -- cognitive robots are able to learn and
+      understand their surroundings through the use of artificial intelligence algorithms;
+      it allows them to interact with their environment in a more natural way.
+      \begin{itemize}
+         \item \textbf{Machine learning} -- robots in the cognitive robotics field also
+            rely on machine learning in order to improve their understanding of their
+            surroundings over time; this allows them to adapt to new situations and learn
+            from past experiences.
+      \end{itemize}
+   \item \textbf{Natural language processing} -- cognitive robots also use natural
+      language processing in order to communicate with humans, what results in more fluid
+      interactions between humans and robots.
+   \item \textbf{Cognitive architecture} -- a cognitive architecture is a data structure
+      that mimics the way the human brain processes information. This can include features
+      such as motor control, sensory processing, and working memory. It is a key part of
+      cognitive robotics, as it determines how information is processed and how decisions
+      are made. This processing architecture is often inspired by the human brain, and
+      cognitive robotics research aims to apply these principles to create robots that can
+      think and learn like humans.
+   \item \textbf{Motor control} -- involves creating algorithms that enable robots to
+      control their movements in order to carry out tasks. Motor functions are often
+      closely linked to cognitive abilities, and research in this area aims to create
+      robots that not only move effectively, but also can make decisions based on their
+      environment.
+\end{itemize}
+
+\subsection{What is a robot?}
+
+One of the first topics we covered in class was answering this very question
+and the answer we reached was: \textit{who knows?}
+
+\vspace{1em}
+
+The best I can say\footnote{for this burst of poor poetry I sincerely apologize} is:
+
+\begin{adjustwidth}{1cm}{}
+   \begin{multicols*}{2}
+      \raggedcolumns
+      an artificial agent robot is
+
+      \vspace{0.4em}
+      smart may be \\
+      yet does not need \\
+      factory robots exist
+
+      \vspace{0.3em}
+      physical may be \\
+      yet does not need \\
+      virtual bots exist
+
+      \vspace{0.3em}
+      mechanical may be \\
+      yet does not need \\
+      bio-robots exist
+
+      \columnbreak
+      \
+
+      \vspace{0.3em}
+      autonomous may be \\
+      yet does not need \\
+      tele-robots exist
+
+      \vspace{0.3em}
+      software-driven may be \\
+      yet does not need \\
+      automaton clocks exist
+
+      \vspace{1em}
+      so... what is a robot? \\
+      what we claim as such!
+   \end{multicols*}
+\end{adjustwidth}
+
+\section{Topics and papers chosen by fellow students}
+\subsection{Paweł Adamczuk -- Autonomous vehicles}
+
+Paweł focused his studies on the future of autonomous transportation and how we are
+approaching the subject. Presentations showed us various techniques for a more cognitive
+driving system as well as human vehicle communication. Most of focus was directed at
+personal vehicles (cars, trucks), but also public communication (e.g. trains).
+
+\begin{itemize}
+   \item \textit{\href{https://doi.org/10.1109/IV47402.2020.9304717}{Drivers' Attitudes and Perceptions towards A Driving Automation System with Augmented Reality Human-Machine Interfaces}}
+   \item \textit{\href{https://doi.org/10.1109/CVPR.2018.00803}{Toward Driving Scene Understanding: A Dataset for Learning Driver Behavior and Causal Reasoning}}
+   \item \textit{\href{https://doi.org/10.1109/MNET.2019.1900120}{Autonomous Driving Cars in Smart Cities: Recent Advances, Requirements, and Challenges}}
+   \item \textit{\href{https://doi.org/10.1109/INFORMATICS.2017.8327279}{Self-driving cars — The human side}}
+   \item \textit{\href{https://www.ripublication.com/ijaer18/ijaerv13n16_42.pdf}{Autonomous Vehicles: Levels, Technologies, Impacts and Concerns}}
+   \item \textit{\href{https://theses.hal.science/tel-03665789}{3D Scene Reconstruction and Completion for Autonomous Driving}}
+   \item \textit{\href{https://www.researchgate.net/publication/344519103_AN_INVESTIGATION_INTO_THE_CLOSER_RUNNING_OF_AUTONOMOUS_TRAINS}{AN INVESTIGATION INTO THE CLOSER RUNNING OF AUTONOMOUS TRAINS}}
+   \item \textit{\href{https://www.alstom.com/autonomous-mobility-future-rail-automated}{Autonomous mobility: The future of rail is automated}}
+   \item \textit{\href{https://canadianaam.com/2022/06/07/aam-aircraft-levels-of-autonomous-flying/}{AAM aircraft: Levels of autonomous flying}}
+   \item \textit{\href{https://d-nb.info/1042982740/34}{Unmanned Aircraft Systems for Civilian Missions}}
+\end{itemize}
+
+\subsection{Abel Petik -- How to communicate goals to a robot}
+
+Abel's research was about artificial intelligence and how we make it do what we want
+it to do. Most of the presented material had it source in the book \textit{The Alignment
+Problem} by Brian Christian. Abel very well, in simple term, familiarized (or remainded
+us) the state of the art machine learnig techniques: supervised learning, unsupervised
+learning and reinforcement learning; as well as computer science classics like
+\textit{On the folly of rewarding A, while hoping for B}.
+
+\begin{itemize}
+   \item \textit{\href{http://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Motivation/Kerr_Folly_of_rewarding_A_while_hoping_for_B.pdf}{On the folly of rewarding A, while hoping for B}}
+   \item \textit{\href{https://dl.acm.org/doi/10.5555/1566770.1566773}{Supervised Machine Learning: A Review of Classification Techniques}}
+   \item \textit{\href{https://dl.acm.org/doi/10.5555/3157382.3157584}{Man is to computer programmer as woman is to homemaker? debiasing word embeddings}}
+   \item \textit{\href{https://doi.org/10.1109/MSP.2017.2743240}{Deep Reinforcement Learning: A Brief Survey}}
+   \item \textit{\href{https://doi.org/10.1126/science.275.5306.1593}{A Neural Substrate of Prediction and Reward}}
+   \item \textit{The Alignment Problem}
+\end{itemize}
+
+\subsection{Wojciech Węgrzyn -- Robot and music}
+
+A research about intersection of robotics and music, searching for examples of different
+robots (or automata) playing regular instruments and robotic instruments as well.
+Wojtek presented history of this branch of science (including ancient predecessors and
+works that been done before rise of computers), state of the art examples, as well as
+findings about the most modern solutions.
+
+\begin{itemize}
+   \item \textit{\href{https://doi.org/10.1109/RCAR49640.2020.9303271}{Music Melody Extraction Algorithm for Flute Robot}}
+   \item \textit{\href{https://doi.org/10.1109/ROMAN.2018.8525813}{Combining social robotics and music as a non-medical treatment for people with dementia}}
+   \item \textit{\href{https://doi.org/10.26686/wgtn.20387730}{Expressive Musical Robots: Building, Evaluating, and Interfacing with an Ensemble of Mechatronic Instruments}}
+   \item \textit{\href{http://hdl.handle.net/2027/spo.bbp2372.2005.162}{A History of robotic Musical Instruments}}
+   \item \textit{\href{https://www.nime.org/proceedings/2014/nime2014_303.pdf}{Chronicles of a Robotic MusicalCompanion}}
+   \item \textit{\href{https://doi.org/10.1109/ROBOT.2010.5509182}{Gesture-based Human-Robot Jazz Improvisation}}
+   \item \textit{\href{https://doi.org/10.1145/2677199.2680593}{The Kitsch-Instrument: Hackable Robotic Music}}
+   \item \textit{\href{https://doi.org/10.1162/99608f92.2c5ec0ca}{AI and Creativity}}
+   \item \textit{\href{https://doi.org/10.3389/frobt.2021.647028}{Locating Creativity in Differing Approaches to Musical Robotics}}
+\end{itemize}
+
+\section{{\normalfont My topic:} Perceptual, motor, and cognitive enhancements using robotics technology}
+
+Research about prosthetic body parts replacements to help disabled people and/or improve
+upon the regular body limitations as well as mind functionality. Presentations will consist
+of papers describing achievements from fields such as mechanical robotics and
+neuroscience. Some attention will also be directed at the attitudes of the population
+towards this technology and the predictions for the future.
+
+\subsection{Kraków workshop on Robotics (October 12-13, 2022)}
+\subsubsection{myGym: Modular Toolkit for Visuomotor Robotic Tasks}
+
+Biological limbs are not completely dependent on the signals from brain -- sometimes
+they need to act autonomously for waiting for brain response would take too much time.
+The same, if not even more, hold true for robotic prostheses.
+Achieving satisfactory performance requires training and since it is not really possible
+to create real robots and put them in real environments just for the practice, a robotic
+simulator is needed. One of such simulators is \textbf{myGym} presented by Michal Vavrecka
+from \textit{Czech Technical University in Prague}.
+
+\subsection{Robotic Telekinesis: Learning a Robotic Hand Imitator by Watching Humans on YouTube}
+
+\begin{table}[H]
+   \begin{tabularx}{\textwidth}{r|X}
+      Authors    & \textit{Aravind Sivakumar, Kenneth Shaw, Deepak Pathak} \\
+      Conference & \textit{Robotics: Science and Systems} \\
+      Pub.\ date & \textit{2022-07-24} \\
+      DOI        & \textit{\url{https://doi.org/10.48550/arXiv.2202.10448}}
+   \end{tabularx}
+\end{table}
+
+Hands differ in shape, size, structure -- this translation is under-constrained,
+particularly with a single image. Furthermore, collecting paired
+human-robot data at scale is infeasible. By relying solely on passive human videos,
+researchers from Carnegie Mellon University managed to train a neural network to map
+human images to robot poses by watching thousands of hours of Youtube videos of people
+just using their hands.
+They tested the system with untrained operators to collect demonstrations on several tasks.
+After only a few moments of the adjustment, new users could complete a variety of tasks.
+They didn't even need to be standing anywhere special as no camera calibration is needed.
+This system offers a natural and low-cost way to collect robot demos.
+
+\subsection{Playing the piano with a robotic third thumb: assessing constraints of human augmentation}
+
+\begin{table}[H]
+   \begin{tabularx}{\textwidth}{r|X}
+      Authors    & \textit{Ali Shafti, Shlomi Haar, Renato Mio, Pierre Guilleminot, A. Aldo Faisal} \\
+      Journal    & \textit{Nature - Scientific Reports} \\
+      Pub.\ date & \textit{2021-11-01} \\
+      DOI        & \url{https://doi.org/10.1038/s41598-021-00376-6}
+   \end{tabularx}
+\end{table}
+
+Researchers from Imperial College London have been working to understand how well the
+human brain can cope with using extra limbs made possible through robotic technology.
+
+The researchers found that both of two groups groups of volunteers were able to learn how
+to play with all 11 fingers within an hour of being shown how to use the extra thumb.
+They noted that the ability to quickly learn how to use the robotic digit was not limited
+to the experienced players, demonstrating that people are able to learn how to use an
+extra digit for unfamiliar tasks as well as for tasks they are used to.
+The findings could be particularly useful for robotic equipment used in the aerospace and manufacturing
+industries, where people work in confined spaces and could need extra limbs or enhanced dexterity.
+
+\subsection{Shared Control of Bimanual Robotic Limbs With a Brain-Machine Interface for Self-Feeding}
+
+\begin{table}[H]
+   \begin{tabularx}{\textwidth}{r|X}
+      Authors    & \textit{David A. Handelman, Luke E. Osborn, Tessy M. Thomas, Andrew R. Badger, Margaret Thompson, Robert W. Nickl, Manuel A. Anaya, Jared M. Wormley, Gabriela L. Cantarero, David McMullen, Nathan E. Crone, Brock Wester, Pablo A. Celnik, Matthew S. Fifer, Francesco V. Tenore} \\
+      Publisher  & \textit{Frontiers in Neurorobotics} \\
+      Pub.\ date & \textit{2022-06-28} \\
+      DOI        & \textit{\url{https://doi.org/10.3389/fnbot.2022.918001}}
+   \end{tabularx}
+\end{table}
+
+Researchers from Johns Hopkins University and from National Institute of Mental
+Health created a brain-machine interface (BMI) to control a pair of prosthetic limbs
+connected to paralyzed man's brain, allowing him to feed himself without
+help from others.
+
+\vspace{1em}
+
+The paper describes an experimental setup aimed at testing a collaborative shared control
+strategy (an approach where a subset of the robot degrees of freedoms is controllable by
+the BMI user at select task-specific times, or through mode-switches initiated by the
+user) in which the participant will be controlling up to four combined bilateral
+degrees-of-freedom to complete a bimanual self-feeding task.  In other words: the
+paralyzed man will use robot to eat cake with fork and knife.
+
+The user and the robot share the control loop - robot doesn't only take commands,
+but also has a bit of autonomy of its own.
+
+\vspace{1em}
+
+To the paper attached is a recording from the testing session, which really helps with
+understanding the procedure.
+
+
+\subsection{A lightweight robotic leg prosthesis replicating the biomechanics of the knee, ankle, and toe joint}
+
+\begin{table}[H]
+   \begin{tabularx}{\textwidth}{r|X}
+      Authors    & \textit{Minh Tran, Lukas Gabert, Sarah Hood, Tommaso Lenzi} \\
+      Journal    & \textit{Science Robotics (AAAS)} \\
+      Pub.\ date & \textit{2022-11-23} \\
+      DOI        & \textit{\url{https://doi.org/10.1126/scirobotics.abo3996}}
+   \end{tabularx}
+\end{table}
+
+Until very recently, for people with above knee amputations, only available prostheses were
+lightweight but passive or active but heavy and limited in time.  This state of affair
+may soon be different, as team from University of Utah managed to design a prosthetic leg
+which simulates key biological functions of real joints while greatly reducing weight and
+improving battery life.
+The Utah Bionic Leg (UBL), as the device was named, consist of two
+independent modules: one for knee and one for ankle/foot.
+The scientist thoughtfully
+analyzed the movements of biological legs. Important feature of UBL is retaining some
+of its functionality even when batteries are drained. Researchers claim there is
+no other prosthesis on the marked which poses such capability.
+
+\subsection{The Relative Importance of Depth Cues and Semantic Edges for Indoor Mobility Using Simulated Prosthetic Vision in Immersive Virtual Reality}
+
+\begin{table}[H]
+   \begin{tabularx}{\textwidth}{r|X}
+      Authors & \textit{Alex Rasla, Michael Beyeler} \\
+      Journal & \textit{ACM Digital Library} \\
+      Date    & \textit{2022-08-09} {\small (submission)} \\
+      DOI     & \textit{\url{https://doi.org/10.1145/3562939.3565620}}
+   \end{tabularx}
+\end{table}
+
+To highlight more meaningful information in the scene registered via bionic eyes, studies
+have tested the effectiveness of deep-learning based computer vision techniques,
+such as depth estimation to highlight nearby obstacles and semantic edge detection to
+outline important objects in the scene. Researchers from University of California
+tested whether and how combining both techniques improves the ability to avoid obstacles
+and identify objects. The tested modes were:
+\begin{itemize}[noitemsep]
+   \item \textit{DepthOnly} - substituting depth for intensity; estimating relative
+      depth in the scene and then making phosphenes appear brighter the closer they are to
+      the observer, in order to highlight nearby obstacles
+   \item \textit{EdgesOnly} - extracting semantic and structural edges instead in order to
+      give the user a sense of where important objects are in the scene
+   \item \textit{EdgesAndDepth} - visualizing both edge and depth cues at the same time
+   \item \textit{EdgesOrDepth} - users have ability to flexibly switch between edge and depth cues
+\end{itemize}
+
+
+Interestingly, participants completed the obstacle portion of the task the fastest using
+\textit{DepthOnly} mode, even though \textit{EdgesAndDepth} provided the same amount of
+depth cues at all times. Consequently, upon completion of the experiment, the participants
+reported they preferred \textit{DepthOnly} and \mbox{\textit{EdgesOrDepth}} modes to avoid
+obstacles (most liked the ability to switch between depth and edge modes, despite not using
+it a lot). When it came to selecting objects, user preferences were mixed - it's consistent
+with the somewhat lackluster performance of participants in the object selection portion
+of the task, suggesting that none of the tested modes may be ideal for object recognition.
+
+\subsection{Co-Adaptive Control of Bionic Limbs via Unsupervised Adaptation of Muscle Synergies}
+
+\begin{table}[H]
+   \begin{tabularx}{\textwidth}{r|X}
+      Authors    & \textit{Dennis Yeung, Irene Mendez Guerra, Ian Barner-Rasmussen, Emilia Siponen, Dario Farina, Ivan Vujaklija} \\
+      Journal    & \textit{IEEE Transactions on Biomedical Engineering} \\
+      Pub.\ date & \textit{2022-02-14} \\
+      DOI        & \textit{\url{https://doi.org/10.1109/TBME.2022.3150665}}
+   \end{tabularx}
+\end{table}
+
+Myoelectric interface -- a popular technique for controlling the robotic prosthesis by
+people whose upper limb has been amputated detects electrical signals produced by their
+remaining muscles.  The most advanced prostheses use ML algorithms that help interpret
+these user-generated sigrals, however such connections are often very sensitive to
+external factors (e.g. sweating) and may become weaker over time. A group of researchers
+from Aalto University, Imperial College London and Helsinki University Hospital developed
+a fully automated system that learns during normal use and thus adapts to varying
+conditions.
+
+In the virtual experiment, subjects were required to perform sets of target reaching
+tasks in a 2D space using different controllers and under different conditions of
+controlled electrode perturbation. Each trial consisted of 24 predefined targets
+presented in randomized sequences with subjects given 10 seconds to reach each
+target, the spatial distribution of which ensured a thorough evaluation of multi-DoF
+simultaneous and proportional control performance.
+
+The results of the experiments were very promising. Thus, the proposed system not only
+retains the functional benefits provided by supervised methods, but also brings improved
+robustness for end users while offering practical advantages for clinical deployment. To
+the authors' knowledge, this demonstrates a new paradigm for co-adaptive myoelectric
+interfacing, where system learning is fully automated (self-initiated and unsupervised)
+and administered in real-time in concurrence with the user's own motor adaptation.
+
+\subsection{Living skin on a robot}
+
+\begin{table}[h]
+   \begin{tabularx}{\textwidth}{r|X}
+      Authors    & \textit{Michio Kawai, Minghao Nie, Haruka Oda, Yuya Morimoto, Shoji Takeuchi} \\
+      Journal    & \textit{Matter} \\
+      Pub.\ date & \textit{2022-06-09} \\
+      DOI        & \textit{\url{https://doi.org/10.1016/j.matt.2022.05.019}}
+   \end{tabularx}
+\end{table}
+
+Scientists at the University of Tokyo have created a robot finger covered in living skin;
+the finger has living cells and can even heal itself. To produce the digit, the team first
+created the robot finger, then submerged it in a solution of collagen and human dermal
+fibroblasts, the main components of the skin's connective tissues. This provided a scaff
+old for the growth of human epidermal keratinocytes, which are grown on top. The skin
+feels like normal skin, and, when damaged, a collagen bandage can be placed on the skin,
+which helps it to heal.
+
+According to the researchers, the main advantage of growing skin on the robotic finger
+directly is that it creates a perfect fit and allows the finger to bend easily.
+
+For now, the skin is much weaker than natural skin and, because the robot finger lacks a
+circulatory system. The next steps for the group are to incorporate functional
+structures within the skin, such as sensory neurons, hair follicles, nails, and sweat
+glands. They are also working on a skin-covered robotic face. One long-term aim for the
+team is to develop robots that are sensitive enough to automate manufacturing industries
+that now require highly skilled human workers. It could also open up possibilities in
+cosmetics and pharmaceuticals testing, as well as regenerative medicine, eliminating the
+need for animal testing.
+
+\subsection{Patterned Hippocampal Stimulation Facilitates Memory in Patients With a History of Head Impact and/or Brain Injury}
+
+\begin{table}[H]
+   \begin{tabularx}{\textwidth}{r|X}
+      Authors    & \textit{Brent M. Roeder, Mitchell R. Riley, Xiwei She, Alexander S. Dakos, Brian S. Robinson, Bryan J. Moore, Daniel E. Couture, Adrian W. Laxton, Gautam Popli, Heidi M. Munger Clary, Maria Sam, Christi Heck, George Nune, Brian Lee, Charles Liu, Susan Shaw, Hui Gong, Vasilis Z. Marmarelis, Theodore W. Berger, Sam A. Deadwyler, Dong Song, Robert E. Hampson} \\
+      Journal    & \textit{Frontiers in Human Neuroscience} \\
+      Pub.\ date & \textit{2022-07-25} \\
+      DOI        & \textit{\url{https://doi.org/10.3389/fnhum.2022.933401}}
+   \end{tabularx}
+\end{table}
+
+The team of researchers from the University of Southern California and Wake Forest School
+of Medicine managed to create a memory "prosthetic" by replicate the hippocampus’ signals
+with a digital replacement. The scientists worked out two algorithms:
+\begin{itemize}
+   \item memory decoding model (MDM) - takes an average of the electrical patterns across
+      multiple people as they form memories
+   \item multi-input, multi-output (MIMO) - incorporates both input and output electrical
+      patterns (the so-called CA3-CA1 circuit) and mimics those signals in both space and
+      timing
+\end{itemize}
+
+Crucial for research were participants with epilepsy who have electrodes implanted into
+memory-related regions of their brains (the implants help neurosurgeons track down the
+source of seizures). Among the participants some had "only" epilepsy, while others
+had "mild" brain injuries.
+
+Overall, stimulating the brains of people with epilepsy boosted memory performance by
+roughly 15\%. Those pulsed with MDM had around 14\% boost, while the MIMO model (which i
+mimics neural signals of each hippocampi) made their performance improve by 36\%.
+
+\section{Summary}
+
+Having read all of the above papers, seeing how much more of similar works is already
+out there and noticing how quickly they advance (those papers were almost all published
+just few months apart from each other!), I think it is safe to expect bionic prostheses
+almost indistinguishable from the original biological ones (e.g. like Luke's hand after
+losing it during the lightsaber fight with Darth Vader on Cloud City in movie
+\textit{Star Wars: The Empire Strikes Back}) to be a matter of but few years.
+
+\vspace{1em}
+
+Populace is also slowly, but steadily warming up to an idea of mixing life and machines
+(although this can change any moment, for emotions are weary thing). The possibility
+of extending the natural capabilities of human body will be tempting for many.
+Somebody may say we have cyborgs already today, but I think it's a far stretch.
+But in decade or two? Highly probable.
+
+\vspace{1em}
+
+I'm looking forward to what the future bring us and hope the technology will grow
+to benefit us all tremendously.
+
+\section*{} % Bibliography
+
+\clearpage
+\nocite{*}
+\printbibliography[heading=bibintoc]
+
+\end{document}

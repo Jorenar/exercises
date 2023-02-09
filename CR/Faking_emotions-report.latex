@@ -1,0 +1,64 @@
+\documentclass[10pt]{article}
+
+\usepackage[a5paper, vmargin=20pt, hmargin=30pt, head=20pt, includehead]{geometry}
+
+\usepackage{enumitem}
+\usepackage{scrextend}
+
+\setlength{\parskip}{0.7em}
+\setlength{\parindent}{0em}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{\textit{Faking emotions}}
+\chead{REPORT}
+\rhead{Jakub Łukasiewicz}
+
+\begin{document}
+
+Robots, being cold dead machines, don't posses emotions - a significant lack
+when interacting with animals as social as humans. But that does not mean,
+we will not be able grand them feelings in the future. Techniques of today
+fairly well recognize or even fake human emotions. Although...\ should they?
+
+The ethical problems it brings to table are not to be taken lightly.
+AI capable of manufacturing emotions is equally capable of emotional manipulations.
+Certain corporations would not stop for a second before taking advantage of such
+"opportunity" for advertisement.
+
+It is a well known fact, there is no better advertisement than hearing it on the
+grapevine from your acquaintances. But they are a little bit difficult to program.
+Virtual "friend" on the other hand? It will tell you what it was made to by its
+true owners. It will not be obvious, the interaction will be as if with a real
+friend, but just sometimes, uncanny fitting for the topic of conversation,
+the AI will start talking about a great deal on some pricey product you can
+buy right now in that big online store.
+
+Adverts are one thing, but there also exist "games" which not rarely are "free" at the
+beginning, but to make any real progress in them you need to spend a dime. For example,
+\textit{virtual pet} could demand new accessories to keep it \underline{happy}. \\
+Now let's imagine, instead of a dog or other unspecified creature it was an avatar
+of your deceased child. Would you not want buy it a toy to make it happy?
+Also, they cannot live without a house! You better work hard to purchase that
+virtual property from that corporation trying to recreate \textit{Second Life}
+in Virtual Reality.
+
+One could entertain a thought those are kind of issues exclusive to virtual bots - nothing
+could be further from the truth! Physical robots would be perhaps even more effective.
+While a bot needs to be interacted with to gather data, a robot does not. It is an
+autonomous entity, so it can just observe the user from the corner and learn their habits. \\
+Just a day before, I was watching an episode of animated show set in the near future.
+While it was just a background detail, I couldn't help but to notice how robot assistant
+belonging to one of the main characters was kind of \underline{obsessed} with baths -
+interesting coincidence considering its body being shaped after jellyfish, a water animal.
+But what really picked my interest was the robot asking for (expensive) system upgrade -
+how it was quietly following the girl, how it was asking right after being helpful, the
+tone of its voice, the "\underline{sad} puppy" movement after being told no.
+
+Of course what I wrote about are just fiction, presumptions and hypotheses - we do not
+know how the reality will unfold in the future. However much I myself would love to be
+able to chat with a droid, I also do think, we should at least stop to think before
+opening the box, because in case it was Pandora's box, there will be no occasion to put
+the unleashed monster back in there.
+
+\end{document}

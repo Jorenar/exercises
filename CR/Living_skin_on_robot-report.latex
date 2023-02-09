@@ -1,0 +1,45 @@
+\documentclass[a4paper]{article}
+
+\usepackage[vmargin=15pt, hmargin=30pt, head=15pt, includehead]{geometry}
+
+\usepackage{tabularx}
+\usepackage{caption}
+\usepackage{changepage}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{media9}
+\usepackage{graphicx}
+
+\setlength{\parskip}{0.7em}
+\setlength{\parindent}{0em}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{PAPER REPORT}
+\rhead{Jakub Łukasiewicz}
+
+\begin{document}
+
+\begin{table}[h]
+   \begin{tabularx}{\textwidth}{r|X}
+      Paper   & \textit{Living skin on a robot} \\
+      Authors & \textit{Michio Kawai, Minghao Nie, Haruka Oda, Yuya Morimoto, Shoji Takeuchi} \\
+      Journal & \textit{Matter} \\
+      Date    & \textit{2022-06-09} {\small (publication)} \\
+      DOI     & \textit{\url{https://doi.org/10.1016/j.matt.2022.05.019}}
+   \end{tabularx}
+\end{table}
+
+foo
+
+\begingroup
+\renewcommand{\section}[2]{}
+\begin{thebibliography}{}
+   \bibitem{a} \url{https://www.cell.com/matter/fulltext/S2590-2385(22)00239-9}
+   \bibitem{b} \url{https://www.i.u-tokyo.ac.jp/news/files/ist_pressrelease_20220610_takeuchi.pdf}
+   \bibitem{c} \url{https://www.abc.net.au/news/science/2022-06-10/101129954}
+   \bibitem{d} \url{https://www.springwise.com/pdfgen/innovation/computing-tech/putting-living-skin-sheets-on-robots}
+\end{thebibliography}
+\endgroup
+
+\end{document}
