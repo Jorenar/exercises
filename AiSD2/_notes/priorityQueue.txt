@@ -1,0 +1,41 @@
+**PRIORITY QUEUE**
+
+A priority queue is a type of queue that arranges elements based on their priority values.
+Elements with higher priority values are typically retrieved before elements with lower priority values.
+
+Often implemented as heap, but can be done also using array, linked list or BST.
+
+              | unsorted array | sorted array | linked list |   heap   |    BST   |
+              |----------------|--------------|-------------|----------|----------|
+| insert(x,k) |      O(1)      |     O(n)     |    O(n)     | O(log n) | O(1)     |
+| pop()       |      O(n)      |     O(1)     |    O(1)     | O(log n) | O(log n) |
+| max()       |      O(n)      |     O(1)     |    O(1)     | O(1)     | O(log n) |
+
+
+
+increaseKey(Q, i, k):
+    if Q[i].priority > k:
+        throw error
+
+    Q[i].priority = k
+
+    while Q[parent(Q,i)].priority < Q[i].priority:
+        swap(Q, parent(Q,i), i)
+        i = parent(Q,i)
+        if i = 0:
+            break
+
+insert(Q, x, k):
+    i := |Q|
+    Q[i].value := x
+    increaseKey(Q, i, k)
+
+
+max(Q):
+    return Q[0]  // because heap
+
+extractMax(Q):
+    r = max(Q)
+    Q[0] = Q[|Q|-1]
+    heapify(0)
+    return r

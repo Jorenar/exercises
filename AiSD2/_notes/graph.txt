@@ -1,0 +1,34 @@
+**GRAPH**
+
+Graph can be represented as
+  - adjacency list
+  - adjacency matrix
+  - list of edges               // least common
+
+
+BFS(G, s):
+    Q := {Queue}
+    visited := []
+
+    enqueue(Q, s)
+    visited[s] := true
+
+    while not empty(Q):
+        v = dequeue(Q)
+
+        for u in G.V:
+            if ((v,u) in G.E) and (not visited[u]):
+                enqueue(Q, u)
+                visited[u] := true
+
+--------------------------------------------------------------------------------
+
+visited := []
+DFS(G, s):
+    visited[s] := true
+    for v in G.V:
+        if ((s,v) in G.E) and (not visited[v]):
+            DFS(G, v)
+
+
+https://cs.stackexchange.com/questions/146050/finishing-time-in-dfs-is-that-necessary

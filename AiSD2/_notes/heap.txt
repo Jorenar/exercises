@@ -1,0 +1,30 @@
+**HEAP**
+
+Tree (represented on array) where parent is always larger than its children
+(other than that, children are unordered). Levels numbered from left to right.
+
+
+parent(i):
+    return floor((i-1) / 2)
+
+leftChild(i):
+    return 2*i + 1
+
+rightChild(i):
+    return 2*i + 2
+
+
+heapify(H, i):
+    largest := i
+
+    left := leftChild(i)
+    if (left <= |H|) and (H[left] > H[largest]):
+        largest := left
+
+    right := rightChild(i)
+    if (right <= |H|) and (H[right] > H[largest]):
+        largest := right
+
+    if not (largest = i):
+        swap(H, i, largest)
+        heapify(largest)
