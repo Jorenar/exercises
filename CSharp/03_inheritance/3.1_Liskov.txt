@@ -1,9 +1,0 @@
-It's arguably impossible to make Square inherit from Rectangle without breaking
-Liskov's Substitution Principle since by definition square restricts rectangle
-requirements, thus it's necessary to make changes to the underlying logic.
-No matter what we do, we cannot make a square of width different from height.
-
-In fact, while counterintuitive, it would be more plausible for Rectangle
-to inherit after Square, since then Square could have a method for setting
-side length, then we could just add explicit setters for width and height
-in Rectangle.

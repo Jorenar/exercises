@@ -1,0 +1,994 @@
+% LaTeX
+% vim: fen
+
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, vmargin=10pt, hmargin=50pt, head=16pt, includehead]{geometry}
+\usepackage{amsmath}     % math
+\usepackage{amssymb}     % math symbols
+\usepackage{changepage}  % for the adjustwidth environment
+\usepackage{enumitem}    % enumerate/list items
+\usepackage{fancyhdr}    % header
+\usepackage{mathtools}   % math tools
+\usepackage{multicol}    % multiple columns
+\usepackage{pgfplots}    % graphs
+\usepackage{stackengine} % stacking objects vertically
+\usepackage{titlesec}    % alternative section titles
+\usepackage{xcolor}      % color text
+
+\usepgfplotslibrary{fillbetween}
+
+\newcommand{\degree}{^{\circ}}
+\newcommand{\for}{\ \leftrightarrow\ }
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\xrowht}[2][0]{\addstackgap[.5\dimexpr#2\relax]{\vphantom{#1}}}
+
+\let\oldref\ref \renewcommand{\ref}[1]{\mathrm{(\oldref{#1})}}
+
+\DeclareMathOperator{\?}{?}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\lin}{lin}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+
+\let\oldepsilon\epsilon \renewcommand{\epsilon}{\varepsilon}
+\let\oldphi\phi \renewcommand{\phi}{\varphi}
+
+\counterwithin*{equation}{section}  % reset equation counter after each section
+\titleformat{\section}{\normalfont\Large\bfseries}{}{0pt}{} % remove section numbering
+
+\newcommand{\sectionbreak}{\clearpage} % start each section on new page
+
+\setlength{\parskip}{0.7em}
+\setlength{\parindent}{0em}
+
+\pagestyle{fancy}
+\lhead{Jakub Łukasiewicz}
+\chead{Algebra}
+\let\Sectionmark\sectionmark
+\def\sectionmark#1{\def\Sectionname{#1}\Sectionmark{#1}}
+\rhead{\Sectionname}
+
+\begin{document}
+\section{Zadanie 1.1}
+\subsection*{Dane}
+\begin{itemize}
+    \item[] $ B = \left\{ x^2 - 1, x^2 +x, x^2 + x + 1 \right\} $
+    \item[] $ V = \mathcal{R}_2[x] $
+    \item[] Czy $B$ jest bazą przestrzeni $V$?
+\end{itemize}
+
+\subsection*{Rozwiązanie}
+\subsubsection*{Sprawdzenie liniowej niezależności}
+
+Zbiór $B$ można zapisać jako $B = \{ x^2 + 0x + 1, x^2 + x + 0, x^2 + x + 1 \} $,
+zatem należy policzyć:
+
+\begin{equation*}
+    \begin{vmatrix}
+        1 & 0 & -1 \\
+        1 & 1 &  0 \\
+        1 & 1 &  1
+    \end{vmatrix}
+    =
+    1 - 1 + 1 = 1 \ne 0
+\end{equation*}
+
+Wyznacznik jest różny od zera, więc wektory są liniowo niezależne.
+
+\subsubsection*{Baza kanoniczna}
+
+Bazą standardową przestrzeni $\mathcal{R}_2[x]$ jest $\{ 1, x, x^2 \} $\\
+Da się ją przedstawić za pomocą wektorów z $B$:
+
+\begin{equation*}
+    \begin{aligned}
+        1   &= &  0(x^2 - 1) - 1(x^2 + x) + 1(x^2 + x +1)  \\
+        x   &= & -1(x^2 - 1) + 2(x^2 + x) - 1(x^2 + x +1) \\
+        x^2 &= &  1(x^2 - 1) - 1(x^2 + x) + 1(x^2 + x +1)
+    \end{aligned}
+\end{equation*}
+
+\subsection*{Odpowiedź}
+
+\centerline{$B$ jest bazą przestrzeni $V$}
+\ % dummy for newpage
+
+\section{Zadanie 1.2}
+\subsection*{Dane}
+\begin{itemize}
+    \item[] $ L: \R^3 \mapsto \R^4 \ ,\ L(x,y,z) := (x-y, y-z, z-x, x+y-2z) $
+    \item[] Czy $L$ jest liniowe?
+    \item[] $ B_{(\ker L)} = \? $
+    \item[] $ B_{(\im L)} = \? $
+\end{itemize}
+
+\subsection*{Rozwiązanie}
+\subsubsection*{Sprawdzenie liniowości}
+
+\begin{equation*}
+    L \textrm{ jest liniowe} \Leftrightarrow
+    \left\{ \begin{array}{l}
+        L(av) = aLv \\
+        L(v + w) = Lv + Lw
+    \end{array} \right.
+\end{equation*}
+
+\begin{equation} \label{eq:1}
+    L(av) = (ax - ay, ay - az, az - ax, ax + ay - 2az) = a(x-y, y-z, z-x, x+y-2z) = aLv
+\end{equation}
+\begin{equation} \label{eq:2}
+    \begin{aligned}
+        L(v + w) &=
+        {\begin{pmatrix}
+            & (x_v + x_w)-(y_v + y_w) \\
+            & (y_v + y_w)-(z_v + z_w) \\
+            & (z_v + z_w)-(x_v + x_w) \\
+            & (x_v + x_w)+(y_v + y_w)-2(z_v + z_w)
+        \end{pmatrix}}^T
+        =\\ &=
+        {\begin{pmatrix}
+            & (x_v - y_v)+(x_w - y_w) \\
+            & (y_v - z_v)+(y_w - z_w) \\
+            & (z_v - x_v)+(z_w - x_w) \\
+            & (x_v + y_v + 2z_v) + (x_w + y_w - 2z_w)
+        \end{pmatrix}}^T
+        = Lv + Lw
+    \end{aligned}
+\end{equation}
+
+\[ \ref{eq:1} \land \ref{eq:2} \implies L \textrm{ jest liniowe} \]
+
+\subsubsection*{Wyliczanie jądra}
+
+\begin{equation*}
+    \ker L  = \{ v \in \R^3 : Lv = \mathbf{0} \} \Leftrightarrow
+    \left\{ \begin{array}{l}
+        x-y        = 0 \\
+        y - z      = 0 \\
+        z - x      = 0 \\
+        x + y - 2z = 0
+    \end{array}\right.
+    \implies
+\end{equation*}
+\begin{equation*}
+    \implies
+    \left\{ \begin{array}{l}
+        x     = y \\
+        z     = y \\
+        z - x = 0 \\
+        x + y - 2z = 0
+    \end{array}\right.
+    \implies
+    \left\{ \begin{array}{l}
+        x     = y \\
+        z     = y \\
+        y + y - 2y = 0
+    \end{array}\right.
+    \implies
+    \left\{ \begin{array}{l}
+        x = y \\
+        z = y \\
+    \end{array}\right.
+    \implies
+\end{equation*}
+\begin{equation*}
+    \implies \ker L = (y, y, y) = y(1,1,1)
+    \implies \ker L = \lin \{(1,1,1)\}
+\end{equation*}
+
+\newpage
+\subsubsection*{Wyliczanie obrazu}
+
+Wiadomo, że dla $\Gamma: N \mapsto M $ układ $\{ \Gamma\nu_1, ..., \Gamma\nu_n \} $
+rozpina przestrzeń \ $\im \Gamma$, gdzie $ \{ \nu_1, ..., \nu_n \} $ jest bazą przestrzeni $N$.
+
+Biorąc bazę standardową przestrzeni $\R^3$: $
+\begin{array}{l}
+    L(1,0,0) = (1,0,-1,1) \\
+    L(0,1,0) = (-1,1,0,1) \\
+    L(0,0,1) = (0,-1,1,-2)
+\end{array} $
+
+Zatem: \quad $\im L = \lin \{(1,0,-1,1), (-1,1,0,1), (0,-1,1,-2) \} $
+
+\noindent\textbf{\small Szukanie bazy sprowadzając do postaci schodkowej macierz
+złożoną z powyższych wektorów}
+
+\begin{equation*}
+    \begin{bmatrix}
+        1  & 0  & -1 & 1 \\
+        -1 & 1  & 0  & 1 \\
+        0  & -1 & 1  & -2
+    \end{bmatrix}
+    \underset{w_2 \leftarrow w_2 + w_1}\rightarrow
+    \begin{bmatrix}
+        1 &  0 & -1 & 1 \\
+        0 &  1 & -1 & 2 \\
+        0 & -1 &  1 & -2
+    \end{bmatrix}
+    \underset{w_3 \leftarrow w_3 + w_2}\rightarrow
+    \begin{bmatrix}
+        1 & 0 & -1 & 1 \\
+        0 & 1 & -1 & 2 \\
+        0 & 0 &  0 & 0
+    \end{bmatrix}
+\end{equation*}
+
+\subsection*{Odpowiedź}
+\centerline{Odwzorowanie $L$ jest liniowe}
+\[ B_{(\ker L)} = \{ (1,1,1) \} \]
+\[ B_{(\im L)} = \{ (1,0,-1,1), (0,1,-1,2) \} \]
+
+\section{Zadanie 1.3}
+\subsection*{Dane}
+\begin{itemize}
+    \item[] $ L: V \mapsto W ; L(a,b,c) = (a+b)x+c $
+    \item[] $ V = \R^3 \ ,\ B = \{ (0,0,1), (0,1,0), (-1,0,0) \} $
+    \item[] $ W = \mathcal{R}_1[x] \ ,\ B' = \{ 2, 1+x \} $
+    \item[] $ M_L = \? $ w bazach $B \subset V$ i $B' \subset W$
+\end{itemize}
+
+\subsection*{Rozwiązanie}
+
+Metoda:
+\begin{enumerate}[topsep=0pt]
+    \item Policzenie wartości $L$ na bazie $B$ przestrzeni $V$
+    \item Rospisanie każdego z wyników w bazie $B'$ przestrzeni $W$
+    \item Wypisanie współrzędnych w macierz kolumnami
+\end{enumerate}
+
+\begin{equation*}
+    \begin{aligned}
+        L(0,0,1)  &= &  1 &= &  \frac{1}{2}(2) + 0(1+x) \\[0.3em]
+        L(0,1,0)  &= &  x &= & -\frac{1}{2}(2) + 1(1+x) \\[0.3em]
+        L(-1,0,0) &= & -x &= &  \frac{1}{2}(2) - 1(1+x)
+    \end{aligned}
+\end{equation*}
+
+\subsection*{Odpowiedź}
+
+\begin{equation*}
+    M_L =
+    \begin{bmatrix}
+        \frac{1}{2}  &  0 \\[0.25em]
+        -\frac{1}{2} &  1 \\[0.25em]
+        \frac{1}{2}  & -1
+    \end{bmatrix}
+\end{equation*}
+
+\section{Zadanie 1.4}
+\subsection*{Dane}
+\begin{itemize}
+    \item[] $ L: \R^2 \mapsto \R^2 \ ,\ L(x,y) := (-y,x) $
+    \item[] $ B := \{ (1,2), (-1,2) \} $
+    \item[] $ M_L = \? $ \quad w bazach $ B = B' \subset \R^2 $
+    \item[] Użyć wzoru na zmianę macierzy przekształcenia przy zmianie bazy z bazy standardowej $\{(1,0), (0,1)\} \subset \R^2 $
+\end{itemize}
+
+\subsection*{Rozwiązanie}
+
+Niech $P$ będzie macierzą przejścia z bazy standardowej przestrzeni $\R^2$ do bazy $B$.
+Wzór na macierz $M_L$ przekształcenia $L$ w bazie $B$ przyjmnie więc postać
+$ M_L = PAP^{-1} $, gdzie $A$ jest macierzą przekształcenia $L$ w bazie standardowej.\\
+Zatem:
+
+\begin{equation*} % A =
+    A =
+    \begin{bmatrix}
+        0  & 1 \\
+        -1 & 0
+    \end{bmatrix}
+    \because
+    \begin{array}{l}
+        L(1,0) = (0,1) \\
+        L(0,1) = (-1,0)
+    \end{array}
+\end{equation*}
+
+\begin{equation*} % P =
+    P =
+    \begin{bmatrix}
+        1 & -1 \\
+        2 &  2
+    \end{bmatrix}
+    \because
+    B = \{ (1,2), (-1,2) \}
+\end{equation*}
+
+\begin{equation*} % P^{-1} =
+    P^{-1} =
+    \frac{1}{1 \cdot 2 - (-1)\cdot 2}
+    \begin{bmatrix}
+        2  & 1 \\[0.25em]
+        -2 & 1
+    \end{bmatrix}
+    =
+    \frac{1}{4}
+    \begin{bmatrix}
+        2  & 1 \\[0.25em]
+        -2 & 1
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        \frac{1}{2}  & \frac{1}{4} \\[0.25em]
+        -\frac{1}{2} & \frac{1}{4}
+    \end{bmatrix}
+\end{equation*}
+
+\begin{equation*} % M_L =
+    M_L = PAP^{-1} =
+    \begin{bmatrix}
+        1 & -1 \\[0.25em]
+        2 &  2
+    \end{bmatrix}
+    \begin{bmatrix}
+        0  & 1 \\[0.25em]
+        -1 & 0
+    \end{bmatrix}
+    \begin{bmatrix}
+        \frac{1}{2}  & \frac{1}{4} \\[0.25em]
+        -\frac{1}{2} & \frac{1}{4}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        1  & 1 \\[0.25em]
+        -2 & 2
+    \end{bmatrix}
+    \begin{bmatrix}
+        \frac{1}{2}  & \frac{1}{4} \\[0.25em]
+        -\frac{1}{2} & \frac{1}{4}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        0  & \frac{1}{2} \\[0.25em]
+        -2 & 0
+    \end{bmatrix}
+\end{equation*}
+
+\subsection*{Odpowiedź}
+\begin{equation*}
+    M_L =
+    \begin{bmatrix}
+        0  & \frac{1}{2} \\[0.25em]
+        -2 & 0
+    \end{bmatrix}
+\end{equation*}
+
+\section{Zadanie 1.5}
+\subsection*{Dane}
+\begin{multicols}{2}
+    \begin{itemize}
+        \item[] $ A =
+            \begin{bmatrix}
+                -1 & 4 &  7 \\
+                0 & 1 & -1 \\
+                0 & 0 &  2
+            \end{bmatrix}
+            $
+        \item[] $ v = {[1,0,0]}^T $
+        \item[] $ A = PJP^{-1} \for J = \?,\ P = \? $
+        \item[] $ A^9v = ? $
+        \item[] % dummy for formatting puropses
+    \end{itemize}
+\end{multicols}
+
+\subsection*{Rozwiązanie}
+\subsubsection*{Wyznaczanie wartości własnych potrzebnych do wyznaczenia macierzy Jordana oraz wektorów własnych,
+które są potrzebne do wyznaczenia macierzy $P$}
+
+\[ \det{(A - \lambda I)} = 0 \]
+
+\begin{equation*}
+    \begin{vmatrix}
+        -1 - \lambda  & 4           &  7  \\
+        0            & 1 - \lambda & -1  \\
+        0            & 0           &  2 - \lambda
+    \end{vmatrix} = 0
+\end{equation*}
+
+\[ (-1-\lambda)(1-\lambda)(2-\lambda) = 0 \]
+\[ -(1+\lambda)(1-\lambda)(2-\lambda) = 0 \]
+\[ (1+\lambda)(1-\lambda)(2-\lambda) = 0 \]
+
+\[ \lambda_1 = -1,\ \lambda_2 = 1,\ \lambda_3 = 2 \]
+
+\subsubsection*{Wyznaczanie wektorów własnych przy użyciu wzoru $ (A - \lambda I)w = 0 $ }
+\indent \indent (\textit{uwaga: w każdym przypadku $x$, $y$, $z$ to indiwidualne zmienne})
+
+\begin{itemize}[leftmargin=3em]
+    \item Wektor $w_1$: \quad ($\lambda_1 = -1$)
+
+        \begin{equation*}
+            \begin{bmatrix}
+                -1 + 1 & 4     &  7 \\
+                0      & 1 + 1 & -1 \\
+                0      & 0     &  2 + 1
+            \end{bmatrix}
+            \cdot
+            \begin{bmatrix}
+                x \\ y \\ z
+            \end{bmatrix}
+            =
+            \begin{bmatrix}
+                0 & 4 &  7 \\
+                0 & 2 & -1 \\
+                0 & 0 &  3
+            \end{bmatrix}
+            \cdot
+            \begin{bmatrix}
+                x \\
+                y \\
+                z
+            \end{bmatrix}
+            =
+            \begin{bmatrix}
+                0 \\ 0 \\ 0
+            \end{bmatrix}
+            \implies
+        \end{equation*}
+
+        \begin{equation*}
+            \implies
+            \left\{\begin{array}{ll}
+                4y + 7z = 0 \\
+                2y - z = 0  \\
+                3z = 0
+            \end{array}\right.
+            \implies
+            \left\{\begin{array}{ll}
+                4y + 7z = 0 \\
+                2y - z = 0  \\
+                3z = 0
+            \end{array}\right.
+            \implies
+            \left\{\begin{array}{ll}
+                y = 0 \\
+                z = 0
+            \end{array}\right.
+        \end{equation*}
+
+        \centerline{Zatem za wektor $w_1$ można przyjąć niezerowy wektor postaci $ {[x,0,0]}^T $}
+
+        \[ w_1 = {[1,0,0]}^T \]
+
+        \newpage
+
+    \item Wektor $w_2$: \quad ($\lambda_2 = 1$)
+
+        \begin{equation*}
+            \begin{bmatrix}
+                -1 - 1 & 4     &  7 \\
+                0      & 1 - 1 & -1 \\
+                0      & 0     &  2 - 1
+            \end{bmatrix}
+            \cdot
+            \begin{bmatrix}
+                x \\ y \\ z
+            \end{bmatrix}
+            =
+            \begin{bmatrix}
+                -2 & 4 &  7 \\
+                0 & 0 & -1 \\
+                0 & 0 &  1
+            \end{bmatrix}
+            \cdot
+            \begin{bmatrix}
+                x \\
+                y \\
+                z
+            \end{bmatrix}
+            =
+            \begin{bmatrix}
+                0 \\ 0 \\ 0
+            \end{bmatrix}
+            \implies
+        \end{equation*}
+
+        \begin{equation*}
+            \implies
+            \left\{\begin{array}{ll}
+                -2x + 4y + 7z = 0 \\
+                -z = 0  \\
+                z = 0
+            \end{array}\right.
+            \implies
+            \left\{\begin{array}{ll}
+                -2x + 4y = 0 \\
+                z = 0
+            \end{array}\right.
+            \implies
+            \left\{\begin{array}{ll}
+                x = 2y \\
+                z = 0
+            \end{array}\right.
+        \end{equation*}
+
+        \centerline{Zatem za wektor $w_2$ można przyjąć niezerowy wektor postaci $ {[2y,y,0]}^T $}
+
+        \[ w_2 = {[2,1,0]}^T \]
+
+
+    \item Wektor $w_3$: \quad ($\lambda_3 = 2$)
+
+        \begin{equation*}
+            \begin{bmatrix}
+                -1 - 2 & 4     &  7 \\
+                0      & 1 - 2 & -1 \\
+                0      & 0     &  2 - 2
+            \end{bmatrix}
+            \cdot
+            \begin{bmatrix}
+                x \\ y \\ z
+            \end{bmatrix}
+            =
+            \begin{bmatrix}
+                -3 &  4 &  7 \\
+                0  & -1 & -1 \\
+                0  &  0 &  0
+            \end{bmatrix}
+            \cdot
+            \begin{bmatrix}
+                x \\
+                y \\
+                z
+            \end{bmatrix}
+            =
+            \begin{bmatrix}
+                0 \\ 0 \\ 0
+            \end{bmatrix}
+            \implies
+        \end{equation*}
+
+        \begin{equation*}
+            \implies
+            \left\{\begin{array}{ll}
+                -3x + 4y + 7z = 0 \\
+                -y - z = 0  \\
+            \end{array}\right.
+            \implies
+            \left\{\begin{array}{ll}
+                -3x - 4z + 7z = 0 \\
+                y = -z
+            \end{array}\right.
+            \implies
+            \left\{\begin{array}{ll}
+                x = z \\
+                y = -z
+            \end{array}\right.
+        \end{equation*}
+
+        \centerline{Zatem za wektor $w_3$ można przyjąć niezerowy wektor postaci $ {[z,-z,z]}^T $}
+
+        \centerline{Żeby macierz $P$ nie była osobliwa, niech $z = 1$}
+
+        \[ w_3 = {[1,-1,1]}^T \]
+
+\end{itemize}
+
+\textbf{Zatem wektory własne macierzy $A$ to: }
+$ w_1 = {[1,0,0]}^T $, $ w_2 = {[2,1,0]}^T $, $ w_3 = {[1,-1,1]}^T $
+
+\subsubsection*{Wypisanie macierzy Jordana:}
+
+\begin{equation*}
+    J =
+    \begin{bmatrix}
+        \lambda_1 &     0     &     0     \\
+        0     & \lambda_2 &     0     \\
+        0     &     0     & \lambda_3
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        -1 & 0 & 0 \\
+        0 & 1 & 0 \\
+        0 & 0 & 2
+    \end{bmatrix}
+\end{equation*}
+
+\subsubsection*{Wypisanie macierzy $P$ i policzenie $P^{-1}$:}
+
+\begin{equation*}
+    P = \left[ w_1, w_2, w_3 \right] =
+    \begin{bmatrix}
+        1 & 2 &  1 \\
+        0 & 1 & -1 \\
+        0 & 0 &  1
+    \end{bmatrix}
+\end{equation*}
+
+\begin{equation*}
+    \begin{bmatrix}
+        1 & 2 &  1 & | & 1 & 0 & 0 \\
+        0 & 1 & -1 & | & 0 & 1 & 0 \\
+        0 & 0 &  1 & | & 0 & 0 & 1 \\
+    \end{bmatrix}
+    \xrightarrow[w_2 \leftarrow w_2 + w_3]{w_1 \leftarrow w_1 - 2 w_2}
+    \begin{bmatrix}
+        1 & 0 & 3 & | & 1 & -2 & 0 \\
+        0 & 1 & 0 & | & 0 &  1 & 1 \\
+        0 & 0 & 1 & | & 0 &  0 & 1 \\
+    \end{bmatrix}
+    \xrightarrow{w_1 \leftarrow w_1 - 3 w_3}
+    \begin{bmatrix}
+        1 & 0 & 0 & | & 1 & -2 & -3 \\
+        0 & 1 & 0 & | & 0 &  1 &  1 \\
+        0 & 0 & 1 & | & 0 &  0 &  1 \\
+    \end{bmatrix}
+\end{equation*}
+\begin{equation*}
+    P^{-1} =
+    \begin{bmatrix}
+        1 & -2 & -3 \\
+        0 &  1 &  1 \\
+        0 &  0 &  1
+    \end{bmatrix}
+\end{equation*}
+
+\newpage
+\subsubsection*{Wyliczenie $A^9v$}
+\begin{equation*}
+    \begin{aligned}
+        A^9 = PJ^9P^{-1} &=
+        \begin{bmatrix}
+            1 & 2 &  1 \\
+            0 & 1 & -1 \\
+            0 & 0 &  1
+        \end{bmatrix}
+        {\begin{bmatrix}
+            -1 & 0 & 0 \\
+            0  & 1 & 0 \\
+            0  & 0 & 2
+        \end{bmatrix}}^9
+        \begin{bmatrix}
+            1 & -2 & -3 \\
+            0 &  1 &  1 \\
+            0 &  0 &  1
+        \end{bmatrix}
+        =\\ &=
+        \begin{bmatrix}
+            1 & 2 &  1 \\
+            0 & 1 & -1 \\
+            0 & 0 &  1
+        \end{bmatrix}
+        \begin{bmatrix}
+            -1 & 0 & 0 \\
+            0  & 1 & 0 \\
+            0  & 0 & 512
+        \end{bmatrix}
+        \begin{bmatrix}
+            1 & -2 & -3 \\
+            0 &  1 &  1 \\
+            0 &  0 &  1
+        \end{bmatrix}
+        =\\ &=
+        \begin{bmatrix}
+            -1 & 2 &  512 \\
+            0  & 1 & -512 \\
+            0  & 0 &  512
+        \end{bmatrix}
+        \begin{bmatrix}
+            1 & -2 & -3 \\
+            0 &  1 &  1 \\
+            0 &  0 &  1
+        \end{bmatrix}
+        =\\ &=
+        \begin{bmatrix}
+            -1 & 4 &  517 \\
+            0  & 1 & -511 \\
+            0  & 0 &  512
+        \end{bmatrix}
+    \end{aligned}
+\end{equation*}
+
+\begin{equation*}
+    A^9v =
+    \begin{bmatrix}
+        -1 & 4 &  517 \\
+        0  & 1 & -511 \\
+        0  & 0 &  512
+    \end{bmatrix}
+    \cdot
+    \begin{bmatrix}
+        1 \\
+        0 \\
+        0
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        -1 \\
+        0  \\
+        0
+    \end{bmatrix}
+\end{equation*}
+
+\subsection*{Odpowiedź}
+
+\begin{equation*}
+    A = PJP^{-1} =
+    \begin{bmatrix}
+        1 & 2 &  1 \\
+        0 & 1 & -1 \\
+        0 & 0 &  1
+    \end{bmatrix}
+    \begin{bmatrix}
+        -1 & 0 & 0 \\
+        0  & 1 & 0 \\
+        0  & 0 & 2
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 & -2 & -3 \\
+        0 &  1 &  1 \\
+        0 &  0 &  1
+    \end{bmatrix}
+\end{equation*}
+
+\begin{equation*}
+    A^9v = {[-1,0,0]}^T
+\end{equation*}
+
+\section{Zadanie 2.1}
+Zbadaj określoność formy kwadratowej $\phi$ danej wzorem
+\[ \phi(x,y,z) := -2x^2 - 7y^2 - 19z^2 + 10xy + 10xz - 24yz \]
+
+\subsection*{Rozwiązanie}
+
+Rozpoczynam od wypisania macierzy formy $\phi$:
+\begin{equation*}
+   A = \begin{bmatrix}
+      -2 & 5   & 5 \\
+      5  & -7  & -12 \\
+      5  & -12 & -19
+   \end{bmatrix}
+\end{equation*}
+
+Wyznaczam wiodące minory główne powyższej macierzy i sprawdzam ich znaki:
+\vspace{-1em}\begin{itemize}
+   \item $D_1 = -2 < 0$
+   \item $D_2 = \begin{vmatrix} -2 & 5 \\ 5 & -7 \end{vmatrix} = 14 - 25 = -11 < 0$
+   \item $D_3 = \det{A} = -14\cdot 19 - 50\cdot 12 + 25\cdot 7 + 144 \cdot 2  + 25 \cdot 19 = 72 > 0$
+\end{itemize}
+
+Z \textit{kryterium Sylvestera} wiadomo, że forma kwadratowa $\phi$ nie jest
+określona ani dodatnio, ani ujemnie. Kryterium nie rozstrzyga jednak, czy jest ona
+półokreślona, czy nieokreślona.
+
+Zatem sprawdzę, czy nie występuje sytuacja opisana w twierdzeniu, które roboczo nazwałem: \\
+\textit{kryterium Sylvestera rozszerzone o półokreśloność} \qquad (tw. 35 z wykładu)
+
+Wypisuję wszystkie minory główne macierzy $A$ :
+\vspace{-1em} \begin{itemize}
+   \item stopnia 1: $-2\le 0$ ; $-7\le 0$ ; $-19\le 0$
+   \item stopnia 2:
+      \[ \begin{vmatrix} -2 & 5 \\ 5 & -7 \end{vmatrix} = -11 \le 0 \]
+      \[ \begin{vmatrix} -2 & 5 \\ 5 & -19 \end{vmatrix} = 13 \ge 0 \]
+      \[ \begin{vmatrix} -7 & -12 \\ -12 & -19 \end{vmatrix} = -11 \le 0 \]
+   \item stopnia 3: $\det{A} = 72 \ge 0$
+\end{itemize}
+
+Wszystkie minory główne stopnia 1 są niedodatnie. Jeden z minorów stopnia 2 jest
+nieujemny, gdy pozostałe są niedodatnie. Minor stopnia 3 jest nieujemny.
+
+Również nie jest to sytuacja opisana w \textit{kryterium Sylvestera rozszerzonym
+o półokreśloność}, zatem forma ta jest nieokreślona.
+
+\subsection*{Odpowiedź}
+
+\centerline{Forma kwadratowa $\phi$ jest \underline{nieokreślona}}$ $
+
+\section{Zadanie 2.2}
+Dokonaj ortogonalizacji Grama-Schmidta bazy $B$ przestrzeni $\R^3$, gdzie
+\[ B := \left\{ (1, 1, 1), (1, 2, 1), (-1, 2, 0) \right\} \]
+
+\subsection*{Rozwiązanie}
+Oznaczmy szukaną bazę jako $B' = \{ v_1, v_2, v_3 \}$, a wektory bazy $B$ jako:
+
+\centerline{$ w_1 = (1,1,1) $, $ w_2 = (1,2,1) $, $ w_3 = (-1,2,0)$}
+
+Metoda Grama-Schmidta:
+
+\qquad $
+\left\{ \begin{array}{l}
+   \displaystyle v_1 = w_1 \\[5pt]
+   \displaystyle v_2 = w_2 - \frac{w_2 \circ v_1}{\norm{v_1}^2}v_1 \\[16pt]
+   \displaystyle v_3 = w_3 - \frac{w_3 \circ v_1}{\norm{v_1}^2}v_1 - \frac{w_3 \circ v_2}{\norm{v_2}^2}v_2 \\
+   \vdots \\
+   \displaystyle v_{k+1} = w_{k+1} - \frac{w_{k+1} \circ v_1}{\norm{v_1}^2}v_1 - \frac{w_{k+1} \circ v_2}{\norm{v_2}^2}v_2 - \ldots - \frac{w_{k+1} \circ v_k}{\norm{v_k}^2}v_k \\
+   \vdots \\
+   \displaystyle v_n = w_n - \frac{w_n \circ v_1}{\norm{v_1}^2}v_1 - \frac{w_n \circ v_2}{\norm{v_2}^2}v_2 - \ldots - \frac{w_n \circ v_{n-1}}{\norm{v_{n-1}}^2}v_{n-1} \\
+\end{array} \right.  $
+
+\subsubsection*{Wyznaczanie wektorów}
+
+\begin{itemize}
+   \item Wektor $v_1$: \[ v_1 = w_1 = (1,1,1) \]
+   \item Wektor $v_2$:
+      \begin{adjustwidth}{1em}{}
+         Wyliczmy komponenty:
+         \begin{itemize}[label=\textbullet]
+            \item $w_2 \circ v_1 = (1,2,1) \circ (1,1,1) = 1 + 2 + 1 = 4 $
+            \item $\norm{v_1}^2 = \sqrt{v_1 \circ v_1}^2 = v_1 \circ v_1 = 1^2 + 1^2 + 1^2 = 3$
+            \item $\displaystyle \frac{w_2 \circ v_1}{\norm{v_1}^2}v_1 = \frac{4}{3}(1,1,1)$
+         \end{itemize}
+         Zatem:
+         \[ v_2 = (1,2,1) - \frac{4}{3}(1,1,1) = \left(-\frac{1}{3}, \frac{2}{3}, -\frac{1}{3} \right) \]
+      \end{adjustwidth}
+      \clearpage
+   \item Wektor $v_3$:
+      \begin{adjustwidth}{1em}{}
+         Wyliczmy komponenty:
+         \begin{itemize}[label=\textbullet]
+            \item $w_3 \circ v_1 = (-1,2,0) \circ (1,1,1) = -1 + 2 + 0 = 1 $
+            \item $w_3 \circ v_2 = (-1,2,0) \circ \left(-\frac{1}{3}, \frac{2}{3}, -\frac{1}{3} \right) = \frac{1}{3} + \frac{4}{3} + 0 = \frac{5}{3} $
+            \item $\norm{v_2}^2 = \frac{1}{9} + \frac{4}{9} + \frac{1}{9} = \frac{6}{9} = \frac{2}{3} $
+            \item $\displaystyle \frac{w_3 \circ v_1}{\norm{v_1}^2}v_1 = \frac{1}{3}(1,1,1)$
+            \item $\displaystyle \frac{w_3 \circ v_2}{\norm{v_2}^2}v_2 = \frac{5}{2}\left(-\frac{1}{3}, \frac{2}{3}, -\frac{1}{3} \right)$
+         \end{itemize}
+         Zatem:
+         \begin{equation*}
+            \begin{aligned}
+               v_3 &= (-1,2,0) - \frac{1}{3}(1,1,1) - \frac{5}{2}\left(-\frac{1}{3}, \frac{2}{3}, -\frac{1}{3} \right) \\
+               &= \left(-\frac{4}{3}, \frac{5}{3}, -\frac{1}{3} \right) + \left(\frac{5}{6}, -\frac{5}{3}, \frac{5}{6} \right) \\
+               &= \left(-\frac{3}{6}, 0, \frac{3}{6} \right)
+               = \left(-\frac{1}{2}, 0, \frac{1}{2} \right)
+            \end{aligned}
+         \end{equation*}
+      \end{adjustwidth}
+\end{itemize}
+
+\subsection*{Odpowiedź}
+\begin{equation*}
+   \left\{
+      (1,1,1),
+      \left(-\frac{1}{3}, \frac{2}{3}, -\frac{1}{3} \right),
+      \left(-\frac{1}{2}, 0, \frac{1}{2} \right)
+      \right\}
+\end{equation*}
+
+\section{Zadanie 2.3}
+Sprawdź, czy $H$ jest podgrupą grupy $G$, gdzie
+\[ G := \left\{ f : \Z \rightarrow \Z : f \textrm{ jest bijekcją} \right\} \]
+\[ H := \left\{ f \in G : f(1) = 1 \right\} \]
+a działaniem jest składanie funkcji.
+
+\subsection*{Rozwiązanie}
+
+Grupa $(H, \circ)$ będzie podgrupą grupy $(G, \circ)$, jeżeli spełnione zostaną warunki:
+\begin{enumerate}
+   \item $H \subset G$
+   \item $\forall_{f \in H} \ f^{-1} \in H$
+   \item $\forall_{f,g \in H} \ f\circ g \in H$
+\end{enumerate}
+
+Warunek 1 jest spełniony z definicji $H$ w danych zadania.
+
+Sprawdzam zatem warunek 2:
+
+\begin{adjustwidth}{2em}{}
+   Specyfikatorem podzbioru $H$ jest $f(1) = 1$. Ponieważ zbiór $G$ złożony jest
+   z bijekcji, oznacza to, że podzbiór $H$ zawiera również funkcje przeciwne do
+   wszystkich zawartych weń funkcji, ponieważ dla każdej funkcji $g \in H$,
+   funkcja jej przeciwna $g^{-1}$ również zawiera się w $H$, albowiem $g^{-1}(1) = 1$. \\
+   Zatem warunek 2 również jest spełniony.
+\end{adjustwidth}
+
+Sprawdzam warunek 3:
+
+\begin{adjustwidth}{2em}{}
+   Niech $f,g \in H$. Złożenie $f \circ g$ oznacza $f(g(x))$. Niech $h(x) = f(g(x))$.
+   Funkcja $h$ również należy do $H$, ponieważ $h(1) = f(g(1)) = f(1) = 1$. \\
+   Zatem warunek 3 również jest spełniony.
+\end{adjustwidth}
+
+Wszystkie trzy warunki są spełnione.
+
+\subsection*{Odpowiedź}
+\centerline{Grupa $(H, \circ)$ \underline{jest} podgrupą grupy $(G, \circ)$}$ $
+
+\section{Zadanie 2.4}
+Rozłóż permutację
+\begin{equation*}
+   \sigma := \begin{pmatrix}
+      1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
+      4 & 8 & 2 & 6 & 5 & 7 & 3 & 9 & 1
+   \end{pmatrix}
+\end{equation*}
+na transpozycje, cykle rozłączne oraz wyznacz jej znak.
+
+\subsection*{Rozwiązanie}
+Wpierw rozłożę permutację na cykle rozłączne:
+\begin{equation*}
+   \sigma = \begin{pmatrix}
+      1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
+      4 & 8 & 2 & 6 & 5 & 7 & 3 & 9 & 1
+   \end{pmatrix}
+   = (1,4,6,7,3,2,8,9)
+\end{equation*}
+
+Następnie na transpozycje:
+\begin{equation*}
+   \sigma = (1,4,6,7,3,2,8,9) = (1,9)(1,8)(1,2)(1,3)(1,7)(1,6)(1,4)
+\end{equation*}
+
+I wyznaczam znak:
+\begin{equation*}
+   \textrm{jest $7$ transpozycji} \implies \sgn{\sigma} = (-1)^7 = -1
+\end{equation*}
+
+\subsection*{Odpowiedź}
+\vspace{-1em} \begin{gather*}
+   \sigma = (1,4,6,7,3,2,8,9) = (1,9)(1,8)(1,2)(1,3)(1,7)(1,6)(1,4) \\[0.2em]
+   \sgn{\sigma} = -1
+\end{gather*}
+
+\section{Zadanie 2.5}
+Wyznacz wszystkie liczby całkowite $x$ spełniające układ kongruencji
+\begin{equation*}
+   \left\{ \begin{array}{l}
+      x \equiv 1 \pmod{7} \\
+      x \equiv 2 \pmod{8} \\
+      x \equiv 3 \pmod{15}
+   \end{array} \right.
+\end{equation*}
+
+\subsection*{Rozwiązanie}
+Liczby $7$, $8$ oraz $15$ są względnie pierwsze. Liczbę $15$ można jeszcze
+rołożyć: $15 = 3 \cdot 5$
+
+Zatem, pamiętając o \textit{chińskim twierdzeniu o resztach}, układ kongruencji można przekształcić:
+\begin{equation*}
+   \left\{ \begin{array}{l}
+      x \equiv 1 \pmod{7} \\
+      x \equiv 2 \pmod{8} \\
+      x \equiv 3 \pmod{15}
+   \end{array} \right.
+   \implies
+   \left\{ \begin{array}{l}
+      x \equiv 1 \pmod{7} \\
+      x \equiv 2 \pmod{8} \\
+      x \equiv 3 \pmod{3} \\
+      x \equiv 3 \pmod{5}
+   \end{array} \right.
+   \implies
+   \left\{ \begin{array}{l}
+      x \equiv 0 \pmod{3} \\
+      x \equiv 3 \pmod{5} \\
+      x \equiv 1 \pmod{7} \\
+      x \equiv 2 \pmod{8}
+   \end{array} \right.
+\end{equation*}
+
+Teraz kolumnami uzupełniam tabelkę:
+\begin{table}[h!]
+   \centering
+   \resizebox{0.5\textwidth}{!}{%
+      \begin{tabular}{c|c|c|c}
+         \xrowht{20pt}
+         $n_k$ & $a_k$ & $m_k=\frac{n_1 n_2...n_i}{n_k}$ & $  m_k^{-1} \mod{n_k}  $ \\ \hline\xrowht{10pt}
+         $3$   & $0$   & $5 \cdot 7 \cdot 8 = 280$       & $ 280^{-1} \mod{3} = 1 $ \\ \hline\xrowht{10pt}
+         $5$   & $3$   & $3 \cdot 7 \cdot 8 = 168$       & $ 168^{-1} \mod{5} = 2 $ \\ \hline\xrowht{10pt}
+         $7$   & $1$   & $3 \cdot 5 \cdot 8 = 120$       & $ 120^{-1} \mod{7} = 1 $ \\ \hline\xrowht{10pt}
+         $8$   & $2$   & $3 \cdot 5 \cdot 7 = 105$       & $ 105^{-1} \mod{8} = 1 $
+      \end{tabular}%
+      }
+\end{table}
+
+Wartości z tabeli należy podstawić do wzoru:
+\begin{equation*}
+   x \equiv \sum a_i m_i (m_i^{-1} \bmod{n_i}) \pmod{\prod n_i}
+\end{equation*}
+
+Czyli:
+\vspace{-1em}\begin{gather*}
+   x \equiv 0 + 3 \cdot 168 \cdot 2 + 120 + 2\cdot 105 \pmod{3 \cdot 5 \cdot 7 \cdot 8} \\
+   x \equiv 1008 + 120 + 210 \pmod{840} \\
+   x \equiv 1338 \pmod{840} \\
+   x \equiv 498 \pmod{840}
+\end{gather*}
+
+\subsection*{Odpowiedź}
+\[ x \in \{ 840k + 498 : k \in \Z \} \]
+
+\end{document}

@@ -1,9 +1,0 @@
-Q: Dlaczego dodanie `bledzie=won` na końcu skryptu powoduje, że zmienna $? jest równa zero?
-
-A: Operacja przypisania również zwraca kod wyjścia, a z racji tego, że skrypt
-   zapisany w pliku niczym nie rózni się od wykonywania kolejnych lini
-   bezpośrednio ("ręcznie") z lini poleceń, kod wyjścia całego skryptu będzie
-   kodem ostatniej wywołenej komendy.
-   `bledzie=won` zawsze się wykona poprawnie, więc zmienna $? będzie wynosiła 0.
-   Ten sam efekt uzyskać można również z innymi komendami (e.g. `echo`),
-   bądź wyraźnie precyzując, że skrypt ma zwrócić 0 za pomocą `exit 0`.
