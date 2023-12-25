@@ -1,0 +1,3 @@
+[submodule "PRNG-paper/cpp-bmp-images"]
+	path = PRNG-paper/cpp-bmp-images
+	url = https://github.com/sol-prog/cpp-bmp-images.git
